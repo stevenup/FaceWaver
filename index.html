@@ -5,6 +5,9 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 		<style>
+			html
+			,body
+				{width: 100%;height: 100%;}
 			body {
 				color: #ffffff;
 				background-color: #000000;
@@ -24,11 +27,11 @@
 			a {
 				color: #fff;
 			}
-			canvas{    width: 800px; height: 900px; }
+			canvas{    width: 100%; height: 100%; }
 		</style>
 	</head>
 
-	<body style="width: 800px;height: 900px;">
+	<body >
 		<div id="container"></div>
 		<!-- <div id="info"><a href="http://threejs.org" target="_blank" rel="noopener">three.js</a> webgl - interactive - particles</div> -->
 
@@ -100,6 +103,8 @@
 
 			window.scale_xy=1;
 
+			window.screen_ratio=window.innerWidth/window.innerHeight;
+
 			var audio={};
 			audio.sound_buffer = null;
 			window.AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -131,7 +136,6 @@
 			// audio.loadSound('Ralvero,Karim Mika - Mad (Original Mix).mp3');
 			// audio.loadSound('B Brightz,Julian Jordan,Firebeatz - Rage(B Brightz Remix).mp3');
 			audio.loadSound('Klaas - Calavera (Original Edit)_clip.mp3');
-			// audio.loadSound('../_mp3/rank_zgz.mp3');
 
 			audio.playSound=function (buffer) {
 				audio.source = audio.context.createBufferSource(); // creates a sound source
@@ -194,68 +198,18 @@
 					init();
 					renderer.render(scene,camera);
 
-					// for(var i=0,len=scene.children.length;i<len;i++){
-					// 	var mesh=scene.children[i];
-					// 	if(mesh.type=='Mesh'){
-					// 		var scale_xy=Math.random();
-					// 		mesh.scale.set(scale_xy,scale_xy,1);
-					// 	}
-					// }
-
-					window.get_min_max_x=function(){
-						window.xs=[];
-						var min=0;
-						var max=0;
-						for(var i=0;i<scene.children.length;i++){
-							var mesh=scene.children[i];
-							if(mesh.type=='Mesh'){
-								// scene.children[i].scale.set(1,1,Math.random()*5);
-								// console.log(scene.children[i].position);
-								if(mesh.position.x<min){
-									min=mesh.position.x;
-								}
-								if(mesh.position.x>max){
-									max=mesh.position.x;
-								}
-							}
-						}
-						var span=max-min;
-						return {
-							min:min,
-							max:max,
-							span:span,
+					for(var i=0,len=scene.children.length;i<len;i++){
+						var mesh=scene.children[i];
+						if(mesh.type=='Mesh'){
+							var scale_xy=Math.random();
+							mesh.scale.set(scale_xy,scale_xy,1);
 						}
 					}
-					window.min_max_x=get_min_max_x();
-
-					window.get_min_max_y=function(){
-						window.ys=[];
-						var min=0;
-						var max=0;
-						for(var i=0;i<scene.children.length;i++){
-							var mesh=scene.children[i];
-							if(mesh.type=='Mesh'){
-								// scene.children[i].scale.set(1,1,Math.random()*5);
-								// console.log(scene.children[i].position);
-								if(mesh.position.y<min){
-									min=mesh.position.y;
-								}
-								if(mesh.position.y>max){
-									max=mesh.position.y;
-								}
-							}
-						}
-						var span=max-min;
-						return {
-							min:min,
-							max:max,
-							span:span,
-						}
-					}
-					window.min_max_y=get_min_max_y();
 
 
-					// particles.geometry.attributes.position.array_initial=jq.merge([],particles.geometry.attributes.position.array);
+
+
+					particles.geometry.attributes.position.array_initial=jq.merge([],particles.geometry.attributes.position.array);
 					// particles.geometry.attributes.position.array_max=[];					
 					// particles.geometry.attributes.position.array_direction=[];					
 
@@ -268,6 +222,50 @@
 					// var len3=particles.geometry.attributes.position.array.length;
 					// for(var i=0;i<len3;i++){
 					// }
+
+					window.get_min_max_x=function(){
+						window.xs=[];
+						var min=0;
+						var max=0;
+						for(var i=0;i<particles.geometry.attributes.size.array.length;i++){
+							var x=particles.geometry.attributes.position.array_initial[i*3];
+							if(x<min){
+								min=x;
+							}
+							if(x>max){
+								max=x;
+							}
+						}
+						var span=max-min;
+						return {
+							min:min,
+							max:max,
+							span:span,
+						}
+					}
+					window.min_max_x=get_min_max_x();
+					
+					window.get_min_max_y=function(){
+						window.ys=[];
+						var min=0;
+						var max=0;
+						for(var i=0;i<particles.geometry.attributes.size.array.length;i++){
+							var y=particles.geometry.attributes.position.array_initial[i*3+1];
+							if(y<min){
+								min=y;
+							}
+							if(y>max){
+								max=y;
+							}
+						}
+						var span=max-min;
+						return {
+							min:min,
+							max:max,
+							span:span,
+						}
+					}
+					window.min_max_y=get_min_max_y();
 
 					animate();
 
@@ -290,11 +288,11 @@
 				orth_camera = new THREE.OrthographicCamera( document.body.clientWidth / - 10, document.body.clientWidth / 10, document.body.clientHeight / 10, document.body.clientHeight / - 10, 1, 1000 );
 				orth_camera.position.z = 100;
 
-				scene.add( new THREE.AmbientLight( 0x888888 ) );
+				// scene.add( new THREE.AmbientLight( 0x888888 ) );
 
-				var light = new THREE.PointLight( 'rgb(128,128,128)' );
-				light.position.set(-100,300,800);
-				scene.add( light );
+				// var light = new THREE.PointLight( 'rgb(128,128,128)' );
+				// light.position.set(-100,300,800);
+				// scene.add( light );
 
 				// var sphere_geometry = new THREE.SphereGeometry(10);
 				// var sphere_material = new THREE.MeshBasicMaterial({color:'red'});
@@ -366,9 +364,9 @@
 
 
 
-				var gv_vertices=[];
-				for(var x=-2;x<2;x+=0.02){
-					for(var y=-1;y<1;y+=.01){
+				window.gv_vertices=[];
+				for(var x=-2;x<2;x+=0.03){
+					for(var y=-1;y<1;y+=.02*screen_ratio){
 						var test_point=new THREE.Vector2(x,y);
 						raycaster.setFromCamera(test_point, orth_camera );
 						intersects = raycaster.intersectObject( mesh , true );
@@ -393,7 +391,11 @@
 							}
 							var position_2d=screenXY(intersect_point);
 						    var color_data = context2d.getImageData(position_2d.x, position_2d.y, 1, 1).data; 
-						    var rgb=color_data;
+						    var rgb=[
+						    	color_data[0]/255,
+						    	color_data[1]/255,
+						    	color_data[2]/255,
+						    ]
 
 						    // var rgb=[];
 						    // if(color_data[1]<42.5*1){
@@ -461,31 +463,35 @@
 							}
 					  		// var hsl=rgbToHsl(rgb[0] , rgb[1] , rgb[2] );
 
-							// gv_vertices.push({
-							// point:intersect_point,
-							// color:hsl,
-							// size:Math.random()*8,
-							// })
+
+					  		// particle
+								gv_vertices.push({
+									point:intersect_point,
+									color:rgb,
+									// color:rgbToHsl(rgb[0], rgb[1], rgb[2]),
+									// size:Math.random()*8,
+									size:7,
+								})
 
 
 
+							// shape extrude
+								// var shape = new THREE.Shape();
+								// shape.moveTo( 0,0 );
+								// // shape.absarc( 0, 0 , .1+Math.random()/3 , 0 , Math.PI*2 , false );
+								// shape.absarc( 0, 0 , .5, 0 , Math.PI*2 , false );
 
-							var shape = new THREE.Shape();
-							shape.moveTo( 0,0 );
-							// shape.absarc( 0, 0 , .1+Math.random()/3 , 0 , Math.PI*2 , false );
-							shape.absarc( 0, 0 , .5, 0 , Math.PI*2 , false );
+								// var extrudeSettings = {
+								// 	steps: 1,
+								// 	amount: 6,
+								// 	bevelEnabled: false,
+								// };
 
-							var extrudeSettings = {
-								steps: 1,
-								amount: 6,
-								bevelEnabled: false,
-							};
-
-							var geometry = new THREE.ExtrudeGeometry( shape, extrudeSettings );
-							var material = new THREE.MeshLambertMaterial( { color: `rgb( ${rgb[0]} , ${rgb[1]} , ${rgb[2]} )` } );
-							window.a_mesh = new THREE.Mesh( geometry, material ) ;
-							a_mesh.position.set(intersect_point.x , intersect_point.y , intersect_point.z);
-							scene.add( a_mesh );
+								// var geometry = new THREE.ExtrudeGeometry( shape, extrudeSettings );
+								// var material = new THREE.MeshLambertMaterial( { color: `rgb( ${rgb[0]} , ${rgb[1]} , ${rgb[2]} )` } );
+								// window.a_mesh = new THREE.Mesh( geometry, material ) ;
+								// a_mesh.position.set(intersect_point.x , intersect_point.y , intersect_point.z);
+								// scene.add( a_mesh );
 
 
 
@@ -505,32 +511,37 @@
 					vertex = gv_vertices[ i ].point;
 					vertex.toArray( positions, i * 3 );
 
-					color.setHSL( gv_vertices[i].color[0] , gv_vertices[i].color[1] , gv_vertices[i].color[2] );
+					// color.setHSL( gv_vertices[i].color[0] , gv_vertices[i].color[1] , gv_vertices[i].color[2] );
+					color.setRGB( gv_vertices[i].color[0] , gv_vertices[i].color[1] , gv_vertices[i].color[2] );
 					color.toArray( colors, i * 3 );
 
 					sizes[ i ] = gv_vertices[i].size;
-
 				}
 
-				var geometry = new THREE.BufferGeometry();
-				geometry.addAttribute( 'position', new THREE.BufferAttribute( positions, 3 ) );
-				geometry.addAttribute( 'customColor', new THREE.BufferAttribute( colors, 3 ) );
-				geometry.addAttribute( 'size', new THREE.BufferAttribute( sizes, 1 ) );
+
+				window.particle_geometry = new THREE.BufferGeometry();
+				particle_geometry.addAttribute( 'position', new THREE.BufferAttribute( positions, 3 ) );
+				particle_geometry.addAttribute( 'customColor', new THREE.BufferAttribute( colors, 3 ) );
+				particle_geometry.addAttribute( 'size', new THREE.BufferAttribute( sizes, 1 ) );
 
 				//
 
-				// var material = new THREE.ShaderMaterial( {
+				window.particle_material = new THREE.ShaderMaterial( {
 
-				// 	uniforms: {
-				// 		color:   { value: new THREE.Color( 0xffffff ) },
-				// 		texture: { value: new THREE.TextureLoader().load( "disc.png" ) }
-				// 	},
-				// 	vertexShader: document.getElementById( 'vertexshader' ).textContent,
-				// 	fragmentShader: document.getElementById( 'fragmentshader' ).textContent,
+					uniforms: {
+						color:   { value: new THREE.Color( 0xffffff ) },
+						texture: { value: new THREE.TextureLoader().load( "disc.png" ) }
+					},
+					vertexShader: document.getElementById( 'vertexshader' ).textContent,
+					fragmentShader: document.getElementById( 'fragmentshader' ).textContent,
 
-				// 	alphaTest: 0.9,
+					alphaTest: 0.9,
 
-				// } );
+				} );
+
+				// window.particle_material=new THREE.PointsMaterial({
+				// 	color:'red',
+				// })
 
 				//
 
@@ -538,8 +549,8 @@
 
 				//
 
-				// particles = new THREE.Points( geometry, material );
-				// scene.add( particles );
+				particles = new THREE.Points( particle_geometry, particle_material );
+				scene.add( particles );
 
 				//
 
@@ -580,7 +591,7 @@
 
 			}
 
-			var frame_count=0;
+			// var frame_count=0;
 			// var center=0;
 			function render() {
 
@@ -617,46 +628,38 @@
 
 					audio.analyser.getByteTimeDomainData(audio.dataArray);
 
-					for(var i=0,len=scene.children.length;i<len;i++){
-						var mesh=scene.children[i];
-						if(mesh.type=='Mesh'){
+					for(var i=0;i<particles.geometry.attributes.size.array.length;i++){
 
-							window.span=min_max_x.span/audio.bufferLength;
-							for(var j=0,lenj=audio.dataArray.length;j<lenj;j++){
-								var data=audio.dataArray[j];
-								var ratio_x=data/255;
+						var position_x=particles.geometry.attributes.position.array_initial[i*3];
+						var position_y=particles.geometry.attributes.position.array_initial[i*3+1];
 
-								// debugger;
+						window.span=min_max_x.span/audio.bufferLength;
+						for(var j=0,lenj=audio.dataArray.length;j<lenj;j++){
+							var data=audio.dataArray[j];
+							var ratio_x=data/255;
 
-								if(mesh.position.x>min_max_x.min + j*span&&mesh.position.x<= min_max_x.min + (j+1)*span){
-									// debugger;
-									// mesh.scale.set(1,1,.001+ratio_x);
-									mesh.$ratio_x=ratio_x;
-								}
+							if(position_x>min_max_x.min + j*span&&position_x<= min_max_x.min + (j+1)*span){
+								particles.geometry.attributes.position.array[i*3+2]=
+								particles.geometry.attributes.position.array_initial[i*3+2]
+								+ratio_x*10;
 							}
-							
-							window.span=min_max_y.span/audio.bufferLength;
-							for(var j=0,lenj=audio.dataArray.length;j<lenj;j++){
-								var data=audio.dataArray[j];
-								var ratio_y=data/255;
-
-								// debugger;
-
-								if(mesh.position.y>min_max_y.min + j*span&&mesh.position.y<= min_max_y.min + (j+1)*span){
-									// debugger;
-									// mesh.scale.set(1,1,.001+ratio_y);
-									mesh.$ratio_y=ratio_y;
-								}
-							}
-
-							// if(frame_count%5==0){
-							// 	window.scale_xy=Math.random();
-							// 	frame_count=0;
-							// }
-							mesh.scale.set(scale_xy,scale_xy,.001+mesh.$ratio_x+mesh.$ratio_y);
-
 						}
+
+						window.span=min_max_y.span/audio.bufferLength;
+						for(var j=0,lenj=audio.dataArray.length;j<lenj;j++){
+							var data=audio.dataArray[j];
+							var ratio_y=data/255;
+
+							if(position_y>min_max_y.min + j*span&&position_y<= min_max_y.min + (j+1)*span){
+								particles.geometry.attributes.position.array[i*3+2]=
+								particles.geometry.attributes.position.array_initial[i*3+2]
+								+ratio_y*10;
+							}
+						}
+
 					}
+
+					particles.geometry.attributes.position.needsUpdate=true;
 				}
 
 
