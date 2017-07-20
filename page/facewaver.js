@@ -78,7 +78,7 @@ ctrl
 			jq('.play').hide();
 		}
 
-
+		var canvas2d=document.createElement('canvas');
 		canvas2d.width=window.innerWidth;
 		canvas2d.height=window.innerHeight;
 		var context2d=canvas2d.getContext('2d');
