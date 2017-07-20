@@ -613,7 +613,7 @@ ctrl
 						if(position_x>m.min_max_x.min + j*span&&position_x<= m.min_max_x.min + (j+1)*span){
 							particles.geometry.attributes.position.array[i*3+2]=
 							particles.geometry.attributes.position.array_initial[i*3+2]
-							+ratio_x*7;
+							+ratio_x*10;
 						}
 					}
 					
@@ -625,13 +625,13 @@ ctrl
 						// debugger;
 
 						if(position_y>m.min_max_y.min + j*span&&position_y<= m.min_max_y.min + (j+1)*span){
-
+							
 							// particles.geometry.attributes.position.array[i*3+2]=
 							// particles.geometry.attributes.position.array_initial[i*3+2]
 							// +ratio_y*10;
 
 							particles.geometry.attributes.position.array[i*3+2]+=
-							+ratio_y*7;
+							+ratio_y*10;
 						}
 					}
 
