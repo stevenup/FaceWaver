@@ -9,14 +9,22 @@ ctrl
 		$s.m={};
 		var m=$s.m;
 
+		m.is_stop=false;
+
 	// facewaver
+
+
+		$s.$on('$ionicView.beforeLeave',function(){
+			clearInterval(audio.interval);
+			m.is_stop=true;
+		})
 
 		if(localStorage.photo_data_url){
 			ec.pm.photo_data_url=localStorage.photo_data_url;
 		}
 
-		window.window_ratio=window.innerWidth/window.innerHeight;
-		window.scale_xy=1;
+		m.window_ratio=window.innerWidth/window.innerHeight;
+		m.scale_xy=1;
 		var camera;
 
 		var audio={};
@@ -80,7 +88,7 @@ ctrl
 
 		$s.play=function (){
 			audio.source.start(0);
-			window.is_playing=true;
+			m.is_playing=true;
 			jq('.play').hide();
 		}
 
@@ -107,9 +115,9 @@ ctrl
 			var loader = new THREE.ImageLoader(  );
 			loader.load( ec.pm.photo_data_url, function ( image ) {
 
-				window.texture = new THREE.Texture();
-				texture.image = image;
-				texture.needsUpdate = true;
+				m.texture = new THREE.Texture();
+				m.texture.image = image;
+				m.texture.needsUpdate = true;
 
 				init();
 				renderer.render(scene,camera);
@@ -122,8 +130,8 @@ ctrl
 				// 	}
 				// }
 
-				window.get_min_max_x=function(){
-					window.xs=[];
+				m.get_min_max_x=function(){
+					m.xs=[];
 					var min=0;
 					var max=0;
 					for(var i=0;i<scene.children.length;i++){
@@ -146,10 +154,10 @@ ctrl
 						span:span,
 					}
 				}
-				window.min_max_x=get_min_max_x();
+				m.min_max_x=m.get_min_max_x();
 
-				window.get_min_max_y=function(){
-					window.ys=[];
+				m.get_min_max_y=function(){
+					m.ys=[];
 					var min=0;
 					var max=0;
 					for(var i=0;i<scene.children.length;i++){
@@ -172,7 +180,7 @@ ctrl
 						span:span,
 					}
 				}
-				window.min_max_y=get_min_max_y();
+				m.min_max_y=m.get_min_max_y();
 
 
 				// particles.geometry.attributes.position.array_initial=jq.merge([],particles.geometry.attributes.position.array);
@@ -225,7 +233,7 @@ ctrl
 			// mesh 
 				var material = new THREE.MeshBasicMaterial( {
 					// color: 0xff0000,
-					map:texture,
+					map:m.texture,
 				});
 				mesh = new THREE.Mesh( buffer_geometry, material );
 				// mesh.scale.set(10,10,10);
@@ -290,9 +298,9 @@ ctrl
 
 			var gv_vertices=[];
 			// for(var x=-2;x<2;x+=0.04){
-			// 	for(var y=-1;y<1;y+=.03*window_ratio){
+			// 	for(var y=-1;y<1;y+=.03*m.window_ratio){
 			var width_span_unit=window.innerWidth/41400*4;
-			var height_span_unit=window.innerWidth/41400*window_ratio*3;
+			var height_span_unit=window.innerWidth/41400*m.window_ratio*3;
 			for(var x=-2;x<2;x+=width_span_unit){
 				for(var y=-1;y<1;y+=height_span_unit){
 					var test_point=new THREE.Vector2(x,y);
@@ -417,9 +425,9 @@ ctrl
 
 						var geometry = new THREE.ExtrudeGeometry( shape, extrudeSettings );
 						var material = new THREE.MeshLambertMaterial( { color: `rgb( ${rgb[0]} , ${rgb[1]} , ${rgb[2]} )` } );
-						window.a_mesh = new THREE.Mesh( geometry, material ) ;
-						a_mesh.position.set(intersect_point.x , intersect_point.y , intersect_point.z);
-						scene.add( a_mesh );
+						m.a_mesh = new THREE.Mesh( geometry, material ) ;
+						m.a_mesh.position.set(intersect_point.x , intersect_point.y , intersect_point.z);
+						scene.add( m.a_mesh );
 
 
 
@@ -508,9 +516,11 @@ ctrl
 
 		function animate() {
 
-			requestAnimationFrame( animate );
-
 			render();
+
+			if(!m.is_stop){
+				requestAnimationFrame( animate );
+			}
 
 		}
 
@@ -547,7 +557,7 @@ ctrl
 			// 	particles.geometry.attributes.position.needsUpdate=true;
 			// }
 
-			if(window.is_playing && audio.bufferLength&&audio.dataArray.length>0){
+			if(m.is_playing && audio.bufferLength&&audio.dataArray.length>0){
 
 				audio.analyser.getByteTimeDomainData(audio.dataArray);
 
@@ -555,28 +565,28 @@ ctrl
 					var mesh=scene.children[i];
 					if(mesh.type=='Mesh'){
 
-						window.span=min_max_x.span/audio.bufferLength;
+						m.span=m.min_max_x.span/audio.bufferLength;
 						for(var j=0,lenj=audio.dataArray.length;j<lenj;j++){
 							var data=audio.dataArray[j];
 							var ratio_x=data/255;
 
 							// debugger;
 
-							if(mesh.position.x>min_max_x.min + j*span&&mesh.position.x<= min_max_x.min + (j+1)*span){
+							if(mesh.position.x>m.min_max_x.min + j*span&&mesh.position.x<= m.min_max_x.min + (j+1)*span){
 								// debugger;
 								// mesh.scale.set(1,1,.001+ratio_x);
 								mesh.$ratio_x=ratio_x;
 							}
 						}
 						
-						window.span=min_max_y.span/audio.bufferLength;
+						m.span=m.min_max_y.span/audio.bufferLength;
 						for(var j=0,lenj=audio.dataArray.length;j<lenj;j++){
 							var data=audio.dataArray[j];
 							var ratio_y=data/255;
 
 							// debugger;
 
-							if(mesh.position.y>min_max_y.min + j*span&&mesh.position.y<= min_max_y.min + (j+1)*span){
+							if(mesh.position.y>m.min_max_y.min + j*span&&mesh.position.y<= m.min_max_y.min + (j+1)*span){
 								// debugger;
 								// mesh.scale.set(1,1,.001+ratio_y);
 								mesh.$ratio_y=ratio_y;
@@ -584,7 +594,7 @@ ctrl
 						}
 
 						if(frame_count%5==0){
-							window.scale_xy=Math.random();
+							m.scale_xy=Math.random();
 							frame_count=0;
 						}
 						mesh.scale.set(scale_xy,scale_xy,.001+mesh.$ratio_x+mesh.$ratio_y);
