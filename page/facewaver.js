@@ -599,6 +599,10 @@ ctrl
 					var position_x=particles.geometry.attributes.position.array_initial[i*3];
 					var position_y=particles.geometry.attributes.position.array_initial[i*3+1];
 
+
+
+
+
 					var span=m.min_max_x.span/audio.bufferLength;
 					for(var j=0,lenj=audio.dataArray.length;j<lenj;j++){
 						var data=audio.dataArray[j];
@@ -609,7 +613,7 @@ ctrl
 						if(position_x>m.min_max_x.min + j*span&&position_x<= m.min_max_x.min + (j+1)*span){
 							particles.geometry.attributes.position.array[i*3+2]=
 							particles.geometry.attributes.position.array_initial[i*3+2]
-							+ratio_x*10;
+							+ratio_x*7;
 						}
 					}
 					
@@ -621,11 +625,40 @@ ctrl
 						// debugger;
 
 						if(position_y>m.min_max_y.min + j*span&&position_y<= m.min_max_y.min + (j+1)*span){
-							particles.geometry.attributes.position.array[i*3+2]=
-							particles.geometry.attributes.position.array_initial[i*3+2]
-							+ratio_y*10;
+
+							// particles.geometry.attributes.position.array[i*3+2]=
+							// particles.geometry.attributes.position.array_initial[i*3+2]
+							// +ratio_y*10;
+
+							particles.geometry.attributes.position.array[i*3+2]+=
+							+ratio_y*7;
 						}
 					}
+
+
+
+					// var span_x=m.min_max_x.span/audio.bufferLength;
+					// var span_y=m.min_max_y.span/audio.bufferLength;
+					// for(var j=0,lenj=audio.dataArray.length;j<lenj;j++){
+					// 	var data=audio.dataArray[j];
+					// 	var ratio=data/255;
+
+					// 	var intensity=0;
+
+					// 	// debugger;
+
+					// 	if(
+					// 		position_x>m.min_max_x.min + j*span_x&&position_x<= m.min_max_x.min + (j+1)*span_x
+					// 		&&
+					// 		position_y>m.min_max_y.min + j*span_y&&position_y<= m.min_max_y.min + (j+1)*span_y
+					// 	){
+					// 		particles.geometry.attributes.position.array[i*3+2]=
+					// 		particles.geometry.attributes.position.array_initial[i*3+2]
+					// 		+ratio*10;
+					// 	}
+					// }
+
+
 
 				}
 
