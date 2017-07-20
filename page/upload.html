@@ -8,13 +8,42 @@
 		<img src="img/headset.png" style="width: 100%;">
 	</div> -->
 
-	<div class="locator_n_headset" style="position:absolute;width:100%;margin:auto;margin-top: 80px;">
+	<div class="cropper_wrap" style="position: fixed;width:414px;height:414px;top:0;left:0;z-index: 0;display: ;top:117px;">
+		<img class="cropper_img" src="" style="max-width: 100%;">
+
+		<div class="button" ng-click="m.cropper.cropper.rotate(-1);" style="position: fixed;top:10px;left: 10px;">1度</div>
+		<div class="button" ng-click="m.cropper.cropper.rotate(1);" style="position: fixed;top:10px;right: 10px;">1度</div>
+
+		<div class="button_wrap" style="display: none;">
+			<div class="button_group button_group_left">
+				<div class="button" ng-click="m.cropper.cropper.rotate(-90);">左转</div><!--
+				--><div class="button" ng-click="m.cropper.cropper.rotate(-1);">1度</div><!--
+				--><div class="button" ng-click="m.cropper.cropper.rotate(-15);">15度</div><!--
+				--><div class="button" ng-click="m.cropper.cropper.rotate(-30);">30度</div><!--
+				--><div class="button" ng-click="m.cropper.cropper.rotate(-45);">45度</div>
+			</div>
+			<div class="button_group button_group_right">
+				<div class="button" ng-click="m.cropper.cropper.rotate(90);">右转</div><!--
+				--><div class="button" ng-click="m.cropper.cropper.rotate(1);">1度</div><!--
+				--><div class="button" ng-click="m.cropper.cropper.rotate(15);">15度</div><!--
+				--><div class="button" ng-click="m.cropper.cropper.rotate(30);">30度</div><!--
+				--><div class="button" ng-click="m.cropper.cropper.rotate(45);">45度</div>
+			</div>
+			<div class="button_group button_group_other">
+				<div class="button" ng-click="m.cropper.cropper.reset();">还原</div><!--
+				--><div class="button" onclick="cropper_cancel();">取消</div><!--
+				--><div class="button" onclick="cropper_finish();">完成</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="locator_n_headset" style="position:absolute;width:100%;margin:auto;margin-top: 80px;pointer-events: none;">
 		<img src="img/locator_n_headset.png" style="width: 100%;">
 	</div>
 
 	<label class="upload" style="position:fixed;width: 160px;height: 160px;margin: auto;left: 0;right: 0;bottom:0;">
 		<img src="img/upload.png" style="width: 100%;">
-		<input type="file" name="" onchange="angular.element(this).scope().img_upload(this,'sfz_image1');angular.element(this)[0].value=''" style="opacity: 0;">
+		<input type="file" name="" onchange="angular.element(this).scope().cropper_load_photo(this);angular.element(this)[0].value=''" style="opacity: 0;">
 	</label>
 
 	<div class="reupload" style="position:fixed;width: 68px;height: 68px;right: 20px;bottom: 46px;">

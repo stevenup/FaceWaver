@@ -11,12 +11,24 @@ ctrl
 
 	// cropper
 		m.cropper={};
-		m.cropper.select_photo=function(){
-			var img=document.createElement('img');
+
+		$s.cropper_load_photo=function(input){
+
+			try{
+				m.cropper.cropper.destroy();
+			}
+			catch(e){}
+
+			var img=jq('.cropper_img')[0];
 			img.src=URL.createObjectURL(input.files[0]);
 			img.onload=function(){
 				m.cropper.cropper=new Cropper(img,{
 					// aspectRatio: 16 / 9,
+					// dragMode:'move',
+					// guides:false,
+					// cropBoxMovable:false,
+					// minCropBoxWidth:100,
+					// minCropBoxHeight:100,
 					crop: function(e) {
 					},
 					ready:function(){
