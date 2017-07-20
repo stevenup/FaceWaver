@@ -110,7 +110,7 @@ ctrl
 		var mouse, INTERSECTED;
 
 		var loader = new THREE.OBJLoader(  );
-		loader.load( 'model/head.obj', function ( object ) {
+		loader.load( 'model/head_3.obj', function ( object ) {
 			buffer_geometry=object.children[0].geometry;
 			geometry = new THREE.Geometry().fromBufferGeometry( buffer_geometry );
 
