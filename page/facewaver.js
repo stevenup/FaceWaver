@@ -17,6 +17,8 @@ ctrl
 		$s.$on('$ionicView.beforeLeave',function(){
 			clearInterval(audio.interval);
 			m.is_stop=true;
+			cancelAnimationFrame(m.requestAnimationFrame_id);
+			audio.context.close();
 		})
 
 		if(localStorage.photo_data_url){
@@ -519,7 +521,7 @@ ctrl
 			render();
 
 			if(!m.is_stop){
-				requestAnimationFrame( animate );
+				m.requestAnimationFrame_id=requestAnimationFrame( animate );
 			}
 
 		}
@@ -565,7 +567,7 @@ ctrl
 					var mesh=scene.children[i];
 					if(mesh.type=='Mesh'){
 
-						m.span=m.min_max_x.span/audio.bufferLength;
+						var span=m.min_max_x.span/audio.bufferLength;
 						for(var j=0,lenj=audio.dataArray.length;j<lenj;j++){
 							var data=audio.dataArray[j];
 							var ratio_x=data/255;
@@ -579,7 +581,7 @@ ctrl
 							}
 						}
 						
-						m.span=m.min_max_y.span/audio.bufferLength;
+						var span=m.min_max_y.span/audio.bufferLength;
 						for(var j=0,lenj=audio.dataArray.length;j<lenj;j++){
 							var data=audio.dataArray[j];
 							var ratio_y=data/255;
@@ -597,7 +599,7 @@ ctrl
 							m.scale_xy=Math.random();
 							frame_count=0;
 						}
-						mesh.scale.set(scale_xy,scale_xy,.001+mesh.$ratio_x+mesh.$ratio_y);
+						mesh.scale.set(m.scale_xy,m.scale_xy,.001+mesh.$ratio_x+mesh.$ratio_y);
 
 					}
 				}
