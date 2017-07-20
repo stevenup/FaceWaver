@@ -72,7 +72,7 @@ ctrl
 			}
 		},300)
 
-		audio.play=function (){
+		$s.play=function (){
 			audio.source.start(0);
 			window.is_playing=true;
 			jq('.play').hide();
@@ -99,7 +99,7 @@ ctrl
 			geometry = new THREE.Geometry().fromBufferGeometry( buffer_geometry );
 
 			var loader = new THREE.ImageLoader(  );
-			loader.load( 'img/boss2.png', function ( image ) {
+			loader.load( ec.pm.photo_data_url, function ( image ) {
 
 				window.texture = new THREE.Texture();
 				texture.image = image;
