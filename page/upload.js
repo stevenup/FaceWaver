@@ -9,6 +9,8 @@ ctrl
 		$s.m={};
 		var m=$s.m;
 
+		m.is_uploaded=false;
+
 	// cropper
 		m.cropper={};
 
@@ -38,11 +40,19 @@ ctrl
 							width:window.innerWidth,
 							height:window.innerWidth,
 						})
+						$s.$apply(function(){
+							m.is_uploaded=true;
+						})
+							
 					}
 				});
 			}
 		}
-
+		$s.cropper_finish=function(){
+			var cropper_result_canvas=m.cropper.cropper.getCroppedCanvas();
+			var url=cropper_result_canvas.toDataURL();
+			window.open(url);
+		}
 
 	
 })
