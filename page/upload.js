@@ -10,10 +10,19 @@ ctrl
 		var m=$s.m;
 
 		m.is_uploaded=false;
+		m.scale=1;
 
 	// cropper
 		m.cropper={};
 
+		$s.scale_big=function(){
+			m.scale+=0.01;
+			m.cropper.cropper.scale(m.scale);
+		}
+		$s.scale_small=function(){
+			m.scale-=0.01;
+			m.cropper.cropper.scale(m.scale);
+		}
 		$s.cropper_load_photo=function(input){
 
 			try{
@@ -21,6 +30,7 @@ ctrl
 			}
 			catch(e){}
 
+			m.scale=1;
 			var img=jq('.cropper_img')[0];
 			img.src=URL.createObjectURL(input.files[0]);
 			img.onload=function(){
