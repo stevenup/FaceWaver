@@ -70,6 +70,19 @@ angular.module('starter', [
 		}
 	})
 
+
+
+
+	.state('tab.facewaver', {
+		url: '/facewaver',
+		views: {
+			'tab-home': {
+				templateUrl: 'page/facewaver.html',
+				controller: 'facewaver_ctrl'
+			}
+		}
+	})
+
 	.state('tab.upload', {
 		url: '/upload',
 		views: {

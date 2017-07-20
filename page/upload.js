@@ -49,9 +49,13 @@ ctrl
 			}
 		}
 		$s.cropper_finish=function(){
-			var cropper_result_canvas=m.cropper.cropper.getCroppedCanvas();
+			var cropper_result_canvas=m.cropper.cropper.getCroppedCanvas({
+				width:512,
+				height:512,
+			});
 			var url=cropper_result_canvas.toDataURL();
-			window.open(url);
+			ec.pm.photo_data_url=url;
+			location='#/tab/facewaver';
 		}
 
 	

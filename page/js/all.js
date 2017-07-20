@@ -7,7 +7,8 @@ ctrl
 	$s.m={};
 	var m=$s.m;
 	
-	$s.ec=ec;
+	$s.ec={};
+	$s.ec.pm=ec.pm;
 	$s.config=config;
 
 	$s.is_new_message=function(){

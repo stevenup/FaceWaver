@@ -12,6 +12,7 @@
 		.cropper_wrap .cropper-dashed{display: none;}
 		.cropper_wrap .cropper-point{display: none;}
 		.cropper_wrap .cropper-line{display: none;}
+		.cropper_wrap .cropper-center{display: none;}
 		.cropper_wrap .cropper-move{background: none;}
 		.cropper_wrap .cropper-crop{background: none;}
 		.cropper_wrap .cropper-bg{background: none;}
