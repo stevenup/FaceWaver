@@ -55,6 +55,7 @@ ctrl
 			});
 			var url=cropper_result_canvas.toDataURL();
 			ec.pm.photo_data_url=url;
+			localStorage.photo_data_url=url;
 			location='#/tab/facewaver';
 		}
 

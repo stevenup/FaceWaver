@@ -10,8 +10,14 @@ ctrl
 		var m=$s.m;
 
 	// facewaver
+
+		if(localStorage.photo_data_url){
+			ec.pm.photo_data_url=localStorage.photo_data_url;
+		}
+
 		window.window_ratio=window.innerWidth/window.innerHeight;
 		window.scale_xy=1;
+		var camera;
 
 		var audio={};
 		audio.sound_buffer = null;
@@ -286,7 +292,7 @@ ctrl
 			// for(var x=-2;x<2;x+=0.04){
 			// 	for(var y=-1;y<1;y+=.03*window_ratio){
 			var width_span_unit=window.innerWidth/41400*4;
-			var height_span_unit=window.innerWidth/41400*window_ratio*2.8;
+			var height_span_unit=window.innerWidth/41400*window_ratio*3;
 			for(var x=-2;x<2;x+=width_span_unit){
 				for(var y=-1;y<1;y+=height_span_unit){
 					var test_point=new THREE.Vector2(x,y);
