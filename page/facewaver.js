@@ -21,10 +21,6 @@ ctrl
 			audio.context.close();
 		})
 
-		if(localStorage.photo_data_url){
-			ec.pm.photo_data_url=localStorage.photo_data_url;
-		}
-
 		m.window_ratio=window.innerWidth/window.innerHeight;
 		m.scale_xy=1;
 		var camera;
@@ -56,10 +52,10 @@ ctrl
 			console.log(e);
 		}
 
-		// audio.loadSound('music/Anan Ryoko - Refrain.mp3');
-		// audio.loadSound('music/Ralvero,Karim Mika - Mad (Original Mix).mp3');
-		// audio.loadSound('music/B Brightz,Julian Jordan,Firebeatz - Rage(B Brightz Remix).mp3');
-		audio.loadSound('music/Klaas - Calavera (Original Edit)_clip.mp3');
+		// audio.loadSound('song/Anan Ryoko - Refrain.mp3');
+		// audio.loadSound('song/Ralvero,Karim Mika - Mad (Original Mix).mp3');
+		// audio.loadSound('song/B Brightz,Julian Jordan,Firebeatz - Rage(B Brightz Remix).mp3');
+		audio.loadSound('song/Klaas - Calavera (Original Edit)_clip.mp3');
 		// audio.loadSound('http://m2.music.126.net/hmZoNQaqzZALvVp0rE7faA==/0.mp3');
 		// audio.loadSound('http://m2.music.126.net/2HLi_KTxW7zpdNVigoorCg==/7959364674897599.mp3');
 		// audio.loadSound('http://101.227.176.68/m10.music.126.net/20170714153615/14030c809a28349b819ad1ebd0cb1874/ymusic/76af/e78f/3003/52e3a85ff7e6061b0597c041082fdfc5.mp3?wshc_tag=0&wsts_tag=59686e94&wsid_tag=b4a8078a&wsiphost=ipdbm');
@@ -595,7 +591,7 @@ ctrl
 
 			if(frame_count%5==0){
 				for(var i=0;i<particles.geometry.attributes.size.array.length;i++){
-					particles.geometry.attributes.size.array[i]=3+Math.random()*5;
+					particles.geometry.attributes.size.array[i]=2+Math.random()*5;
 				}
 				particles.geometry.attributes.size.needsUpdate=true;
 				frame_count=0;

@@ -1,0 +1,27 @@
+<ion-view  view-title="home"  hide-back-button="true" can-swipe-back="false" style="     ">
+
+	<ion-content class="has-footer">
+		<div class="list">
+
+			<div class="item item-avatar item-icon-left item-icon-right" ng-repeat="song in m.songs" style="padding-left: 104px;" >
+				<img src="img/music_cover.png" style="border-radius: 0;left: 52px;">
+
+				<i class="icon ion-ios-circle-outline" ng-if="!song.act" ng-click="song.act=!song.act"></i>
+				<i class="icon ion-ios-circle-filled" ng-if="song.act" ng-click="song.act=!song.act"></i>
+
+				<h2>{{song.name}}</h2>
+				<p>{{song.author}}</p>
+
+				<i class="icon iconfont icon-play" ng-if="!song.playing"></i>
+				<i class="icon ion-ios-pause-outline" ng-if="song.playing"></i>
+
+			</div>
+
+		</div>
+	</ion-content>
+
+<div class="bar bar-footer">
+  <div class="title">ADD TO MY LIST</div>
+</div>
+
+</ion-view>

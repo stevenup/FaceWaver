@@ -83,6 +83,16 @@ angular.module('starter', [
 		}
 	})
 
+	.state('tab.songlist', {
+		url: '/songlist',
+		views: {
+			'tab-home': {
+				templateUrl: 'page/songlist.html',
+				controller: 'songlist_ctrl'
+			}
+		}
+	})
+
 	.state('tab.upload', {
 		url: '/upload',
 		views: {
