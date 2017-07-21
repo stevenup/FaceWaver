@@ -343,8 +343,8 @@ ctrl
 			var gv_vertices=[];
 			// for(var x=-2;x<2;x+=0.04){
 			// 	for(var y=-1;y<1;y+=.03*m.window_ratio){
-			var width_span_unit=window.innerWidth/41400*3;
-			var height_span_unit=window.innerWidth/41400*m.window_ratio*2;
+			var width_span_unit=window.innerWidth/41400*2.3;
+			var height_span_unit=window.innerWidth/41400*m.window_ratio*1;
 			for(var x=-2;x<2;x+=width_span_unit){
 				for(var y=-1;y<1;y+=height_span_unit){
 					var test_point=new THREE.Vector2(x,y);
@@ -454,7 +454,7 @@ ctrl
 									color:rgb,
 									// color:rgbToHsl(rgb[0], rgb[1], rgb[2]),
 									// size:Math.random()*8,
-									size:8,
+									// size:8,
 								})
 
 
@@ -482,7 +482,8 @@ ctrl
 					color.setRGB( gv_vertices[i].color[0] , gv_vertices[i].color[1] , gv_vertices[i].color[2] );
 					color.toArray( colors, i * 3 );
 
-				sizes[ i ] = gv_vertices[i].size;
+				// sizes[ i ] = gv_vertices[i].size;
+				sizes[ i ] = 8;
 
 			}
 
@@ -590,6 +591,17 @@ ctrl
 			// 	particles.geometry.attributes.position.needsUpdate=true;
 			// }
 
+
+			if(frame_count%5==0){
+				for(var i=0;i<particles.geometry.attributes.size.array.length;i++){
+					particles.geometry.attributes.size.array[i]=3+Math.random()*5;
+				}
+				particles.geometry.attributes.size.needsUpdate=true;
+				frame_count=0;
+			}
+
+
+
 			if(m.is_playing && audio.bufferLength&&audio.dataArray.length>0){
 
 				audio.analyser.getByteTimeDomainData(audio.dataArray);
@@ -625,7 +637,7 @@ ctrl
 						// debugger;
 
 						if(position_y>m.min_max_y.min + j*span&&position_y<= m.min_max_y.min + (j+1)*span){
-							
+
 							// particles.geometry.attributes.position.array[i*3+2]=
 							// particles.geometry.attributes.position.array_initial[i*3+2]
 							// +ratio_y*10;
@@ -666,9 +678,10 @@ ctrl
 			}
 
 
+
 			renderer.render( scene, camera );
 
-			// frame_count++;
+			frame_count++;
 			// center-=.1;
 			// if(center<-25){
 			// 	center=25;
