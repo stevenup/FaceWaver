@@ -1,6 +1,9 @@
 
 
 /*upload*/
+
+	.page_upload .button_wrap_top .icon{float: right;margin-left: 8px;color:white;font-size: 32px;}
+
 	/*cropper*/
 		.cropper_wrap .button_wrap{position: fixed;bottom:10px;text-align: center;width: 100%;}
 		.cropper_wrap .button_group{border-radius: 4px;overflow: hidden;margin:0 5px;display: inline-block;}

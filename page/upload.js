@@ -17,11 +17,11 @@ ctrl
 
 		$s.scale_big=function(){
 			m.scale+=0.01;
-			m.cropper.cropper.scale(m.scale);
+			m.cropper.cropper.scaleY(m.scale);
 		}
 		$s.scale_small=function(){
 			m.scale-=0.01;
-			m.cropper.cropper.scale(m.scale);
+			m.cropper.cropper.scaleY(m.scale);
 		}
 		$s.cropper_load_photo=function(input){
 

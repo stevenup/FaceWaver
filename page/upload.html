@@ -1,4 +1,4 @@
-<ion-view  view-title="upload"  hide-back-button="true" can-swipe-back="false" style="    position: fixed; width: 100%; height: 100%; top: 0; left: 0;background: url(img/bg.png);background-size:cover;">
+<ion-view class="page_upload"  view-title="upload"  hide-back-button="true" can-swipe-back="false" style="    position: fixed; width: 100%; height: 100%; top: 0; left: 0;background: url(img/bg.png);background-size:cover;">
 
 	<!-- <div class="locator" style="position:absolute;width:100%;margin:auto;margin-top: 145px;">
 		<img src="img/locator.png" style="width: 100%;">
@@ -11,10 +11,13 @@
 	<div class="cropper_wrap" style="position: fixed;width:414px;height:414px;top:0;left:0;z-index: 0;display: ;top:117px;">
 		<img class="cropper_img" src="" style="max-width: 100%;">
 
-		<div class="button" ng-click="m.cropper.cropper.rotate(-1);" style="position: fixed;top:10px;left: 10px;">左转</div>
-		<div class="button" ng-click="m.cropper.cropper.rotate(1);" style="position: fixed;top:10px;right: 10px;">右转</div>
-		<div class="button" ng-click="scale_big()" style="position: fixed;top:10px;left: 70px;">放大</div>
-		<div class="button" ng-click="scale_small()" style="position: fixed;top:10px;right: 70px;">缩小</div>
+		<div class="button_wrap_top" ng-show="m.is_uploaded" style="top:20px;position: fixed;right: 10px;">
+			<div class="rotate_right icon iconfont icon-rotate-right" ng-click="m.cropper.cropper.rotate(1);" ></div>
+			<div class="rotate_left icon iconfont icon-rotate-left " ng-click="m.cropper.cropper.rotate(-1);" ></div>
+			<div class="scale_big icon iconfont icon-scale-big" ng-click="scale_big()" ></div>
+			<div class="scale_small icon iconfont icon-scale-small" ng-click="scale_small()" ></div>
+			<div class="reset icon ion-ios-loop-strong" ng-click="m.cropper.cropper.reset()" style="    position: relative; top: -5px;"></div>
+		</div>
 
 		<div class="button_wrap" style="display: none;">
 			<div class="button_group button_group_left">
