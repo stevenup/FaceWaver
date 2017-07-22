@@ -1,0 +1,42 @@
+<ion-view class="page_songlist"  view-title="songlist"  hide-back-button="true" can-swipe-back="false" style=" background: url(img/bg_songlist.png);background-size:  cover   ">
+
+	<div class="photo">
+		<img src="img/head_bg.png" style="position: absolute; width: 160px; height: 160px; margin: auto; left: 0; right: 0; top: 23px;">
+		<img ng-src="{{ec.pm.photo_data_url}}" style="border-radius: 50%;display: block;width: 150px;height: 150px;margin:auto;margin-top: 28px;position: relative;">
+	</div>
+
+	<div class="title" style="    text-align: center; color: white; background: rgba(128,128,128,.3); font-size: 28px; line-height: 46px; position: absolute; width: 100%; top: 194px;">
+		MY PLAYLIST
+	</div>
+
+	<ion-content style="top: 240px;">
+
+		<div class="list">
+
+			<div class="item" style="display: none;">
+				audio
+				<audio class="audio"
+					ng-src="{{m.song_playing.url}}"
+					autoplay>
+					Your browser does not support the <code>audio</code> element.
+				</audio>
+			</div>
+
+			<div class="item item-avatar item-icon-left item-icon-right" ng-repeat="song in m.songs" style="padding-left: 104px;background: none;color:white;border-color:rgb(141,142,187);" >
+				<img src="img/music_cover.png" style="border-radius: 0;left: 52px;">
+
+				<i class="icon ion-ios-circle-outline" ng-if="!song.act" ng-click="song.act=!song.act"></i>
+				<i class="icon ion-ios-circle-filled" ng-if="song.act" ng-click="song.act=!song.act"></i>
+
+				<h2 style="color:white;">{{song.name}}</h2>
+				<p style="color:white;">{{song.author}}</p>
+
+				<i class="icon iconfont icon-play" ng-if="m.song_playing!=song" ng-click="play()"></i>
+				<i class="icon ion-ios-pause-outline" ng-if="m.song_playing==song" ng-click="pause()" style="    right: 12px; font-size: 38px;"></i>
+
+			</div>
+
+		</div>
+	</ion-content>
+
+</ion-view>

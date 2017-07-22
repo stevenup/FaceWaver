@@ -34,6 +34,7 @@
 	<script src="page/home.js"></script>
 
 	<script src="page/facewaver.js"></script>
+	<script src="page/playlist.js"></script>
 	<script src="page/songlist.js"></script>
 	<script src="page/upload.js"></script>
 
@@ -48,14 +49,13 @@
 			<ion-content>
 				<div class="list">
 					<a class="item" menu-close href="#/tab/home">Home</a>
-					<a class="item" menu-close href="#/tab/account">Account</a>
-					<a class="item" menu-close href="#/tab/songlist">Song List</a>
+					<a class="item" menu-close href="#/tab/playlist">Play List</a>
 					<a class="item" menu-close href="#/tab/upload">Upload Photo</a>
 				</div>
 			</ion-content>
 		</ion-side-menu>
 
-		<ion-side-menu-content>
+		<ion-side-menu-content drag-content="false">
 
 			<ion-nav-view></ion-nav-view>
 

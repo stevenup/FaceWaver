@@ -1,0 +1,37 @@
+<ion-view class="page_songlist"  view-title="songlist"  hide-back-button="true" can-swipe-back="false" style=" background: url(img/bg_songlist.png);background-size:  cover   ">
+
+	<ion-content class="has-footer" style="padding-top: 100px;">
+
+		<div class="list">
+
+			<div class="item" style="display: none;">
+				audio
+				<audio class="audio"
+					ng-src="{{m.song_playing.url}}"
+					autoplay>
+					Your browser does not support the <code>audio</code> element.
+				</audio>
+			</div>
+
+			<div class="item item-avatar item-icon-left item-icon-right" ng-repeat="song in m.songs" style="padding-left: 104px;background: none;color:white;border-color:rgb(141,142,187);" >
+				<img src="img/music_cover.png" style="border-radius: 0;left: 52px;">
+
+				<i class="icon ion-ios-circle-outline" ng-if="!song.act" ng-click="song.act=!song.act"></i>
+				<i class="icon ion-ios-circle-filled" ng-if="song.act" ng-click="song.act=!song.act"></i>
+
+				<h2 style="color:white;">{{song.name}}</h2>
+				<p style="color:white;">{{song.author}}</p>
+
+				<i class="icon iconfont icon-play" ng-if="m.song_playing!=song" ng-click="play()"></i>
+				<i class="icon ion-ios-pause-outline" ng-if="m.song_playing==song" ng-click="pause()" style="    right: 12px; font-size: 38px;"></i>
+
+			</div>
+
+		</div>
+	</ion-content>
+
+	<div class="bar bar-footer" style="background: rgb(53,79,129);color:white;">
+		<div class="title">ADD TO MY LIST</div>
+	</div>
+
+</ion-view>

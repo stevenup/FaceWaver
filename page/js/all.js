@@ -9,13 +9,14 @@ ctrl
 		$s.am={};
 		var am=$s.am;
 		
+		$s.config=config;
 		$s.ec={};
 		$s.ec.pm=ec.pm;
-		$s.config=config;
 
 		if(localStorage.photo_data_url){
 			ec.pm.photo_data_url=localStorage.photo_data_url;
 		}
+
 
 	// fn
 		$s.is_new_message=function(){

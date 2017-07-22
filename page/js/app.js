@@ -83,6 +83,16 @@ angular.module('starter', [
 		}
 	})
 
+	.state('tab.playlist', {
+		url: '/playlist',
+		views: {
+			'tab-home': {
+				templateUrl: 'page/playlist.html',
+				controller: 'playlist_ctrl'
+			}
+		}
+	})
+
 	.state('tab.songlist', {
 		url: '/songlist',
 		views: {
@@ -115,6 +125,7 @@ angular.module('starter', [
 .config(function($ionicConfigProvider){
 	$ionicConfigProvider.backButton.text('');
 	$ionicConfigProvider.scrolling.jsScrolling(true);
+	$ionicConfigProvider.views.swipeBackEnabled(false);
 })
 
 .constant('$ionicLoadingConfig',{
