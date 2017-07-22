@@ -1,7 +1,17 @@
-<ion-view  view-title="home"  hide-back-button="true" can-swipe-back="false" style="     ">
+<ion-view class="page_songlist"  view-title="songlist"  hide-back-button="true" can-swipe-back="false" style="     ">
 
 	<ion-content class="has-footer">
+
 		<div class="list">
+
+			<div class="item">
+				audio
+				<audio class="audio"
+					ng-src="{{m.song_playing.url}}"
+					autoplay>
+					Your browser does not support the <code>audio</code> element.
+				</audio>
+			</div>
 
 			<div class="item item-avatar item-icon-left item-icon-right" ng-repeat="song in m.songs" style="padding-left: 104px;" >
 				<img src="img/music_cover.png" style="border-radius: 0;left: 52px;">
@@ -12,8 +22,8 @@
 				<h2>{{song.name}}</h2>
 				<p>{{song.author}}</p>
 
-				<i class="icon iconfont icon-play" ng-if="!song.playing"></i>
-				<i class="icon ion-ios-pause-outline" ng-if="song.playing"></i>
+				<i class="icon iconfont icon-play" ng-if="m.song_playing!=song" ng-click="play()"></i>
+				<i class="icon ion-ios-pause-outline" ng-if="m.song_playing==song" ng-click="pause()"></i>
 
 			</div>
 

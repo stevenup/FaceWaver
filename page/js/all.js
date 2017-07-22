@@ -1,13 +1,13 @@
 ctrl
 
 //***********************************************************************************************************************************************************************************************************************************************
-.controller('allCtrl',function($scope,$ionicLoading,$ionicActionSheet,$ionicPopup,ec,$q){
+.controller('allCtrl',function($scope,$ionicLoading,$ionicActionSheet,$ionicPopup,ec,$q,$ionicSideMenuDelegate){
 
 	// init
 		var $s=$scope;
 		ecstore.scope.all=$s;
-		$s.m={};
-		var m=$s.m;
+		$s.am={};
+		var am=$s.am;
 		
 		$s.ec={};
 		$s.ec.pm=ec.pm;
@@ -20,6 +20,17 @@ ctrl
 	// fn
 		$s.is_new_message=function(){
 			return localStorage.nzapp_is_new_message;
+		}
+		$s.toggle_left_side_menu=function() {
+			$ionicSideMenuDelegate.toggleLeft();
+		};
+		$s.check_left_side_menu_open=function(){
+			if($ionicSideMenuDelegate.isOpenLeft()){
+				return true;
+			}
+			else{
+				return false;
+			}
 		}
 
 })

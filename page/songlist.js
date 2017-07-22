@@ -27,6 +27,17 @@ ctrl
 			},
 		]
 
+		m.audio=jq('.page_songlist .audio')[0];
+
+	// fn
+		$s.play=function(){
+			var s=this;
+			m.song_playing=s.song;
+		}
+		$s.pause=function(){
+			var s=this;
+			m.song_playing={url:'/'};
+		}
 
 	
 })
