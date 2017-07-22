@@ -263,11 +263,11 @@ ctrl
 			orth_camera = new THREE.OrthographicCamera( window.innerWidth / - 10, window.innerWidth / 10, window.innerHeight / 10, window.innerHeight / - 10, 1, 1000 );
 			orth_camera.position.z = 100;
 
-			scene.add( new THREE.AmbientLight( 0x888888 ) );
+			// scene.add( new THREE.AmbientLight( 0x888888 ) );
 
-			var light = new THREE.PointLight( 'rgb(128,128,128)' );
-			light.position.set(-100,300,800);
-			scene.add( light );
+			// var light = new THREE.PointLight( 'rgb(128,128,128)' );
+			// light.position.set(-100,300,800);
+			// scene.add( light );
 
 			// var sphere_geometry = new THREE.SphereGeometry(10);
 			// var sphere_material = new THREE.MeshBasicMaterial({color:'red'});
@@ -516,6 +516,7 @@ ctrl
 			//
 
 				particles = new THREE.Points( particle_geometry, particle_material );
+				particles.position.y=10;
 				scene.add( particles );
 
 			//
