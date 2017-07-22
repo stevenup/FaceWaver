@@ -126,6 +126,7 @@ angular.module('starter', [
 	$ionicConfigProvider.backButton.text('');
 	$ionicConfigProvider.scrolling.jsScrolling(true);
 	$ionicConfigProvider.views.swipeBackEnabled(false);
+	// $ionicConfigProvider.views.transition('none');
 })
 
 .constant('$ionicLoadingConfig',{

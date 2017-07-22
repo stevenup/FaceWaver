@@ -1,7 +1,7 @@
 ctrl
 
 //***********************************************************************************************************************************************************************************************************************************************
-.controller('playlist_ctrl', function($scope,ec,$ionicPopup,$stateParams,$ionicNavBarDelegate,$ionicSlideBoxDelegate,$document,$timeout,$interval,$ionicLoading,$ionicModal) {
+.controller('playlist_ctrl', function($scope,ec,$ionicPopup,$stateParams,$ionicNavBarDelegate,$ionicSlideBoxDelegate,$document,$timeout,$interval,$ionicLoading,$ionicModal,$ionicHistory) {
 
 	// init
 		var $s=$scope;
@@ -101,6 +101,9 @@ ctrl
 		$s.song_of_playlist_click=function(){
 			var s=this;
 			$s.set_song_act(ng.copy(s.song));
+			$ionicHistory.nextViewOptions({
+				disableAnimate:true,
+			})
 			location='#/tab/facewaver';
 		}
 
