@@ -7,6 +7,7 @@
 
 	<div class="title" style="    text-align: center; color: white; background: rgba(128,128,128,.3); font-size: 28px; line-height: 46px; position: absolute; width: 100%; top: 194px;">
 		MY PLAYLIST
+		<i class="icon iconfont icon-edit" ng-click="show_modal_songlist()" style="    position: absolute; right: 20px; font-size: 26px; top: -2px;"></i>
 	</div>
 
 	<ion-content style="top: 240px;">
@@ -22,21 +23,24 @@
 				</audio>
 			</div>
 
-			<div class="item item-avatar item-icon-left item-icon-right" ng-repeat="song in m.songs" style="padding-left: 104px;background: none;color:white;border-color:rgb(141,142,187);" >
-				<img src="img/music_cover.png" style="border-radius: 0;left: 52px;">
+			<div class="item item-avatar item-icon-right" ng-repeat="song in m.playlist" ng-if="song.act" style="/*padding-left: 104px;*/background: none;color:white;border-color:rgb(141,142,187);" >
+				<img src="img/music_cover.png" style="border-radius: 0;">
 
-				<i class="icon ion-ios-circle-outline" ng-if="!song.act" ng-click="song.act=!song.act"></i>
-				<i class="icon ion-ios-circle-filled" ng-if="song.act" ng-click="song.act=!song.act"></i>
+				<!-- <i class="icon ion-ios-circle-outline" ng-if="!song.act" ng-click="song.act=!song.act"></i>
+				<i class="icon ion-ios-circle-filled" ng-if="song.act" ng-click="song.act=!song.act"></i> -->
 
 				<h2 style="color:white;">{{song.name}}</h2>
 				<p style="color:white;">{{song.author}}</p>
 
 				<i class="icon iconfont icon-play" ng-if="m.song_playing!=song" ng-click="play()"></i>
-				<i class="icon ion-ios-pause-outline" ng-if="m.song_playing==song" ng-click="pause()" style="    right: 12px; font-size: 38px;"></i>
+				<i class="icon ion-ios-pause-outline" ng-if="m.song_playing==song" ng-click="stop()" style="    right: 12px; font-size: 38px;"></i>
 
 			</div>
 
 		</div>
+
+		<div ng-if="m.playlist.length==0" ng-click="show_modal_songlist()" style="    border: solid 2px white; color: white; width: 80%; line-height: 40px; font-size: 20px; margin: auto; text-align: center;">Add Song</div>
+
 	</ion-content>
 
 </ion-view>
