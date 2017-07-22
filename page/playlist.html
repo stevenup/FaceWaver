@@ -32,8 +32,8 @@
 				<h2 style="color:white;">{{song.name}}</h2>
 				<p style="color:white;">{{song.author}}</p>
 
-				<i class="icon iconfont icon-play" ng-if="m.song_playing!=song" ng-click="play()"></i>
-				<i class="icon ion-ios-pause-outline" ng-if="m.song_playing==song" ng-click="stop()" style="    right: 12px; font-size: 38px;"></i>
+				<i class="icon iconfont icon-play" ng-if="m.song_playing!=song" ng-click="$event.stopPropagation();play()"></i>
+				<i class="icon ion-ios-pause-outline" ng-if="m.song_playing==song" ng-click="$event.stopPropagation();stop()" style="    right: 12px; font-size: 38px;"></i>
 
 			</div>
 
