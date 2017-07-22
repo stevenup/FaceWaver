@@ -64,9 +64,8 @@ ctrl
 				height:512,
 			});
 			var url=cropper_result_canvas.toDataURL();
-			ec.pm.photo_data_url=url;
-			localStorage.photo_data_url=url;
-			location='#/tab/facewaver';
+			$s.set_photo_url(url);
+			location='#/tab/playlist';
 		}
 
 	

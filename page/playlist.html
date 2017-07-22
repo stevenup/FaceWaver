@@ -2,7 +2,7 @@
 
 	<div class="photo">
 		<img src="img/head_bg.png" style="position: absolute; width: 160px; height: 160px; margin: auto; left: 0; right: 0; top: 23px;">
-		<img ng-src="{{ec.pm.photo_data_url}}" style="border-radius: 50%;display: block;width: 150px;height: 150px;margin:auto;margin-top: 28px;position: relative;">
+		<img ng-src="{{get_photo_url()}}" style="border-radius: 50%;display: block;width: 150px;height: 150px;margin:auto;margin-top: 28px;position: relative;">
 	</div>
 
 	<div class="title" style="    text-align: center; color: white; background: rgba(128,128,128,.3); font-size: 28px; line-height: 46px; position: absolute; width: 100%; top: 194px;">
@@ -23,7 +23,7 @@
 				</audio>
 			</div>
 
-			<div class="item item-avatar item-icon-right" ng-repeat="song in m.playlist" ng-if="song.act" style="/*padding-left: 104px;*/background: none;color:white;border-color:rgb(141,142,187);" >
+			<div class="item item-avatar item-icon-right" ng-repeat="song in m.playlist" ng-click="song_of_playlist_click()" style="/*padding-left: 104px;*/background: none;color:white;border-color:rgb(141,142,187);" >
 				<img src="img/music_cover.png" style="border-radius: 0;">
 
 				<!-- <i class="icon ion-ios-circle-outline" ng-if="!song.act" ng-click="song.act=!song.act"></i>

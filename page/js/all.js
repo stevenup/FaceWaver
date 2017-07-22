@@ -12,10 +12,7 @@ ctrl
 		$s.config=config;
 		$s.ec={};
 		$s.ec.pm=ec.pm;
-
-		if(localStorage.photo_data_url){
-			ec.pm.photo_data_url=localStorage.photo_data_url;
-		}
+		
 
 
 	// fn
@@ -32,6 +29,18 @@ ctrl
 			else{
 				return false;
 			}
+		}
+		$s.set_song_act=function(song){
+			localStorage.facewaver_song_act=ng.toJson(song);
+		}
+		$s.get_song_act=function(){
+			return ng.fromJson(localStorage.facewaver_song_act);
+		}
+		$s.set_photo_url=function(photo_url){
+			localStorage.facewaver_photo_url=photo_url;
+		}
+		$s.get_photo_url=function(){
+			return localStorage.facewaver_photo_url;
 		}
 
 })

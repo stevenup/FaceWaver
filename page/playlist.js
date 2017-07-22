@@ -32,7 +32,18 @@ ctrl
 		// 	m.songlist=m.songlist.concat(ng.copy(songlist));
 		// }
 
-		m.playlist=[];
+		m.playlist=[
+			{
+				name:'Refrain',
+				author:'Anan Ryoko',
+				url:'song/Anan Ryoko - Refrain.mp3',
+			},
+			{
+				name:'Calavera',
+				author:'Klaas',
+				url:'song/Klaas - Calavera (Original Edit)_clip.mp3',
+			},
+		];
 
 		m.audio=jq('.page_songlist .audio')[0];
 
@@ -86,6 +97,11 @@ ctrl
 		$s.stop=function(){
 			var s=this;
 			stop();
+		}
+		$s.song_of_playlist_click=function(){
+			var s=this;
+			$s.set_song_act(ng.copy(s.song));
+			location='#/tab/facewaver';
 		}
 
 	
