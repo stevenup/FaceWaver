@@ -72,7 +72,7 @@ ctrl
 
 			audio.analyser.fftSize = 256;
 			audio.bufferLength = audio.analyser.frequencyBinCount;
-			// console.log(bufferLength);
+			console.log('bufferlength',audio.bufferLength);
 			audio.dataArray = new Uint8Array(audio.bufferLength);
 
 
@@ -186,7 +186,7 @@ ctrl
 				m.min_max_y=m.get_min_max_y();
 
 
-					particles.geometry.attributes.position.array_initial=jq.merge([],particles.geometry.attributes.position.array);
+				particles.geometry.attributes.position.array_initial=jq.merge([],particles.geometry.attributes.position.array);
 				// particles.geometry.attributes.position.array_max=[];					
 				// particles.geometry.attributes.position.array_direction=[];					
 
@@ -595,7 +595,7 @@ ctrl
 
 
 			if(frame_count%5==0){
-				for(var i=0;i<particles.geometry.attributes.size.array.length;i++){
+				for(var i=0,leni=particles.geometry.attributes.size.array.length;i<leni;i++){
 					particles.geometry.attributes.size.array[i]=2+Math.random()*5;
 				}
 				particles.geometry.attributes.size.needsUpdate=true;
@@ -607,8 +607,11 @@ ctrl
 			if(m.is_playing && audio.bufferLength&&audio.dataArray.length>0){
 
 				audio.analyser.getByteTimeDomainData(audio.dataArray);
+				
+				var span_x=m.min_max_x.span/audio.bufferLength+0.000001;
+				var span_y=m.min_max_y.span/audio.bufferLength+0.000001;
 
-				for(var i=0;i<particles.geometry.attributes.size.array.length;i++){
+				for(var i=0,leni=particles.geometry.attributes.size.array.length;i<leni;i++){
 
 					var position_x=particles.geometry.attributes.position.array_initial[i*3];
 					var position_y=particles.geometry.attributes.position.array_initial[i*3+1];
@@ -617,28 +620,18 @@ ctrl
 
 
 
-					var span_x=m.min_max_x.span/audio.bufferLength+0.000001;
 					for(var j=0,lenj=audio.dataArray.length;j<lenj;j++){
-						var data=audio.dataArray[j];
-						var ratio_x=data/255;
-
-						// debugger;
-
 						if(position_x>=m.min_max_x.min + j*span_x&&position_x< m.min_max_x.min + (j+1)*span_x){
+							var ratio_x=audio.dataArray[j]/255;
 							particles.geometry.attributes.position.array[i*3+2]=
 							particles.geometry.attributes.position.array_initial[i*3+2]
 							+ratio_x*10;
 						}
 					}
 					
-					var span_y=m.min_max_y.span/audio.bufferLength+0.000001;
 					for(var j=0,lenj=audio.dataArray.length;j<lenj;j++){
-						var data=audio.dataArray[j];
-						var ratio_y=data/255;
-
-						// debugger;
-
 						if(position_y>=m.min_max_y.min + j*span_y&&position_y< m.min_max_y.min + (j+1)*span_y){
+							var ratio_y=audio.dataArray[j]/255;
 
 							// particles.geometry.attributes.position.array[i*3+2]=
 							// particles.geometry.attributes.position.array_initial[i*3+2]
