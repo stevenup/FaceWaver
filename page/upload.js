@@ -15,6 +15,9 @@ ctrl
 	// cropper
 		m.cropper={};
 
+		jq('.cropper_wrap').width(window.innerWidth);
+		jq('.cropper_wrap').height(window.innerWidth);
+		
 		$s.scale_big=function(){
 			m.scale+=0.01;
 			m.cropper.cropper.scaleY(m.scale);
