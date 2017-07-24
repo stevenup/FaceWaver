@@ -39,13 +39,18 @@ ctrl
 				url:'song/Anan Ryoko - Refrain.mp3',
 			},
 			{
+				name:'Rage',
+				author:'B Brightz,Julian Jordan,Firebeatz ',
+				url:'song/B Brightz,Julian Jordan,Firebeatz - Rage(B Brightz Remix).mp3',
+			},
+			{
 				name:'Calavera',
 				author:'Klaas',
 				url:'song/Klaas - Calavera (Original Edit)_clip.mp3',
 			},
 		];
 
-		m.audio=jq('.page_songlist .audio')[0];
+		// m.audio=jq('.page_songlist .audio')[0];
 
 	//modal songlist
 		$ionicModal.fromTemplateUrl('page/modal_songlist.html', {
@@ -86,19 +91,26 @@ ctrl
 
 	// function
 		var stop=function(){
-			m.song_playing=null;
-			m.audio.src='/';
+			if(m.song_playing){
+				m.song_playing.audio.pause();
+				m.song_playing.audio.currentTime=0;
+				m.song_playing=undefined;
+			}
 		}
 
 	// fn
 		$s.play=function(){
 			var s=this;
+			stop();
 			m.song_playing=s.song;
-			m.audio.src=s.song.url;
-			m.audio.play();
+			s.song.audio.play();
+		}
+		$s.pause=function(){
+			var s=this;
+			m.song_playing=undefined;
+			s.song.audio.pause();
 		}
 		$s.stop=function(){
-			var s=this;
 			stop();
 		}
 		$s.song_of_playlist_click=function(){

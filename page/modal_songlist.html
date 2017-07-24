@@ -14,9 +14,14 @@
 
 				<h2 style="color:white;">{{song.name}}</h2>
 				<p style="color:white;">{{song.author}}</p>
+				
+				<audio class="audio" gv-audio  style="display: none;" ng-src="{{song.url}}" >
+					Your browser does not support the <code>audio</code> element.
+				</audio>
 
 				<i class="icon iconfont icon-play" ng-if="m.song_playing!=song" ng-click="play()"></i>
 				<i class="icon ion-ios-pause-outline" ng-if="m.song_playing==song" ng-click="stop()" style="    right: 12px; font-size: 38px;"></i>
+
 
 			</div>
 

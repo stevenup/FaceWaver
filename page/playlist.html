@@ -22,6 +22,7 @@
 			</div>
 
 			<div class="item item-avatar item-icon-right" ng-repeat="song in m.playlist" ng-click="song_of_playlist_click()" style="/*padding-left: 104px;*/background: none;color:white;border-color:rgb(141,142,187);" >
+
 				<img src="img/music_cover.png" style="border-radius: 0;">
 
 				<!-- <i class="icon ion-ios-circle-outline" ng-if="!song.act" ng-click="song.act=!song.act"></i>
@@ -32,6 +33,10 @@
 
 				<i class="icon iconfont icon-play" ng-if="m.song_playing!=song" ng-click="$event.stopPropagation();play()"></i>
 				<i class="icon ion-ios-pause-outline" ng-if="m.song_playing==song" ng-click="$event.stopPropagation();stop()" style="    right: 12px; font-size: 38px;"></i>
+
+				<audio class="audio" gv-audio  style="display: none;" ng-src="{{song.url}}" >
+					Your browser does not support the <code>audio</code> element.
+				</audio>
 
 			</div>
 
