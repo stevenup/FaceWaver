@@ -274,7 +274,7 @@ ctrl
 				orth_camera.position.z = 100;
 
 				if(m.type=='extrude'){
-					scene.add( new THREE.AmbientLight( 0x888888 ) );
+					scene.add( new THREE.AmbientLight( 'rgb(180,180,180)' ) );
 
 					var light = new THREE.PointLight( 'rgb(128,128,128)' );
 					light.position.set(-100,300,800);
@@ -353,7 +353,7 @@ ctrl
 
 
 
-				var gv_vertices=[];
+				m.gv_vertices=[];
 				// for(var x=-2;x<2;x+=0.04){
 				// 	for(var y=-1;y<1;y+=.03*m.window_ratio){
 
@@ -392,38 +392,40 @@ ctrl
 							}
 							var position_2d=screenXY(intersect_point);
 						    var color_data = context2d.getImageData(position_2d.x, position_2d.y, 1, 1).data; 
-							    var rgb=[
-							    	color_data[0]/255,
-							    	color_data[1]/255,
-							    	color_data[2]/255,
-							    ]
 
-						    // var rgb=[];
-
-						    // if(color_data[1]>=42.5*5){
-						    // 	// hex_color='#8cdfff';
-						    // 	rgb=[140,223,255];
-						    // }
-						    // else if(color_data[1]>=42.5*4){
-						    // 	// hex_color='#00aeef';
-						    // 	rgb=[0,174,239];
-						    // }
-						    // else if(color_data[1]>=42.5*3){
-						    // 	// hex_color='#0054a6';
-						    // 	rgb=[0,84,166];
-						    // }
-						    // else if(color_data[1]>=42.5*2){
-						    // 	// hex_color='#2e3192';
-						    // 	rgb=[46,49,146];
-						    // }
-						    // else if(color_data[1]>=42.5*1){
-						    // 	// hex_color='#0d004c';
-						    // 	rgb=[13,0,76];
-						    // }
-						   	// else{
-						    // 	// hex_color='#181818';
-						    // 	rgb=[10,10,10];
-						    // }
+						    var rgb=[];
+						    // origin rgb
+							    // var rgb=[
+							    // 	color_data[0],
+							    // 	color_data[1],
+							    // 	color_data[2],
+							    // ]
+							// steped grayscale
+								var grayscale=(color_data[0]+color_data[1]+color_data[2])/3;
+							    if(grayscale>=42.5*5){
+							    	// hex_color='#8cdfff';
+							    	rgb=[140,223,255];
+							    }
+							    else if(grayscale>=42.5*4){
+							    	// hex_color='#00aeef';
+							    	rgb=[0,174,239];
+							    }
+							    else if(grayscale>=42.5*3){
+							    	// hex_color='#0054a6';
+							    	rgb=[0,84,166];
+							    }
+							    else if(grayscale>=42.5*2){
+							    	// hex_color='#2e3192';
+							    	rgb=[46,49,146];
+							    }
+							    else if(grayscale>=42.5*1){
+							    	// hex_color='#0d004c';
+							    	rgb=[13,0,76];
+							    }
+							   	else{
+							    	// hex_color='#181818';
+							    	rgb=[0,0,0];
+							    }
 
 
 
@@ -470,7 +472,7 @@ ctrl
 
 
 						  		// particle
-									gv_vertices.push({
+									m.gv_vertices.push({
 										point:intersect_point,
 										rgb:rgb,
 										// color:rgbToHsl(rgb[0], rgb[1], rgb[2]),
@@ -488,23 +490,23 @@ ctrl
 				}
 
 				if(m.type=='sprite'){
-					var positions = new Float32Array( gv_vertices.length * 3 );
-					var colors = new Float32Array( gv_vertices.length * 3 );
-					var sizes = new Float32Array( gv_vertices.length );
+					var positions = new Float32Array( m.gv_vertices.length * 3 );
+					var colors = new Float32Array( m.gv_vertices.length * 3 );
+					var sizes = new Float32Array( m.gv_vertices.length );
 
 					var vertex;
 					var color = new THREE.Color();
 
-					for ( var i = 0, leni = gv_vertices.length; i < leni; i ++ ) {
+					for ( var i = 0, leni = m.gv_vertices.length; i < leni; i ++ ) {
 
-						vertex = gv_vertices[ i ].point;
+						vertex = m.gv_vertices[ i ].point;
 						vertex.toArray( positions, i * 3 );
 
-							// color.setHSL( gv_vertices[i].color[0] , gv_vertices[i].color[1] , gv_vertices[i].color[2] );
-							color.setRGB( gv_vertices[i].rgb[0] , gv_vertices[i].rgb[1] , gv_vertices[i].rgb[2] );
+							// color.setHSL( m.gv_vertices[i].color[0] , m.gv_vertices[i].color[1] , m.gv_vertices[i].color[2] );
+							color.setRGB( m.gv_vertices[i].rgb[0]/255 , m.gv_vertices[i].rgb[1]/255 , m.gv_vertices[i].rgb[2]/255 );
 							color.toArray( colors, i * 3 );
 
-						// sizes[ i ] = gv_vertices[i].size;
+						// sizes[ i ] = m.gv_vertices[i].size;
 						sizes[ i ] = 8;
 
 					}
@@ -551,16 +553,16 @@ ctrl
 						bevelEnabled: false,
 					};
 
-					for ( var i = 0, leni = gv_vertices.length; i < leni; i ++ ) {
+					for ( var i = 0, leni = m.gv_vertices.length; i < leni; i ++ ) {
 
-						var gv_vertice=gv_vertices[i];
+						var gv_vertice=m.gv_vertices[i];
 
 						var shape = new THREE.Shape();
 						shape.moveTo( 0,0 );
 						shape.absarc( 0, 0 , .6 , 0 , Math.PI*2 , false );
 
 						var geometry = new THREE.ExtrudeBufferGeometry( shape, extrudeSettings );
-						var material = new THREE.MeshLambertMaterial( { color: `rgb( ${gv_vertice.rgb[0]*255} , ${gv_vertice.rgb[1]*255} , ${gv_vertice.rgb[1]*255} )` } );
+						var material = new THREE.MeshLambertMaterial( { color: `rgb( ${gv_vertice.rgb[0]} , ${gv_vertice.rgb[1]} , ${gv_vertice.rgb[2]} )` } );
 						window.a_mesh = new THREE.Mesh( geometry, material ) ;
 						a_mesh.position.set(gv_vertice.point.x , gv_vertice.point.y , gv_vertice.point.z);
 						m.extrude_meshes.push(a_mesh);
