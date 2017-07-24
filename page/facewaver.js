@@ -139,6 +139,66 @@ ctrl
 					// }
 
 					if(m.type=='sprite'){
+					
+						particles.geometry.attributes.position.array_initial=jq.merge([],particles.geometry.attributes.position.array);
+
+						// particles.geometry.attributes.position.array_max=[];					
+						// particles.geometry.attributes.position.array_direction=[];					
+
+						// var len=particles.geometry.attributes.size.array.length;
+						// for(var i=0;i<len;i++){
+						// 	particles.geometry.attributes.position.array_max[i*3+2]=particles.geometry.attributes.position.array_initial[i*3+2]+Math.random()*10;
+						// 	particles.geometry.attributes.position.array_direction[i*3+2]='out';
+						// }					
+
+						// var len3=particles.geometry.attributes.position.array.length;
+						// for(var i=0;i<len3;i++){
+						// }
+
+						m.get_min_max_x=function(){
+							var min=0;
+							var max=0;
+							for(var i=0;i<particles.geometry.attributes.size.array.length;i++){
+								var x=particles.geometry.attributes.position.array_initial[i*3];
+								if(x<min){
+									min=x;
+								}
+								if(x>max){
+									max=x;
+								}
+							}
+							var span=max-min;
+							return {
+								min:min,
+								max:max,
+								span:span,
+							}
+						}
+						m.min_max_x=m.get_min_max_x();
+						
+						m.get_min_max_y=function(){
+							var min=0;
+							var max=0;
+							for(var i=0;i<particles.geometry.attributes.size.array.length;i++){
+								var y=particles.geometry.attributes.position.array_initial[i*3+1];
+								if(y<min){
+									min=y;
+								}
+								if(y>max){
+									max=y;
+								}
+							}
+							var span=max-min;
+							return {
+								min:min,
+								max:max,
+								span:span,
+							}
+						}
+						m.min_max_y=m.get_min_max_y();
+
+					}
+					else if(m.type=='extrude'){
 						m.get_min_max_x=function(){
 							m.xs=[];
 							var min=0;
@@ -190,66 +250,6 @@ ctrl
 							}
 						}
 						m.min_max_y=m.get_min_max_y();
-
-
-					
-					particles.geometry.attributes.position.array_initial=jq.merge([],particles.geometry.attributes.position.array);
-
-					// particles.geometry.attributes.position.array_max=[];					
-					// particles.geometry.attributes.position.array_direction=[];					
-
-					// var len=particles.geometry.attributes.size.array.length;
-					// for(var i=0;i<len;i++){
-					// 	particles.geometry.attributes.position.array_max[i*3+2]=particles.geometry.attributes.position.array_initial[i*3+2]+Math.random()*10;
-					// 	particles.geometry.attributes.position.array_direction[i*3+2]='out';
-					// }					
-
-					// var len3=particles.geometry.attributes.position.array.length;
-					// for(var i=0;i<len3;i++){
-					// }
-
-						m.get_min_max_x=function(){
-							var min=0;
-							var max=0;
-							for(var i=0;i<particles.geometry.attributes.size.array.length;i++){
-								var x=particles.geometry.attributes.position.array_initial[i*3];
-								if(x<min){
-									min=x;
-								}
-								if(x>max){
-									max=x;
-								}
-							}
-							var span=max-min;
-							return {
-								min:min,
-								max:max,
-								span:span,
-							}
-						}
-						m.min_max_x=m.get_min_max_x();
-						
-						m.get_min_max_y=function(){
-							var min=0;
-							var max=0;
-							for(var i=0;i<particles.geometry.attributes.size.array.length;i++){
-								var y=particles.geometry.attributes.position.array_initial[i*3+1];
-								if(y<min){
-									min=y;
-								}
-								if(y>max){
-									max=y;
-								}
-							}
-							var span=max-min;
-							return {
-								min:min,
-								max:max,
-								span:span,
-							}
-						}
-						m.min_max_y=m.get_min_max_y();
-
 					}
 
 					animate();
@@ -714,6 +714,42 @@ ctrl
 						particles.geometry.attributes.position.needsUpdate=true;
 					}
 					frame_count++;
+				}
+				else if(m.type=='extrude'){
+
+					if(m.is_playing && m.audio.bufferLength&&m.audio.dataArray.length>0){
+
+						m.audio.analyser.getByteTimeDomainData(m.audio.dataArray);
+						
+						var span_x=m.min_max_x.span/m.audio.bufferLength+0.000001;
+						var span_y=m.min_max_y.span/m.audio.bufferLength+0.000001;
+
+						for(var i=0,leni=scene.children.length;i<leni;i++){
+							if(scene.children[i].type=='Mesh'){
+								var mesh=scene.children[i];
+
+								var position_x=mesh.position.x;
+								var position_y=mesh.position.y;
+
+								for(var j=0,lenj=m.audio.dataArray.length;j<lenj;j++){
+									if(position_x>=m.min_max_x.min + j*span_x&&position_x< m.min_max_x.min + (j+1)*span_x){
+										var ratio_x=m.audio.dataArray[j]/255;
+										mesh.$ratio_x=ratio_x;
+									}
+								}
+								
+								for(var j=0,lenj=m.audio.dataArray.length;j<lenj;j++){
+									if(position_y>=m.min_max_y.min + j*span_y&&position_y< m.min_max_y.min + (j+1)*span_y){
+										var ratio_y=m.audio.dataArray[j]/255;
+										mesh.$ratio_y=ratio_y;
+									}
+								}
+								mesh.scale.set(m.scale_xy,m.scale_xy,.001+mesh.$ratio_x*3+mesh.$ratio_y*3);
+								// mesh.scale.set(m.scale_xy,m.scale_xy,.001+mesh.$ratio_y*3);
+							}
+						}
+
+					}
 				}
 
 
