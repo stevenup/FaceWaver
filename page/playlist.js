@@ -92,23 +92,24 @@ ctrl
 	// function
 		var stop=function(){
 			if(m.song_playing){
-				m.song_playing.audio.pause();
-				m.song_playing.audio.currentTime=0;
+				m.audio_act.pause();
+				m.audio_act.currentTime=0;
 				m.song_playing=undefined;
 			}
 		}
 
 	// fn
 		$s.play=function(){
-			var s=this;
-			stop();
-			m.song_playing=s.song;
-			s.song.audio.play();
-		}
-		$s.pause=function(){
-			var s=this;
-			m.song_playing=undefined;
-			s.song.audio.pause();
+			try{
+				var s=this;
+				stop();
+				m.song_playing=s.song;
+				m.audio_act=s.audio;
+				m.audio_act.play();
+			}
+			catch(e){
+				alert(e);
+			}
 		}
 		$s.stop=function(){
 			stop();

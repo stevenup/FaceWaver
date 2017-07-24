@@ -18,7 +18,7 @@ angular.module('starter.directives', [])
 .directive('gvAudio', ['$document', function($document) {
 	return {
 		link: function(scope, element, attr) {
-			scope.song.audio=element[0];
+			scope.audio=element[0];
 		}
 	};
 }])
