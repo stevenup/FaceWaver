@@ -86,13 +86,16 @@ ctrl
 
 	// function
 		var stop=function(){
-			m.song_playing={url:'/'};
+			m.song_playing=null;
+			m.audio.src='/';
 		}
 
 	// fn
 		$s.play=function(){
 			var s=this;
 			m.song_playing=s.song;
+			m.audio.src=s.song.url;
+			m.audio.play();
 		}
 		$s.stop=function(){
 			var s=this;
