@@ -11,6 +11,9 @@ ctrl
 
 		m.is_stop=false;
 
+		// m.type='sprite';
+		m.type='extrude'; m.extrude_meshes=[];	
+
 		$ionicLoading.show();
 
 
@@ -135,60 +138,63 @@ ctrl
 					// 	}
 					// }
 
-					m.get_min_max_x=function(){
-						m.xs=[];
-						var min=0;
-						var max=0;
-						for(var i=0;i<scene.children.length;i++){
-							var mesh=scene.children[i];
-							if(mesh.type=='Mesh'){
-								// scene.children[i].scale.set(1,1,Math.random()*5);
-								// console.log(scene.children[i].position);
-								if(mesh.position.x<min){
-									min=mesh.position.x;
-								}
-								if(mesh.position.x>max){
-									max=mesh.position.x;
-								}
-							}
-						}
-						var span=max-min;
-						return {
-							min:min,
-							max:max,
-							span:span,
-						}
-					}
-					m.min_max_x=m.get_min_max_x();
-
-					m.get_min_max_y=function(){
-						m.ys=[];
-						var min=0;
-						var max=0;
-						for(var i=0;i<scene.children.length;i++){
-							var mesh=scene.children[i];
-							if(mesh.type=='Mesh'){
-								// scene.children[i].scale.set(1,1,Math.random()*5);
-								// console.log(scene.children[i].position);
-								if(mesh.position.y<min){
-									min=mesh.position.y;
-								}
-								if(mesh.position.y>max){
-									max=mesh.position.y;
+					if(m.type=='sprite'){
+						m.get_min_max_x=function(){
+							m.xs=[];
+							var min=0;
+							var max=0;
+							for(var i=0;i<scene.children.length;i++){
+								var mesh=scene.children[i];
+								if(mesh.type=='Mesh'){
+									// scene.children[i].scale.set(1,1,Math.random()*5);
+									// console.log(scene.children[i].position);
+									if(mesh.position.x<min){
+										min=mesh.position.x;
+									}
+									if(mesh.position.x>max){
+										max=mesh.position.x;
+									}
 								}
 							}
+							var span=max-min;
+							return {
+								min:min,
+								max:max,
+								span:span,
+							}
 						}
-						var span=max-min;
-						return {
-							min:min,
-							max:max,
-							span:span,
+						m.min_max_x=m.get_min_max_x();
+
+						m.get_min_max_y=function(){
+							m.ys=[];
+							var min=0;
+							var max=0;
+							for(var i=0;i<scene.children.length;i++){
+								var mesh=scene.children[i];
+								if(mesh.type=='Mesh'){
+									// scene.children[i].scale.set(1,1,Math.random()*5);
+									// console.log(scene.children[i].position);
+									if(mesh.position.y<min){
+										min=mesh.position.y;
+									}
+									if(mesh.position.y>max){
+										max=mesh.position.y;
+									}
+								}
+							}
+							var span=max-min;
+							return {
+								min:min,
+								max:max,
+								span:span,
+							}
 						}
-					}
-					m.min_max_y=m.get_min_max_y();
+						m.min_max_y=m.get_min_max_y();
 
 
+					
 					particles.geometry.attributes.position.array_initial=jq.merge([],particles.geometry.attributes.position.array);
+
 					// particles.geometry.attributes.position.array_max=[];					
 					// particles.geometry.attributes.position.array_direction=[];					
 
@@ -244,7 +250,9 @@ ctrl
 						}
 						m.min_max_y=m.get_min_max_y();
 
-						animate();
+					}
+
+					animate();
 
 				});
 
@@ -265,11 +273,13 @@ ctrl
 				orth_camera = new THREE.OrthographicCamera( window.innerWidth / - 10, window.innerWidth / 10, window.innerHeight / 10, window.innerHeight / - 10, 1, 1000 );
 				orth_camera.position.z = 100;
 
-				// scene.add( new THREE.AmbientLight( 0x888888 ) );
+				if(m.type=='extrude'){
+					scene.add( new THREE.AmbientLight( 0x888888 ) );
 
-				// var light = new THREE.PointLight( 'rgb(128,128,128)' );
-				// light.position.set(-100,300,800);
-				// scene.add( light );
+					var light = new THREE.PointLight( 'rgb(128,128,128)' );
+					light.position.set(-100,300,800);
+					scene.add( light );
+				}
 
 				// var sphere_geometry = new THREE.SphereGeometry(10);
 				// var sphere_material = new THREE.MeshBasicMaterial({color:'red'});
@@ -346,8 +356,16 @@ ctrl
 				var gv_vertices=[];
 				// for(var x=-2;x<2;x+=0.04){
 				// 	for(var y=-1;y<1;y+=.03*m.window_ratio){
-				var width_span_unit=window.innerWidth/41400*2.3;
-				var height_span_unit=window.innerWidth/41400*m.window_ratio*1;
+
+				if(m.type=='sprite'){
+					var width_span_unit=window.innerWidth/41400*2.3;
+					var height_span_unit=window.innerWidth/41400*m.window_ratio*1;
+				}
+				else if(m.type=='extrude'){
+					var width_span_unit=0.04;
+					var height_span_unit=0.02;
+				}
+
 				for(var x=-2;x<2;x+=width_span_unit){
 					for(var y=-1;y<1;y+=height_span_unit){
 						var test_point=new THREE.Vector2(x,y);
@@ -454,7 +472,7 @@ ctrl
 						  		// particle
 									gv_vertices.push({
 										point:intersect_point,
-										color:rgb,
+										rgb:rgb,
 										// color:rgbToHsl(rgb[0], rgb[1], rgb[2]),
 										// size:Math.random()*8,
 										// size:8,
@@ -469,59 +487,87 @@ ctrl
 					}
 				}
 
-				var positions = new Float32Array( gv_vertices.length * 3 );
-				var colors = new Float32Array( gv_vertices.length * 3 );
-				var sizes = new Float32Array( gv_vertices.length );
+				if(m.type=='sprite'){
+					var positions = new Float32Array( gv_vertices.length * 3 );
+					var colors = new Float32Array( gv_vertices.length * 3 );
+					var sizes = new Float32Array( gv_vertices.length );
 
-				var vertex;
-				var color = new THREE.Color();
+					var vertex;
+					var color = new THREE.Color();
 
-				for ( var i = 0, l = gv_vertices.length; i < l; i ++ ) {
+					for ( var i = 0, leni = gv_vertices.length; i < leni; i ++ ) {
 
-					vertex = gv_vertices[ i ].point;
-					vertex.toArray( positions, i * 3 );
+						vertex = gv_vertices[ i ].point;
+						vertex.toArray( positions, i * 3 );
 
-						// color.setHSL( gv_vertices[i].color[0] , gv_vertices[i].color[1] , gv_vertices[i].color[2] );
-						color.setRGB( gv_vertices[i].color[0] , gv_vertices[i].color[1] , gv_vertices[i].color[2] );
-						color.toArray( colors, i * 3 );
+							// color.setHSL( gv_vertices[i].color[0] , gv_vertices[i].color[1] , gv_vertices[i].color[2] );
+							color.setRGB( gv_vertices[i].rgb[0] , gv_vertices[i].rgb[1] , gv_vertices[i].rgb[2] );
+							color.toArray( colors, i * 3 );
 
-					// sizes[ i ] = gv_vertices[i].size;
-					sizes[ i ] = 8;
+						// sizes[ i ] = gv_vertices[i].size;
+						sizes[ i ] = 8;
 
-				}
+					}
 
 
-					var particle_geometry = new THREE.BufferGeometry();
-					particle_geometry.addAttribute( 'position', new THREE.BufferAttribute( positions, 3 ) );
-					particle_geometry.addAttribute( 'customColor', new THREE.BufferAttribute( colors, 3 ) );
-					particle_geometry.addAttribute( 'size', new THREE.BufferAttribute( sizes, 1 ) );
-
-				//
-
-					var particle_material = new THREE.ShaderMaterial( {
-
-						uniforms: {
-							color:   { value: new THREE.Color( 0xffffff ) },
-							texture: { value: new THREE.TextureLoader().load( "img/disc.png" ) }
-						},
-						vertexShader: document.getElementById( 'vertexshader' ).textContent,
-						fragmentShader: document.getElementById( 'fragmentshader' ).textContent,
-
-						alphaTest: 0.9,
-
-					} );
+						var particle_geometry = new THREE.BufferGeometry();
+						particle_geometry.addAttribute( 'position', new THREE.BufferAttribute( positions, 3 ) );
+						particle_geometry.addAttribute( 'customColor', new THREE.BufferAttribute( colors, 3 ) );
+						particle_geometry.addAttribute( 'size', new THREE.BufferAttribute( sizes, 1 ) );
 
 					//
 
+						var particle_material = new THREE.ShaderMaterial( {
+
+							uniforms: {
+								color:   { value: new THREE.Color( 0xffffff ) },
+								texture: { value: new THREE.TextureLoader().load( "img/disc.png" ) }
+							},
+							vertexShader: document.getElementById( 'vertexshader' ).textContent,
+							fragmentShader: document.getElementById( 'fragmentshader' ).textContent,
+
+							alphaTest: 0.9,
+
+						} );
+
+						//
 
 
-				//
 
-					particles = new THREE.Points( particle_geometry, particle_material );
-					particles.position.y=10;
-					scene.add( particles );
+					//
 
-				//
+						particles = new THREE.Points( particle_geometry, particle_material );
+						particles.position.y=10;
+						scene.add( particles );
+
+					//
+				}
+				else if(m.type=='extrude'){
+
+
+					var extrudeSettings = {
+						steps: 1,
+						amount: 3,
+						bevelEnabled: false,
+					};
+
+					for ( var i = 0, leni = gv_vertices.length; i < leni; i ++ ) {
+
+						var gv_vertice=gv_vertices[i];
+
+						var shape = new THREE.Shape();
+						shape.moveTo( 0,0 );
+						shape.absarc( 0, 0 , .6 , 0 , Math.PI*2 , false );
+
+						var geometry = new THREE.ExtrudeBufferGeometry( shape, extrudeSettings );
+						var material = new THREE.MeshLambertMaterial( { color: `rgb( ${gv_vertice.rgb[0]*255} , ${gv_vertice.rgb[1]*255} , ${gv_vertice.rgb[1]*255} )` } );
+						window.a_mesh = new THREE.Mesh( geometry, material ) ;
+						a_mesh.position.set(gv_vertice.point.x , gv_vertice.point.y , gv_vertice.point.z);
+						m.extrude_meshes.push(a_mesh);
+						scene.add( a_mesh );
+					}
+				}
+
 
 				scene.remove(mesh);
 				console.log('ok');
@@ -566,119 +612,92 @@ ctrl
 			// var center=0;
 			function render() {
 
-				// if(m.audio.bufferLength&&m.audio.dataArray){
-				// 	m.audio.analyser.getByteFrequencyData(m.audio.dataArray);
 
-				// 	var len=particles.geometry.attributes.size.array.length;
-				// 	var len3=particles.geometry.attributes.position.array.length;
-
-				// 	var span=25.0/m.audio.bufferLength;
-				// 	for(var i=0;i<len;i++){
-
-				// 		var arr=particles.geometry.attributes.position.array;
-				// 		var arr_initial=particles.geometry.attributes.position.array_initial;
-
-
-				// 		for(var j=0;j<m.audio.bufferLength;j++){
-				// 			if(Math.abs(center+arr[i*3])>span*j&&Math.abs(center+arr[i*3])<span*(j+1)){
-				// 				arr[i*3+2]=arr_initial[i*3+2]+m.audio.dataArray[j]/30.0;
-				// 			}
-				// 		}
-
-				// 		if(frame_count%5==0){
-				// 			particles.geometry.attributes.size.array[i]=Math.random()*8;
-				// 			particles.geometry.attributes.size.needsUpdate=true;
-				// 			frame_count=0;
-				// 		}
-				// 	}
-
-				// 	particles.geometry.attributes.position.needsUpdate=true;
-				// }
-
-
-				if(frame_count%5==0){
-					for(var i=0,leni=particles.geometry.attributes.size.array.length;i<leni;i++){
-						particles.geometry.attributes.size.array[i]=2+Math.random()*5;
-					}
-					particles.geometry.attributes.size.needsUpdate=true;
-					frame_count=0;
-				}
-
-
-
-				if(m.is_playing && m.audio.bufferLength&&m.audio.dataArray.length>0){
-
-					m.audio.analyser.getByteTimeDomainData(m.audio.dataArray);
-					
-					var span_x=m.min_max_x.span/m.audio.bufferLength+0.000001;
-					var span_y=m.min_max_y.span/m.audio.bufferLength+0.000001;
-
-					for(var i=0,leni=particles.geometry.attributes.size.array.length;i<leni;i++){
-
-						var position_x=particles.geometry.attributes.position.array_initial[i*3];
-						var position_y=particles.geometry.attributes.position.array_initial[i*3+1];
-
-
-
-
-
-						for(var j=0,lenj=m.audio.dataArray.length;j<lenj;j++){
-							if(position_x>=m.min_max_x.min + j*span_x&&position_x< m.min_max_x.min + (j+1)*span_x){
-								var ratio_x=m.audio.dataArray[j]/255;
-								particles.geometry.attributes.position.array[i*3+2]=
-								particles.geometry.attributes.position.array_initial[i*3+2]
-								+ratio_x*10;
-							}
+				if(m.type=='sprite'){
+					if(frame_count%5==0){
+						for(var i=0,leni=particles.geometry.attributes.size.array.length;i<leni;i++){
+							particles.geometry.attributes.size.array[i]=2+Math.random()*5;
 						}
+						particles.geometry.attributes.size.needsUpdate=true;
+						frame_count=0;
+					}
+
+
+
+					if(m.is_playing && m.audio.bufferLength&&m.audio.dataArray.length>0){
+
+						m.audio.analyser.getByteTimeDomainData(m.audio.dataArray);
 						
-						for(var j=0,lenj=m.audio.dataArray.length;j<lenj;j++){
-							if(position_y>=m.min_max_y.min + j*span_y&&position_y< m.min_max_y.min + (j+1)*span_y){
-								var ratio_y=m.audio.dataArray[j]/255;
+						var span_x=m.min_max_x.span/m.audio.bufferLength+0.000001;
+						var span_y=m.min_max_y.span/m.audio.bufferLength+0.000001;
 
-								// particles.geometry.attributes.position.array[i*3+2]=
-								// particles.geometry.attributes.position.array_initial[i*3+2]
-								// +ratio_y*10;
+						for(var i=0,leni=particles.geometry.attributes.size.array.length;i<leni;i++){
 
-								particles.geometry.attributes.position.array[i*3+2]+=
-								+ratio_y*10;
+							var position_x=particles.geometry.attributes.position.array_initial[i*3];
+							var position_y=particles.geometry.attributes.position.array_initial[i*3+1];
+
+
+
+
+
+							for(var j=0,lenj=m.audio.dataArray.length;j<lenj;j++){
+								if(position_x>=m.min_max_x.min + j*span_x&&position_x< m.min_max_x.min + (j+1)*span_x){
+									var ratio_x=m.audio.dataArray[j]/255;
+									particles.geometry.attributes.position.array[i*3+2]=
+									particles.geometry.attributes.position.array_initial[i*3+2]
+									+ratio_x*10;
+								}
 							}
+							
+							for(var j=0,lenj=m.audio.dataArray.length;j<lenj;j++){
+								if(position_y>=m.min_max_y.min + j*span_y&&position_y< m.min_max_y.min + (j+1)*span_y){
+									var ratio_y=m.audio.dataArray[j]/255;
+
+									// particles.geometry.attributes.position.array[i*3+2]=
+									// particles.geometry.attributes.position.array_initial[i*3+2]
+									// +ratio_y*10;
+
+									particles.geometry.attributes.position.array[i*3+2]+=
+									+ratio_y*10;
+								}
+							}
+
+
+
+							// var span_x=m.min_max_x.span/m.audio.bufferLength;
+							// var span_y=m.min_max_y.span/m.audio.bufferLength;
+							// for(var j=0,lenj=m.audio.dataArray.length;j<lenj;j++){
+							// 	var data=m.audio.dataArray[j];
+							// 	var ratio=data/255;
+
+							// 	var intensity=0;
+
+							// 	// debugger;
+
+							// 	if(
+							// 		position_x>m.min_max_x.min + j*span_x&&position_x<= m.min_max_x.min + (j+1)*span_x
+							// 		&&
+							// 		position_y>m.min_max_y.min + j*span_y&&position_y<= m.min_max_y.min + (j+1)*span_y
+							// 	){
+							// 		particles.geometry.attributes.position.array[i*3+2]=
+							// 		particles.geometry.attributes.position.array_initial[i*3+2]
+							// 		+ratio*10;
+							// 	}
+							// }
+
+
+
 						}
 
-
-
-						// var span_x=m.min_max_x.span/m.audio.bufferLength;
-						// var span_y=m.min_max_y.span/m.audio.bufferLength;
-						// for(var j=0,lenj=m.audio.dataArray.length;j<lenj;j++){
-						// 	var data=m.audio.dataArray[j];
-						// 	var ratio=data/255;
-
-						// 	var intensity=0;
-
-						// 	// debugger;
-
-						// 	if(
-						// 		position_x>m.min_max_x.min + j*span_x&&position_x<= m.min_max_x.min + (j+1)*span_x
-						// 		&&
-						// 		position_y>m.min_max_y.min + j*span_y&&position_y<= m.min_max_y.min + (j+1)*span_y
-						// 	){
-						// 		particles.geometry.attributes.position.array[i*3+2]=
-						// 		particles.geometry.attributes.position.array_initial[i*3+2]
-						// 		+ratio*10;
-						// 	}
-						// }
-
-
-
+						particles.geometry.attributes.position.needsUpdate=true;
 					}
-
-					particles.geometry.attributes.position.needsUpdate=true;
+					frame_count++;
 				}
 
 
 
 				renderer.render( scene, camera );
 
-				frame_count++;
 				// center-=.1;
 				// if(center<-25){
 				// 	center=25;
