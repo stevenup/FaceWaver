@@ -560,26 +560,34 @@ ctrl
 						var shape = new THREE.Shape();
 						shape.moveTo( 0,0 );
 						var grayscale=(gv_vertice.rgb[0]+gv_vertice.rgb[1]+gv_vertice.rgb[2])/3;
-						var shape_size;
-					    if(grayscale>=42.5*5){
-					    	shape_size=.6;
-					    }
-					    else if(grayscale>=42.5*4){
-					    	shape_size=.5;
-					    }
-					    else if(grayscale>=42.5*3){
-					    	shape_size=.4;
-					    }
-					    else if(grayscale>=42.5*2){
-					    	shape_size=.3;
-					    }
-					    else if(grayscale>=42.5*1){
-					    	shape_size=.2;
-					    }
-					   	else{
-					    	shape_size=.1;
-					    }
-						shape.absarc( 0, 0 , shape_size , 0 , Math.PI*2 , false );
+
+						// union size
+							// shape.absarc( 0, 0 , .4 , 0 , Math.PI*2 , false );
+
+						// grayscale size
+							var shape_size;
+						    if(grayscale>=42.5*5){
+						    	shape_size=.6;
+						    }
+						    else if(grayscale>=42.5*4){
+						    	shape_size=.5;
+						    }
+						    else if(grayscale>=42.5*3){
+						    	shape_size=.4;
+						    }
+						    else if(grayscale>=42.5*2){
+						    	shape_size=.3;
+						    }
+						    else if(grayscale>=42.5*1){
+						    	shape_size=.2;
+						    }
+						   	else{
+						    	shape_size=.1;
+						    }
+							shape.absarc( 0, 0 , shape_size , 0 , Math.PI*2 , false );
+
+
+
 
 						var geometry = new THREE.ExtrudeBufferGeometry( shape, extrudeSettings );
 						var material = new THREE.MeshLambertMaterial( { color: `rgb( ${gv_vertice.rgb[0]} , ${gv_vertice.rgb[1]} , ${gv_vertice.rgb[2]} )` } );
