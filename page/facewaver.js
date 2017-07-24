@@ -419,6 +419,7 @@ ctrl
 									x:projector_x,
 									y:projector_y,
 									rgb:rgb,
+									size:vertice_num/20.0,
 								})
 							}
 						}
@@ -541,7 +542,7 @@ ctrl
 								rgb:projector_vertice.rgb,
 								// color:rgbToHsl(rgb[0], rgb[1], rgb[2]),
 								// size:Math.random()*8,
-								// size:8,
+								size:projector_vertice.size,
 							})
 
 
@@ -628,7 +629,7 @@ ctrl
 
 
 						// union size
-							shape.absarc( 0, 0 , .2 , 0 , Math.PI*2 , false );
+							shape.absarc( 0, 0 , gv_vertice.size , 0 , Math.PI*2 , false );
 
 						// grayscale size
 							// var shape_size;
