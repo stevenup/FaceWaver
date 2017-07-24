@@ -395,16 +395,15 @@ ctrl
 						   		vertice_num=1;
 						    }
 
-						    console.log(vertice_num);
-
 						for(var i=0;i<vertice_num;i++){
-							var projector_x=x+width_span_unit*Math.random()-width_span_unit/2;
-							var projector_y=y+height_span_unit*Math.random()-height_span_unit/2;
+							var x=x+width_span_unit*Math.random()-width_span_unit/2;
+							var y=y+width_span_unit*Math.random()-width_span_unit/2;
 							m.gv_projector_xy_vertices.push({
-								x:projector_x,
-								y:projector_y,
+								x:x,
+								y:y,
 							})
 						}
+
 
 					}
 				}
@@ -438,46 +437,41 @@ ctrl
 						        throw "Invalid color component";
 						    return ((r << 16) | (g << 8) | b).toString(16);
 						}
-						var position_2d=screenXY(new THREE.Vector3(
-							projector_vertice.x,
-							projector_vertice.y,
-							0
-						));
 					    var color_data = context2d.getImageData(position_2d.x, position_2d.y, 1, 1).data; 
 
 					    var rgb=[];
 					    // origin rgb
-						    var rgb=[
-						    	color_data[0],
-						    	color_data[1],
-						    	color_data[2],
-						    ]
+						    // var rgb=[
+						    // 	color_data[0],
+						    // 	color_data[1],
+						    // 	color_data[2],
+						    // ]
 						// steped grayscale
-							// var grayscale=(color_data[0]+color_data[1]+color_data[2])/3;
-						 //    if(grayscale>=42.5*5){
-						 //    	// hex_color='#8cdfff';
-						 //    	rgb=[140,223,255];
-						 //    }
-						 //    else if(grayscale>=42.5*4){
-						 //    	// hex_color='#00aeef';
-						 //    	rgb=[0,174,239];
-						 //    }
-						 //    else if(grayscale>=42.5*3){
-						 //    	// hex_color='#0054a6';
-						 //    	rgb=[0,84,166];
-						 //    }
-						 //    else if(grayscale>=42.5*2){
-						 //    	// hex_color='#2e3192';
-						 //    	rgb=[46,49,146];
-						 //    }
-						 //    else if(grayscale>=42.5*1){
-						 //    	// hex_color='#0d004c';
-						 //    	rgb=[13,0,76];
-						 //    }
-						 //   	else{
-						 //    	// hex_color='#181818';
-						 //    	rgb=[0,0,0];
-						 //    }
+							var grayscale=(color_data[0]+color_data[1]+color_data[2])/3;
+						    if(grayscale>=42.5*5){
+						    	// hex_color='#8cdfff';
+						    	rgb=[140,223,255];
+						    }
+						    else if(grayscale>=42.5*4){
+						    	// hex_color='#00aeef';
+						    	rgb=[0,174,239];
+						    }
+						    else if(grayscale>=42.5*3){
+						    	// hex_color='#0054a6';
+						    	rgb=[0,84,166];
+						    }
+						    else if(grayscale>=42.5*2){
+						    	// hex_color='#2e3192';
+						    	rgb=[46,49,146];
+						    }
+						    else if(grayscale>=42.5*1){
+						    	// hex_color='#0d004c';
+						    	rgb=[13,0,76];
+						    }
+						   	else{
+						    	// hex_color='#181818';
+						    	rgb=[0,0,0];
+						    }
 
 
 
@@ -616,7 +610,7 @@ ctrl
 
 
 						// union size
-							shape.absarc( 0, 0 , .2 , 0 , Math.PI*2 , false );
+							shape.absarc( 0, 0 , .4 , 0 , Math.PI*2 , false );
 
 						// grayscale size
 							// var shape_size;
