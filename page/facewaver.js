@@ -134,12 +134,20 @@ ctrl
 					// 	}
 					// }
 
-					for(var i=0,leni=m.scene.children.length;i<leni;i++){
-						if(m.scene.children[i].type=='Mesh'){
-							var mesh=m.scene.children[i];
+					if(m.type=='extrude'){
+						for(var i=0,leni=m.scene.children.length;i<leni;i++){
+							if(m.scene.children[i].type=='Mesh'){
+								var mesh=m.scene.children[i];
 
-							mesh.audio_dataArray_index=Math.floor(Math.random()*m.audio.bufferLength);
+								mesh.audio_dataArray_index=Math.floor(Math.random()*m.audio.bufferLength);
 
+							}
+						}
+					}
+
+					if(m.type=='sprite'){
+						for(var i=0,leni=m.gv_vertices.length;i<leni;i++){
+							m.gv_vertices[i].audio_dataArray_index=Math.floor(Math.random()*m.audio.bufferLength);
 						}
 					}
 
@@ -197,7 +205,8 @@ ctrl
 
 						m.particles.geometry.attributes.position.array_origin=ng.copy(m.particles.geometry.attributes.position.array);
 
-					animate();
+					// true animate
+						animate();
 
 				});
 
@@ -774,16 +783,17 @@ ctrl
 							for(var i=0,leni=m.particles.geometry.attributes.size.array.length;i<leni;i++){
 
 								// var scale=0.000001+m.result_dataArray[mesh.audio_dataArray_index]/255;
-								var scale=0.000001+m.result_dataArray[particle.audio_dataArray_index]/255;
+								var scale=0.000001+m.result_dataArray[m.gv_vertices[i].audio_dataArray_index]/255;
 								scale*=10;
 
 								var scale_x=1+Math.abs(scale)*2;
 								var scale_y=1+Math.abs(scale)*2;
 								var scale_z=scale*10;
 
-								m.particles.geometry.attributes.position.array[i*3+0]=m.particles.geometry.attributes.position.array_origin[i*3+0]+scale_x*100;
-								m.particles.geometry.attributes.position.array[i*3+1]=m.particles.geometry.attributes.position.array_origin[i*3+1]+scale_y*100;
-								m.particles.geometry.attributes.position.array[i*3+2]=m.particles.geometry.attributes.position.array_origin[i*3+2]+scale_z*100;
+								// debugger;
+								m.particles.geometry.attributes.position.array[i*3+0]=m.particles.geometry.attributes.position.array_origin[i*3+0]+scale_x*1;
+								m.particles.geometry.attributes.position.array[i*3+1]=m.particles.geometry.attributes.position.array_origin[i*3+1]+scale_y*1;
+								m.particles.geometry.attributes.position.array[i*3+2]=m.particles.geometry.attributes.position.array_origin[i*3+2]+scale_z*1;
 
 							}
 							m.particles.geometry.attributes.position.needsUpdate=true;
