@@ -14,8 +14,8 @@ ctrl
 
 		m.is_stop=false;
 
-		// m.type='sprite';
-		m.type='extrude'; m.extrude_meshes=[];	
+		m.type='sprite';
+		// m.type='extrude'; m.extrude_meshes=[];	
 
 		$ionicLoading.show();
 
@@ -193,129 +193,9 @@ ctrl
 					init();
 					renderer.render(m.scene,m.camera);
 
-					// for(var i=0,len=m.scene.children.length;i<len;i++){
-					// 	var mesh=m.scene.children[i];
-					// 	if(mesh.type=='Mesh'){
-					// 		var scale_xy=Math.random();
-					// 		mesh.scale.set(scale_xy,scale_xy,1);
-					// 	}
-					// }
-
 					// init after first render
-						if(m.type=='sprite'){
-						
-							m.particles.geometry.attributes.position.array_initial=jq.merge([],m.particles.geometry.attributes.position.array);
 
-							// m.particles.geometry.attributes.position.array_max=[];					
-							// m.particles.geometry.attributes.position.array_direction=[];					
-
-							// var len=m.particles.geometry.attributes.size.array.length;
-							// for(var i=0;i<len;i++){
-							// 	m.particles.geometry.attributes.position.array_max[i*3+2]=m.particles.geometry.attributes.position.array_initial[i*3+2]+Math.random()*10;
-							// 	m.particles.geometry.attributes.position.array_direction[i*3+2]='out';
-							// }					
-
-							// var len3=m.particles.geometry.attributes.position.array.length;
-							// for(var i=0;i<len3;i++){
-							// }
-
-							m.get_min_max_x=function(){
-								var min=0;
-								var max=0;
-								for(var i=0;i<m.particles.geometry.attributes.size.array.length;i++){
-									var x=m.particles.geometry.attributes.position.array_initial[i*3];
-									if(x<min){
-										min=x;
-									}
-									if(x>max){
-										max=x;
-									}
-								}
-								var span=max-min;
-								return {
-									min:min,
-									max:max,
-									span:span,
-								}
-							}
-							m.min_max_x=m.get_min_max_x();
-							
-							m.get_min_max_y=function(){
-								var min=0;
-								var max=0;
-								for(var i=0;i<m.particles.geometry.attributes.size.array.length;i++){
-									var y=m.particles.geometry.attributes.position.array_initial[i*3+1];
-									if(y<min){
-										min=y;
-									}
-									if(y>max){
-										max=y;
-									}
-								}
-								var span=max-min;
-								return {
-									min:min,
-									max:max,
-									span:span,
-								}
-							}
-							m.min_max_y=m.get_min_max_y();
-
-						}
-						else if(m.type=='extrude'){
-							m.get_min_max_x=function(){
-								m.xs=[];
-								var min=0;
-								var max=0;
-								for(var i=0;i<m.scene.children.length;i++){
-									var mesh=m.scene.children[i];
-									if(mesh.type=='Mesh'){
-										// m.scene.children[i].scale.set(1,1,Math.random()*5);
-										// console.log(m.scene.children[i].position);
-										if(mesh.position.x<min){
-											min=mesh.position.x;
-										}
-										if(mesh.position.x>max){
-											max=mesh.position.x;
-										}
-									}
-								}
-								var span=max-min;
-								return {
-									min:min,
-									max:max,
-									span:span,
-								}
-							}
-							m.min_max_x=m.get_min_max_x();
-
-							m.get_min_max_y=function(){
-								m.ys=[];
-								var min=0;
-								var max=0;
-								for(var i=0;i<m.scene.children.length;i++){
-									var mesh=m.scene.children[i];
-									if(mesh.type=='Mesh'){
-										// m.scene.children[i].scale.set(1,1,Math.random()*5);
-										// console.log(m.scene.children[i].position);
-										if(mesh.position.y<min){
-											min=mesh.position.y;
-										}
-										if(mesh.position.y>max){
-											max=mesh.position.y;
-										}
-									}
-								}
-								var span=max-min;
-								return {
-									min:min,
-									max:max,
-									span:span,
-								}
-							}
-							m.min_max_y=m.get_min_max_y();
-						}
-
+						m.particles.geometry.attributes.position.array_origin=ng.copy(m.particles.geometry.attributes.position.array);
 
 					animate();
 
@@ -338,13 +218,13 @@ ctrl
 				orth_camera = new THREE.OrthographicCamera( window.innerWidth / - 10, window.innerWidth / 10, window.innerHeight / 10, window.innerHeight / - 10, 1, 1000 );
 				orth_camera.position.z = 100;
 
-				if(m.type=='extrude'){
+				// if(m.type=='extrude'){
 					m.scene.add( new THREE.AmbientLight( 'rgb(180,180,180)' ) );
 
 					var light = new THREE.PointLight( 'rgb(128,128,128)' );
 					light.position.set(-100,300,800);
 					m.scene.add( light );
-				}
+				// }
 
 				// var sphere_geometry = new THREE.SphereGeometry(10);
 				// var sphere_material = new THREE.MeshBasicMaterial({color:'red'});
@@ -419,17 +299,9 @@ ctrl
 
 				var generate_gv_vertices_by_intersect=function(){
 					m.gv_vertices=[];
-					// for(var x=-2;x<2;x+=0.04){
-					// 	for(var y=-1;y<1;y+=.03*m.window_ratio){
 
-					if(m.type=='sprite'){
-						var width_span_unit=window.innerWidth/41400*3;
-						var height_span_unit=window.innerWidth/41400*m.window_ratio*1.5;
-					}
-					else if(m.type=='extrude'){
-						var width_span_unit=0.04;
-						var height_span_unit=0.02;
-					}
+					var width_span_unit=0.04;
+					var height_span_unit=0.02;
 
 					m.gv_projector_xy_vertices=[];
 					for(var x=-2;x<2;x+=width_span_unit){
@@ -684,13 +556,12 @@ ctrl
 						vertex = m.gv_vertices[ i ].point;
 						vertex.toArray( positions, i * 3 );
 
-							// color.setHSL( m.gv_vertices[i].color[0] , m.gv_vertices[i].color[1] , m.gv_vertices[i].color[2] );
-							color.setRGB( m.gv_vertices[i].rgb[0]/255 , m.gv_vertices[i].rgb[1]/255 , m.gv_vertices[i].rgb[2]/255 );
-							color.toArray( colors, i * 3 );
+						// color.setHSL( m.gv_vertices[i].color[0] , m.gv_vertices[i].color[1] , m.gv_vertices[i].color[2] );
+						color.setRGB( m.gv_vertices[i].rgb[0]/255 , m.gv_vertices[i].rgb[1]/255 , m.gv_vertices[i].rgb[2]/255 );
+						color.toArray( colors, i * 3 );
 
 						// sizes[ i ] = m.gv_vertices[i].size;
-						sizes[ i ] = 4;
-
+						sizes[ i ] = 8;
 					}
 
 
@@ -721,9 +592,9 @@ ctrl
 					//
 
 						m.particles = new THREE.Points( particle_geometry, particle_material );
-						m.particles.position.y=10;
+						// m.particles.position.y=10;
 						m.scene.add( m.particles );
-						m.particles.position.z=-180;
+						// m.particles.position.z=-180;
 
 					//
 				}
@@ -857,84 +728,75 @@ ctrl
 				}
 
 				if(m.type=='sprite'){
-					if(frame_count%5==0){
-						for(var i=0,leni=m.particles.geometry.attributes.size.array.length;i<leni;i++){
-							m.particles.geometry.attributes.size.array[i]=2+Math.random()*5;
-						}
-						m.particles.geometry.attributes.size.needsUpdate=true;
-						frame_count=0;
-					}
 
 
 
 					if(m.is_playing && m.audio.bufferLength&&m.audio.dataArray.length>0){
 
-						m.audio.analyser.getByteTimeDomainData(m.audio.dataArray);
-						
-						var span_x=m.min_max_x.span/m.audio.bufferLength+0.000001;
-						var span_y=m.min_max_y.span/m.audio.bufferLength+0.000001;
+						// debugger;
+						// m.audio.analyser.getByteTimeDomainData(m.audio.dataArray);
+						m.current_dataArray=new Uint8Array(m.audio.bufferLength);
+						m.audio.analyser.getByteFrequencyData(m.current_dataArray);
 
-						for(var i=0,leni=m.particles.geometry.attributes.size.array.length;i<leni;i++){
-
-							var position_x=m.particles.geometry.attributes.position.array_initial[i*3];
-							var position_y=m.particles.geometry.attributes.position.array_initial[i*3+1];
-
-
-
-
-
-							for(var j=0,lenj=m.audio.dataArray.length;j<lenj;j++){
-								if(position_x>=m.min_max_x.min + j*span_x&&position_x< m.min_max_x.min + (j+1)*span_x){
-									var ratio_x=m.audio.dataArray[j]/255;
-									m.particles.geometry.attributes.position.array[i*3+2]=
-									m.particles.geometry.attributes.position.array_initial[i*3+2]
-									+ratio_x*10;
-								}
-							}
-							
-							for(var j=0,lenj=m.audio.dataArray.length;j<lenj;j++){
-								if(position_y>=m.min_max_y.min + j*span_y&&position_y< m.min_max_y.min + (j+1)*span_y){
-									var ratio_y=m.audio.dataArray[j]/255;
-
-									// m.particles.geometry.attributes.position.array[i*3+2]=
-									// m.particles.geometry.attributes.position.array_initial[i*3+2]
-									// +ratio_y*10;
-
-									m.particles.geometry.attributes.position.array[i*3+2]+=
-									+ratio_y*10;
-								}
-							}
-
-
-
-							// var span_x=m.min_max_x.span/m.audio.bufferLength;
-							// var span_y=m.min_max_y.span/m.audio.bufferLength;
-							// for(var j=0,lenj=m.audio.dataArray.length;j<lenj;j++){
-							// 	var data=m.audio.dataArray[j];
-							// 	var ratio=data/255;
-
-							// 	var intensity=0;
-
-							// 	// debugger;
-
-							// 	if(
-							// 		position_x>m.min_max_x.min + j*span_x&&position_x<= m.min_max_x.min + (j+1)*span_x
-							// 		&&
-							// 		position_y>m.min_max_y.min + j*span_y&&position_y<= m.min_max_y.min + (j+1)*span_y
-							// 	){
-							// 		m.particles.geometry.attributes.position.array[i*3+2]=
-							// 		m.particles.geometry.attributes.position.array_initial[i*3+2]
-							// 		+ratio*10;
-							// 	}
-							// }
-
-
-
+						if(!m.prev_dataArray){
+							m.prev_dataArray=m.current_dataArray;
 						}
 
-						m.particles.geometry.attributes.position.needsUpdate=true;
+						if(is_frame_count_trigger){
+							m.gradient_dataArray=[];
+							for(var i=0;i<m.audio.bufferLength;i++){
+								m.gradient_dataArray.push({
+									total:m.current_dataArray[i]-m.prev_dataArray[i],
+									step:(m.current_dataArray[i]-m.prev_dataArray[i])/fram_trigger_count,
+								})
+							}
+							m.result_dataArray=[];
+							for(var i=0;i<m.audio.bufferLength;i++){
+								m.result_dataArray.push(0);
+							}
+							step_count=0;
+						}
+
+							// m.result_dataArray=m.current_dataArray;
+
+						if(trigger_count>2){
+							if(step_count<fram_trigger_count/2){
+								for(var i=0;i<m.audio.bufferLength;i++){
+									m.result_dataArray[i]+=m.gradient_dataArray[i].step;
+								}
+							}
+							else{
+								for(var i=0;i<m.audio.bufferLength;i++){
+									m.result_dataArray[i]-=m.gradient_dataArray[i].step;
+								}
+							}
+
+							for(var i=0,leni=m.particles.geometry.attributes.size.array.length;i<leni;i++){
+
+								// var scale=0.000001+m.result_dataArray[mesh.audio_dataArray_index]/255;
+								var scale=0.000001+m.result_dataArray[particle.audio_dataArray_index]/255;
+								scale*=10;
+
+								var scale_x=1+Math.abs(scale)*2;
+								var scale_y=1+Math.abs(scale)*2;
+								var scale_z=scale*10;
+
+								m.particles.geometry.attributes.position.array[i*3+0]=m.particles.geometry.attributes.position.array_origin[i*3+0]+scale_x*100;
+								m.particles.geometry.attributes.position.array[i*3+1]=m.particles.geometry.attributes.position.array_origin[i*3+1]+scale_y*100;
+								m.particles.geometry.attributes.position.array[i*3+2]=m.particles.geometry.attributes.position.array_origin[i*3+2]+scale_z*100;
+
+							}
+							m.particles.geometry.attributes.position.needsUpdate=true;
+						}
+
+						if(is_frame_count_trigger){
+							m.prev_dataArray=m.current_dataArray;
+							trigger_count++;
+						}
+						step_count++;
 					}
-					frame_count++;
+
+
 				}
 				else if(m.type=='extrude'){
 
