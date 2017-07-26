@@ -570,7 +570,7 @@ ctrl
 						color.toArray( colors, i * 3 );
 
 						// sizes[ i ] = m.gv_vertices[i].size;
-						sizes[ i ] = 8;
+						sizes[ i ] = m.gv_vertices[i].size*20;
 					}
 
 
