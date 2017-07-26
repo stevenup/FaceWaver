@@ -843,7 +843,7 @@ ctrl
 			var is_frame_count_trigger=false;
 			var fram_trigger_count=10;
 			var step_count=0;
-			var is_first_trigger=true;
+			var trigger_count=0;
 			// var center=0;
 			function render() {
 
@@ -966,7 +966,7 @@ ctrl
 
 							// m.result_dataArray=m.current_dataArray;
 
-						if(!is_first_trigger){
+						if(trigger_count>2){
 							if(step_count<fram_trigger_count/2){
 								for(var i=0;i<m.audio.bufferLength;i++){
 									m.result_dataArray[i]+=m.gradient_dataArray[i].step;
@@ -1053,7 +1053,7 @@ ctrl
 
 						if(is_frame_count_trigger){
 							m.prev_dataArray=m.current_dataArray;
-							is_first_trigger=false;
+							trigger_count++;
 						}
 						step_count++;
 					}
