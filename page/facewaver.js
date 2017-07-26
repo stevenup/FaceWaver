@@ -31,6 +31,31 @@ ctrl
 	// facewaver
 
 		$timeout(function(){
+
+			var generate_color_gradient=function(){
+				var canvas=document.createElement('canvas');
+				canvas.width=256;
+				canvas.height=256;
+				var context=canvas.getContext('2d');
+
+				var img=document.createElement('img');
+				img.src='img/gradient.png';
+				img.onload=function(){
+					context.drawImage(img,0,0);
+					m.color_gradient=[];
+					for(var i=0;i<256;i++){
+						var color_gradient_data=context.getImageData(1,i,1,1).data;
+						m.color_gradient.push([
+							color_gradient_data[0],
+							color_gradient_data[1],
+							color_gradient_data[2]
+						])
+					}
+				}
+			}
+			// generate_color_gradient();
+			m.color_gradient=JSON.parse("[[1,0,1],[1,0,2],[1,0,3],[1,0,3],[1,0,5],[1,0,6],[1,0,7],[2,0,8],[1,0,10],[2,0,11],[3,0,12],[3,0,14],[3,0,16],[3,0,17],[3,0,18],[4,0,20],[4,0,22],[5,0,24],[5,0,25],[5,0,27],[5,0,29],[6,0,30],[6,0,32],[6,0,34],[6,0,36],[7,0,37],[7,0,40],[8,0,41],[8,0,43],[8,0,45],[8,0,46],[9,0,49],[10,0,50],[10,0,52],[10,0,54],[10,0,56],[10,0,58],[11,0,59],[11,0,62],[12,0,63],[11,0,65],[12,0,66],[12,0,69],[12,0,70],[12,0,71],[13,0,73],[13,0,75],[13,1,76],[13,1,78],[14,1,79],[14,2,81],[14,2,83],[14,3,84],[14,4,85],[14,5,87],[14,6,88],[15,7,90],[15,7,92],[15,8,93],[14,9,95],[15,10,97],[15,10,98],[15,11,99],[15,13,101],[15,14,102],[15,15,104],[16,16,105],[16,17,107],[16,19,109],[16,19,110],[16,21,112],[16,22,114],[16,23,115],[16,23,117],[16,25,118],[16,26,119],[16,27,121],[16,28,122],[16,30,123],[16,31,125],[16,32,127],[16,33,128],[16,34,130],[16,35,130],[16,37,132],[16,38,134],[16,39,135],[16,40,136],[16,41,137],[16,42,138],[16,43,140],[16,44,140],[16,45,141],[16,45,142],[16,47,143],[16,48,145],[16,48,146],[16,49,146],[16,50,148],[16,50,148],[15,52,149],[15,52,149],[15,52,149],[15,54,150],[15,54,151],[15,55,152],[15,56,152],[14,56,152],[14,57,152],[13,57,153],[13,58,154],[13,58,154],[12,58,154],[12,59,154],[11,59,155],[11,60,154],[11,61,155],[11,61,155],[10,62,155],[10,62,156],[9,63,156],[9,63,155],[9,63,155],[9,64,156],[8,64,156],[8,65,156],[7,65,157],[6,65,156],[6,66,157],[6,67,157],[6,67,156],[6,68,157],[5,69,157],[4,69,157],[4,69,158],[4,70,158],[3,71,158],[3,72,158],[3,72,158],[3,73,160],[2,74,159],[2,75,160],[2,75,160],[1,77,161],[1,78,161],[1,78,162],[1,79,162],[1,80,163],[1,81,164],[0,83,165],[0,83,166],[0,85,167],[0,86,168],[0,87,168],[0,89,169],[0,90,170],[0,92,172],[0,93,173],[0,94,174],[0,96,175],[0,98,177],[0,99,178],[0,101,180],[0,103,181],[0,104,182],[0,106,184],[0,108,185],[0,110,187],[0,111,188],[0,113,190],[0,115,192],[0,117,194],[0,118,195],[0,121,197],[0,122,198],[0,124,199],[0,127,201],[0,128,203],[0,131,204],[0,132,206],[0,134,207],[0,135,209],[0,138,211],[0,140,212],[0,141,214],[0,143,215],[0,145,217],[0,147,218],[0,149,220],[0,151,222],[0,152,223],[0,155,224],[0,156,226],[0,157,227],[0,160,229],[0,162,230],[0,163,231],[0,164,232],[0,166,233],[0,168,235],[0,169,236],[0,171,237],[0,172,238],[0,173,238],[0,175,239],[2,176,240],[4,177,241],[6,178,241],[8,180,242],[9,181,243],[12,182,244],[14,183,244],[16,185,245],[19,186,245],[22,187,246],[24,189,246],[26,190,247],[29,191,247],[32,192,247],[35,193,248],[39,194,249],[42,195,249],[45,196,249],[48,198,250],[51,199,250],[54,199,251],[57,201,251],[61,201,251],[64,202,251],[67,203,251],[71,205,251],[74,205,252],[77,206,252],[81,207,252],[84,208,252],[87,209,253],[90,210,252],[94,211,253],[97,211,252],[100,212,253],[103,213,254],[106,214,254],[109,214,253],[111,215,253],[115,216,254],[118,217,254],[120,217,254],[123,218,254],[125,218,254],[128,219,254],[129,220,254],[131,220,254],[133,221,255],[135,221,254],[137,222,254],[138,222,255]]");
+
 			m.window_ratio=window.innerWidth/window.innerHeight;
 			m.scale_xy=1;
 			var camera;
@@ -80,7 +105,7 @@ ctrl
 
 				m.audio.analyser.fftSize = 256;
 				m.audio.bufferLength = m.audio.analyser.frequencyBinCount;
-				console.log('bufferlength',m.audio.bufferLength);
+				console.log('bufferLength',m.audio.bufferLength);
 				m.audio.dataArray = new Uint8Array(m.audio.bufferLength);
 
 				// init after audio loaded
@@ -385,17 +410,9 @@ ctrl
 
 				var generate_gv_vertices_by_intersect=function(){
 					m.gv_vertices=[];
-					// for(var x=-2;x<2;x+=0.04){
-					// 	for(var y=-1;y<1;y+=.03*m.window_ratio){
 
-					if(m.type=='sprite'){
-						var width_span_unit=window.innerWidth/41400*3;
-						var height_span_unit=window.innerWidth/41400*m.window_ratio*1.5;
-					}
-					else if(m.type=='extrude'){
-						var width_span_unit=0.04;
-						var height_span_unit=0.02;
-					}
+					var width_span_unit=0.04;
+					var height_span_unit=0.02;
 
 					m.gv_projector_xy_vertices=[];
 					for(var x=-2;x<2;x+=width_span_unit){
@@ -417,41 +434,46 @@ ctrl
 							    var rgb=[];
 							    var vertice_num=0;
 								// steped grayscale
-									var grayscale=(color_data[0]+color_data[1]+color_data[2])/3;
+									var grayscale=Math.floor((color_data[0]+color_data[1]+color_data[2])/3);
 								    if(grayscale>=42.5*5){
 								    	vertice_num=3;
-										rgb=[140,223,255];
+										// rgb=[140,223,255];
 								    }
 								    else if(grayscale>=42.5*4){
 								    	vertice_num=2.5;
-										rgb=[0,174,239];
+										// rgb=[0,174,239];
 								    }
 								    else if(grayscale>=42.5*3){
 								    	vertice_num=2;
-										rgb=[0,84,166];
+										// rgb=[0,84,166];
 								    }
 								    else if(grayscale>=42.5*2){
 								    	vertice_num=1.5;
-										rgb=[46,49,146];
+										// rgb=[46,49,146];
 								    }
 								    else if(grayscale>=42.5*1){
 								    	vertice_num=1;
-										rgb=[13,0,76];
+										// rgb=[13,0,76];
 								    }
 								   	else{
 								   		vertice_num=.5;
-										rgb=[10,0,35];
+										// rgb=[10,0,35];
 								    };
-								rgb=[
-									Math.floor(grayscale),
-									Math.floor(grayscale),
-									Math.floor(grayscale),
-								]
-								rgb=[
-									color_data[0],
-									color_data[1],
-									color_data[2],
-								]
+								// vertice_num=3;
+
+								// rgb=[
+								// 	Math.floor(grayscale),
+								// 	Math.floor(grayscale),
+								// 	Math.floor(grayscale),
+								// ]
+
+								// rgb=[
+								// 	color_data[0],
+								// 	color_data[1],
+								// 	color_data[2],
+								// ]
+
+								rgb=m.color_gradient[grayscale];
 
 
 								var generate_gv_projector_xy_vertices=function(){
@@ -838,7 +860,7 @@ ctrl
 
 
 
-							for(var j=0,lenj=m.audio.dataArray.length;j<lenj;j++){
+							for(var j=0,lenj=m.audio.bufferLength;j<lenj;j++){
 								if(position_x>=m.min_max_x.min + j*span_x&&position_x< m.min_max_x.min + (j+1)*span_x){
 									var ratio_x=m.audio.dataArray[j]/255;
 									m.particles.geometry.attributes.position.array[i*3+2]=
@@ -847,7 +869,7 @@ ctrl
 								}
 							}
 							
-							for(var j=0,lenj=m.audio.dataArray.length;j<lenj;j++){
+							for(var j=0,lenj=m.audio.bufferLength;j<lenj;j++){
 								if(position_y>=m.min_max_y.min + j*span_y&&position_y< m.min_max_y.min + (j+1)*span_y){
 									var ratio_y=m.audio.dataArray[j]/255;
 
@@ -864,7 +886,7 @@ ctrl
 
 							// var span_x=m.min_max_x.span/m.audio.bufferLength;
 							// var span_y=m.min_max_y.span/m.audio.bufferLength;
-							// for(var j=0,lenj=m.audio.dataArray.length;j<lenj;j++){
+							// for(var j=0,lenj=m.audio.bufferLength;j<lenj;j++){
 							// 	var data=m.audio.dataArray[j];
 							// 	var ratio=data/255;
 
@@ -897,7 +919,7 @@ ctrl
 
 
 						m.audio.analyser.getByteTimeDomainData(m.audio.dataArray);
-						
+
 						var span_x=m.min_max_x.span/m.audio.bufferLength+0.000001;
 						var span_y=m.min_max_y.span/m.audio.bufferLength+0.000001;
 
@@ -908,14 +930,14 @@ ctrl
 								var position_x=mesh.position.x;
 								var position_y=mesh.position.y;
 
-								for(var j=0,lenj=m.audio.dataArray.length;j<lenj;j++){
+								for(var j=0,lenj=m.audio.bufferLength;j<lenj;j++){
 									if(position_x>=m.min_max_x.min + j*span_x&&position_x< m.min_max_x.min + (j+1)*span_x){
 										var ratio_x=m.audio.dataArray[j]/255;
 										mesh.$ratio_x=ratio_x;
 									}
 								}
 								
-								for(var j=0,lenj=m.audio.dataArray.length;j<lenj;j++){
+								for(var j=0,lenj=m.audio.bufferLength;j<lenj;j++){
 									if(position_y>=m.min_max_y.min + j*span_y&&position_y< m.min_max_y.min + (j+1)*span_y){
 										var ratio_y=m.audio.dataArray[j]/255;
 										mesh.$ratio_y=ratio_y;
@@ -936,11 +958,11 @@ ctrl
 
 								// mesh.extrude_ratio-=.1;
 
-								var scale=.000001+mesh.$ratio_x*3+mesh.$ratio_y*3;
+								var scale=.000001+(mesh.$ratio_x+mesh.$ratio_y);
 								//
-								var scale_x=scale/2.5;
-								var scale_y=scale/2.5;
-								var scale_z=scale*mesh.extrude_ratio;
+								var scale_x=scale/0.8;
+								var scale_y=scale/0.8;
+								var scale_z=scale*6*mesh.extrude_ratio;
 								//
 								mesh.scale.set(
 									scale_x,
@@ -954,7 +976,7 @@ ctrl
 								// );
 								// mesh.scale.set(m.scale_xy,m.scale_xy,.001+mesh.$ratio_y*3);
 
-								mesh.position.z=mesh.position_origin.z+m.cylinder_height/2*scale_z;
+								// mesh.position.z=mesh.position_origin.z+m.cylinder_height/2*scale_z;
 
 							}
 						}
