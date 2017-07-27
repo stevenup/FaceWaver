@@ -112,7 +112,7 @@ ctrl
 
 					// var big_scale_ratio=.15;
 					// for(var i=0,leni=m.scene.children.length;i<leni;i++){
-					// 	if(m.scene.children[i].type=='Mesh'){
+					// 	if(m.scene.children[i].is_head_mesh){
 					// 		var mesh=m.scene.children[i];
 
 					// 		var is_big_scale=Math.random()<big_scale_ratio;
@@ -126,7 +126,7 @@ ctrl
 					// }
 
 					// for(var i=0,leni=m.scene.children.length;i<leni;i++){
-					// 	if(m.scene.children[i].type=='Mesh'){
+					// 	if(m.scene.children[i].is_head_mesh){
 					// 		var mesh=m.scene.children[i];
 
 					// 		mesh.extrude_ratio=1+Math.random()*1.5+.000001;
@@ -186,7 +186,7 @@ ctrl
 
 					// for(var i=0,len=m.scene.children.length;i<len;i++){
 					// 	var mesh=m.scene.children[i];
-					// 	if(mesh.type=='Mesh'){
+					// 	if(mesh.is_head_mesh){
 					// 		var scale_xy=Math.random();
 					// 		mesh.scale.set(scale_xy,scale_xy,1);
 					// 	}
@@ -260,7 +260,7 @@ ctrl
 								var max=0;
 								for(var i=0;i<m.scene.children.length;i++){
 									var mesh=m.scene.children[i];
-									if(mesh.type=='Mesh'){
+									if(mesh.is_head_mesh){
 										// m.scene.children[i].scale.set(1,1,Math.random()*5);
 										// console.log(m.scene.children[i].position);
 										if(mesh.position.x<min){
@@ -286,7 +286,7 @@ ctrl
 								var max=0;
 								for(var i=0;i<m.scene.children.length;i++){
 									var mesh=m.scene.children[i];
-									if(mesh.type=='Mesh'){
+									if(mesh.is_head_mesh){
 										// m.scene.children[i].scale.set(1,1,Math.random()*5);
 										// console.log(m.scene.children[i].position);
 										if(mesh.position.y<min){
@@ -350,9 +350,63 @@ ctrl
 					});
 					mesh = new THREE.Mesh( m.buffer_geometry, material );
 					// mesh.scale.set(10,10,10);
+					mesh.position.y=20;
 					m.scene.add( mesh )
 
 				//
+
+
+				function create_wave_mesh(){
+
+					m.WAVE_ROW=60;
+					m.WAVE_COL=128;
+					// m.wave_datas=new Uint8Array(m.WAVE_ROW+m.WAVE_COL-1);
+					// for(var i=0,leni=m.wave_datas.length;i<leni;i++){
+					// 	m.wave_datas[i]=128;
+					// }
+
+
+					m.wave_geometry=new THREE.PlaneBufferGeometry(200 , 200 , m.WAVE_COL-1 , m.WAVE_ROW-1);
+
+					m.wave_material = new THREE.PointsMaterial({color:'red'});
+
+					m.wave_mesh = new THREE.Points( m.wave_geometry, m.wave_material );
+
+					m.wave_mesh.rotateX(-Math.PI/2);
+					m.wave_mesh.rotateZ(Math.PI/2);
+					m.wave_mesh.position.y=-30;
+					m.wave_mesh.position.z=-20;
+
+					m.scene.add(m.wave_mesh);
+
+				}
+				create_wave_mesh();
+
+
+				// helper
+					// m.helper={};
+					// m.helper.gridHelper = new THREE.GridHelper( 200  );
+					// m.scene.add( m.helper.gridHelper );
+					// m.helper.gridHelper.position.y=-30;
+					// m.helper.gridHelper.position.z=-20;
+
+					// m.helper.geometry_x = new THREE.BoxGeometry( 10 , 0.1 , 0.1 );
+					// m.helper.material_x = new THREE.MeshBasicMaterial( {color:'red'});
+					// m.helper.mesh_x=new THREE.Mesh(m.helper.geometry_x,m.helper.material_x);
+					// m.helper.mesh_x.position.x=5;
+					// m.scene.add(m.helper.mesh_x);
+
+					// m.helper.geometry_y = new THREE.BoxGeometry( .1 , 10 , 0.1 );
+					// m.helper.material_y = new THREE.MeshBasicMaterial( {color:'green'});
+					// mesh_y=new THREE.Mesh(m.helper.geometry_y,m.helper.material_y);
+					// mesh_y.position.y=5;
+					// m.scene.add(mesh_y);
+
+					// m.helper.geometry_z = new THREE.BoxGeometry( .1 , .1 , 10 );
+					// m.helper.material_z = new THREE.MeshBasicMaterial( {color:'blue'});
+					// m.helper.mesh_z=new THREE.Mesh(m.helper.geometry_z,m.helper.material_z);
+					// m.helper.mesh_z.position.z=5;
+					// m.scene.add(m.helper.mesh_z);
 
 				renderer = new THREE.WebGLRenderer();
 				renderer.setPixelRatio( 1 );
@@ -772,6 +826,7 @@ ctrl
 
 						m.a_mesh.position.set(gv_vertice.point.x , gv_vertice.point.y , gv_vertice.point.z);
 						m.extrude_meshes.push(m.a_mesh);
+						m.a_mesh.is_head_mesh=true;
 						m.scene.add( m.a_mesh );
 						m.a_mesh.position_origin=new THREE.Vector3(
 							m.a_mesh.position.x,
@@ -920,11 +975,12 @@ ctrl
 
 						m.audio.analyser.getByteTimeDomainData(m.audio.dataArray);
 
+
 						var span_x=m.min_max_x.span/m.audio.bufferLength+0.000001;
 						var span_y=m.min_max_y.span/m.audio.bufferLength+0.000001;
 
 						for(var i=0,leni=m.scene.children.length;i<leni;i++){
-							if(m.scene.children[i].type=='Mesh'){
+							if(m.scene.children[i].is_head_mesh){
 								var mesh=m.scene.children[i];
 
 								var position_x=mesh.position.x;
@@ -980,6 +1036,13 @@ ctrl
 
 							}
 						}
+
+						for(var i=0,leni=m.audio.bufferLength;i<leni;i++){
+							for(var j=0,lenj=m.WAVE_COL;j<lenj;j++){
+								m.wave_geometry.attributes.position.array[i*3+2+j*m.audio.bufferLength*3]=(m.audio.dataArray[i]-128)/6;
+							}
+						}
+						m.wave_geometry.attributes.position.needsUpdate=true;
 
 					}
 				}
