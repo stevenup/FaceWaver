@@ -137,7 +137,7 @@ ctrl
 
 					function create_wave_mesh(){
 
-						m.WAVE_ROW=m.audio.bufferLength/2;
+						m.WAVE_ROW=m.audio.bufferLength;
 						m.WAVE_COL=64;
 						m.wave_datas=[];
 						// m.wave_datas=new Uint8Array(m.WAVE_COL+m.WAVE_ROW-1);
@@ -156,7 +156,7 @@ ctrl
 						m.wave_mesh.rotateZ(Math.PI/2);
 						m.wave_mesh.rotateY(Math.PI/90*3);
 						m.wave_mesh.position.y=-60;
-						m.wave_mesh.position.z=-150;
+						m.wave_mesh.position.z=-135;
 
 						m.scene.add(m.wave_mesh);
 
@@ -1051,7 +1051,7 @@ ctrl
 							if(m.wave_datas[i]){
 								for(var j_data=0,lenj=m.audio.bufferLength;j_data<lenj;j_data++){
 									var data=m.wave_datas[i][j_data];
-									m.wave_geometry.attributes.position.array[j_data*3+2+i_col*m.audio.bufferLength/2*3]=(data-128)/5;
+									m.wave_geometry.attributes.position.array[j_data*3+2+i_col*m.audio.bufferLength*3]=(data-128)/5;
 								}
 							}
 						}
@@ -1061,7 +1061,7 @@ ctrl
 							if(m.wave_datas[i]){
 								for(var j_data=0,lenj=m.audio.bufferLength;j_data<lenj;j_data++){
 									var data=m.wave_datas[i][m.audio.bufferLength-j_data];
-									m.wave_geometry.attributes.position.array[j_data*3+2+i_col*m.audio.bufferLength/2*3]=(data-128)/5;
+									m.wave_geometry.attributes.position.array[j_data*3+2+i_col*m.audio.bufferLength*3]=(data-128)/5;
 								}
 							}
 						}
@@ -1069,7 +1069,17 @@ ctrl
 
 						for(var i=0,leni=m.wave_datas.length;i<leni;i++){
 							if(m.wave_datas[i]){
-								m.wave_datas[i]=m.wave_datas[i].slice(2);
+
+								// m.wave_datas[i]=m.wave_datas[i].slice(2);
+
+								// m.wave_datas[i].push(m.wave_datas[i].shift());
+								// m.wave_datas[i].push(m.wave_datas[i].shift());
+
+								m.wave_datas[i].shift();
+								m.wave_datas[i].push(m.wave_datas[i][m.wave_datas[i].length-1]);
+								m.wave_datas[i].shift();
+								m.wave_datas[i].push(m.wave_datas[i][m.wave_datas[i].length-1]);
+
 							}
 						}
 
