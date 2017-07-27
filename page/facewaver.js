@@ -148,7 +148,7 @@ ctrl
 
 						m.wave_geometry=new THREE.PlaneBufferGeometry(400 , 300 , m.WAVE_ROW-1 , m.WAVE_COL-1);
 
-						m.wave_material = new THREE.PointsMaterial({color:'rgb(0,96,175)',blending:THREE['AdditiveBlending']});
+						m.wave_material = new THREE.PointsMaterial({color:'rgb(0,96,175)',blending:THREE['AdditiveBlending'],size:1.5});
 
 						m.wave_mesh = new THREE.Points( m.wave_geometry, m.wave_material );
 
