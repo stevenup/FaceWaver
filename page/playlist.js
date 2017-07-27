@@ -112,20 +112,20 @@ ctrl
 
 	// fn
 		$s.init=function(){
-			ec.api.do({method:'/api/v1/audios'})
-			.then(function(re){
-				if(re.data.result.status=='SUCCESS'){
-					var songlist=re.data.result.data;
-					for(var i=0;i<songlist.length;i++){
-						songlist[i].audio_file.url=config.url+songlist[i].audio_file.url;
-					}
-					m.songlist=m.songlist.concat(songlist);
-					m.songlist=m.playlist.concat(songlist);
-				}
-				else{
-					$ionicPopup.alert('api error');
-				}
-			})
+			// ec.api.do({method:'/api/v1/audios'})
+			// .then(function(re){
+			// 	if(re.data.result.status=='SUCCESS'){
+			// 		var songlist=re.data.result.data;
+			// 		for(var i=0;i<songlist.length;i++){
+			// 			songlist[i].audio_file.url=config.url+songlist[i].audio_file.url;
+			// 		}
+			// 		m.songlist=m.songlist.concat(songlist);
+			// 		m.songlist=m.playlist.concat(songlist);
+			// 	}
+			// 	else{
+			// 		$ionicPopup.alert('api error');
+			// 	}
+			// })
 		}
 		$s.play=function(){
 			try{
