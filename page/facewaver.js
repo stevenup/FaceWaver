@@ -103,7 +103,7 @@ ctrl
 				m.audio.analyser.connect(m.audio.distortion);
 				m.audio.distortion.connect(m.audio.context.destination);       // connect the source to the context's destination (the speakers)
 
-				m.audio.analyser.fftSize = 256;
+				m.audio.analyser.fftSize = 256; // best 256 
 				m.audio.bufferLength = m.audio.analyser.frequencyBinCount;
 				console.log('bufferLength',m.audio.bufferLength);
 				m.audio.dataArray = new Uint8Array(m.audio.bufferLength);
@@ -133,6 +133,35 @@ ctrl
 					// 		mesh.extrude_direction=Math.floor(Math.random()*2)?1:-1;
 					// 	}
 					// }
+
+
+					function create_wave_mesh(){
+
+						m.WAVE_ROW=m.audio.bufferLength/2;
+						m.WAVE_COL=64;
+						m.wave_datas=[];
+						// m.wave_datas=new Uint8Array(m.WAVE_COL+m.WAVE_ROW-1);
+						// for(var i=0,leni=m.wave_datas.length;i<leni;i++){
+						// 	m.wave_datas[i]=128;
+						// }
+
+
+						m.wave_geometry=new THREE.PlaneBufferGeometry(400 , 300 , m.WAVE_ROW-1 , m.WAVE_COL-1);
+
+						m.wave_material = new THREE.PointsMaterial({color:'rgb(0,96,175)'});
+
+						m.wave_mesh = new THREE.Points( m.wave_geometry, m.wave_material );
+
+						m.wave_mesh.rotateX(-Math.PI/2);
+						m.wave_mesh.rotateZ(Math.PI/2);
+						m.wave_mesh.rotateY(Math.PI/90*3);
+						m.wave_mesh.position.y=-50;
+						m.wave_mesh.position.z=-120;
+
+						m.scene.add(m.wave_mesh);
+
+					}
+					create_wave_mesh();
 
 
 			}
@@ -354,34 +383,6 @@ ctrl
 					m.scene.add( mesh )
 
 				//
-
-
-				function create_wave_mesh(){
-
-					m.WAVE_ROW=60;
-					m.WAVE_COL=128;
-					m.wave_datas=[];
-					// m.wave_datas=new Uint8Array(m.WAVE_ROW+m.WAVE_COL-1);
-					// for(var i=0,leni=m.wave_datas.length;i<leni;i++){
-					// 	m.wave_datas[i]=128;
-					// }
-
-
-					m.wave_geometry=new THREE.PlaneBufferGeometry(200 , 200 , m.WAVE_COL-1 , m.WAVE_ROW-1);
-
-					m.wave_material = new THREE.PointsMaterial({color:'red'});
-
-					m.wave_mesh = new THREE.Points( m.wave_geometry, m.wave_material );
-
-					m.wave_mesh.rotateX(-Math.PI/2);
-					m.wave_mesh.rotateZ(Math.PI/2);
-					m.wave_mesh.position.y=-30;
-					m.wave_mesh.position.z=-20;
-
-					m.scene.add(m.wave_mesh);
-
-				}
-				create_wave_mesh();
 
 
 				// helper
@@ -975,8 +976,12 @@ ctrl
 
 
 						m.audio.analyser.getByteTimeDomainData(m.audio.dataArray);
-						m.wave_datas.unshift(ng.copy(m.audio.dataArray));
-						m.wave_datas=m.wave_datas.slice(0,m.WAVE_COL);
+						var col_datas=[];
+						for(var i=0,leni=m.audio.dataArray.length;i<leni;i++){
+							col_datas.push(m.audio.dataArray[i]);
+						}
+						m.wave_datas.unshift(col_datas);
+						m.wave_datas=m.wave_datas.slice(0,m.WAVE_COL/2);
 
 
 						var span_x=m.min_max_x.span/m.audio.bufferLength+0.000001;
@@ -1040,14 +1045,33 @@ ctrl
 							}
 						}
 
-						for(var i=0,leni=m.audio.bufferLength;i<leni;i++){
-							for(var j=0,lenj=m.WAVE_COL;j<lenj;j++){
-								if(m.wave_datas[j]){
-									m.wave_geometry.attributes.position.array[i*3+2+j*m.audio.bufferLength*3]=(m.wave_datas[j][i]-128)/6;
+						var i=0;
+						for(var i_col=m.WAVE_COL/2;i_col<m.WAVE_COL;i_col++){
+							i++;
+							if(m.wave_datas[i]){
+								for(var j_data=0,lenj=m.audio.bufferLength;j_data<lenj;j_data++){
+									var data=m.wave_datas[i][j_data];
+									m.wave_geometry.attributes.position.array[j_data*3+2+i_col*m.audio.bufferLength/2*3]=(data-128)/7;
+								}
+							}
+						}
+						var i=0;
+						for(var i_col=m.WAVE_COL/2-1;i_col>=0;i_col--){
+							i++;
+							if(m.wave_datas[i]){
+								for(var j_data=0,lenj=m.audio.bufferLength;j_data<lenj;j_data++){
+									var data=m.wave_datas[i][m.audio.bufferLength-j_data];
+									m.wave_geometry.attributes.position.array[j_data*3+2+i_col*m.audio.bufferLength/2*3]=(data-128)/7;
 								}
 							}
 						}
 						m.wave_geometry.attributes.position.needsUpdate=true;
+
+						for(var i=0,leni=m.wave_datas.length;i<leni;i++){
+							if(m.wave_datas[i]){
+								m.wave_datas[i]=m.wave_datas[i].slice(2);
+							}
+						}
 
 					}
 				}
