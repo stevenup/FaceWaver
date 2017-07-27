@@ -360,6 +360,7 @@ ctrl
 
 					m.WAVE_ROW=60;
 					m.WAVE_COL=128;
+					m.wave_datas=[];
 					// m.wave_datas=new Uint8Array(m.WAVE_ROW+m.WAVE_COL-1);
 					// for(var i=0,leni=m.wave_datas.length;i<leni;i++){
 					// 	m.wave_datas[i]=128;
@@ -974,6 +975,8 @@ ctrl
 
 
 						m.audio.analyser.getByteTimeDomainData(m.audio.dataArray);
+						m.wave_datas.unshift(ng.copy(m.audio.dataArray));
+						m.wave_datas=m.wave_datas.slice(0,m.WAVE_COL);
 
 
 						var span_x=m.min_max_x.span/m.audio.bufferLength+0.000001;
@@ -1039,7 +1042,9 @@ ctrl
 
 						for(var i=0,leni=m.audio.bufferLength;i<leni;i++){
 							for(var j=0,lenj=m.WAVE_COL;j<lenj;j++){
-								m.wave_geometry.attributes.position.array[i*3+2+j*m.audio.bufferLength*3]=(m.audio.dataArray[i]-128)/6;
+								if(m.wave_datas[j]){
+									m.wave_geometry.attributes.position.array[i*3+2+j*m.audio.bufferLength*3]=(m.wave_datas[j][i]-128)/6;
+								}
 							}
 						}
 						m.wave_geometry.attributes.position.needsUpdate=true;
