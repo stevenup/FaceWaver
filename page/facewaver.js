@@ -156,7 +156,7 @@ ctrl
 						m.wave_mesh.rotateZ(Math.PI/2);
 						m.wave_mesh.rotateY(Math.PI/90*3);
 						m.wave_mesh.position.y=-60;
-						m.wave_mesh.position.z=-120;
+						m.wave_mesh.position.z=-150;
 
 						m.scene.add(m.wave_mesh);
 
