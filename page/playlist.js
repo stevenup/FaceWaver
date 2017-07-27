@@ -11,19 +11,25 @@ ctrl
 
 		m.songlist=[
 			{
-				name:'Refrain',
-				author:'Anan Ryoko',
-				url:'song/Anan Ryoko - Refrain.mp3',
+				title:'Refrain',
+				artist:'Anan Ryoko',
+				audio_file:{
+					url:'song/Anan Ryoko - Refrain.mp3',
+				},
 			},
 			{
-				name:'Rage',
-				author:'B Brightz,Julian Jordan,Firebeatz ',
-				url:'song/B Brightz,Julian Jordan,Firebeatz - Rage(B Brightz Remix).mp3',
+				title:'Rage',
+				artist:'B Brightz,Julian Jordan,Firebeatz ',
+				audio_file:{
+					url:'song/B Brightz,Julian Jordan,Firebeatz - Rage(B Brightz Remix).mp3',
+				},
 			},
 			{
-				name:'Calavera',
-				author:'Klaas',
-				url:'song/Klaas - Calavera (Original Edit)_clip.mp3',
+				title:'Calavera',
+				artist:'Klaas',
+				audio_file:{
+					url:'song/Klaas - Calavera (Original Edit)_clip.mp3',
+				},
 			},
 		]
 
@@ -34,21 +40,27 @@ ctrl
 
 		m.playlist=[
 			{
-				name:'Refrain',
-				author:'Anan Ryoko',
-				url:'song/Anan Ryoko - Refrain.mp3',
+				title:'Refrain',
+				artist:'Anan Ryoko',
+				audio_file:{
+					url:'song/Anan Ryoko - Refrain.mp3',
+				},
 			},
 			{
-				name:'Rage',
-				author:'B Brightz,Julian Jordan,Firebeatz ',
-				url:'song/B Brightz,Julian Jordan,Firebeatz - Rage(B Brightz Remix).mp3',
+				title:'Rage',
+				artist:'B Brightz,Julian Jordan,Firebeatz ',
+				audio_file:{
+					url:'song/B Brightz,Julian Jordan,Firebeatz - Rage(B Brightz Remix).mp3',
+				},
 			},
 			{
-				name:'Calavera',
-				author:'Klaas',
-				url:'song/Klaas - Calavera (Original Edit)_clip.mp3',
+				title:'Calavera',
+				artist:'Klaas',
+				audio_file:{
+					url:'song/Klaas - Calavera (Original Edit)_clip.mp3',
+				},
 			},
-		];
+		]
 
 		// m.audio=jq('.page_songlist .audio')[0];
 
@@ -80,7 +92,7 @@ ctrl
 				delete song_of_songlist.act;
 				for(var j=0;j<m.playlist.length;j++){
 					var song_of_playlist=m.playlist[j];
-					if(song_of_songlist.name==song_of_playlist.name){
+					if(song_of_songlist.title==song_of_playlist.title){
 						song_of_songlist.act=true;
 						break;
 					}
@@ -99,6 +111,22 @@ ctrl
 		}
 
 	// fn
+		$s.init=function(){
+			ec.api.do({method:'/api/v1/audios'})
+			.then(function(re){
+				if(re.data.result.status=='SUCCESS'){
+					var songlist=re.data.result.data;
+					for(var i=0;i<songlist.length;i++){
+						songlist[i].audio_file.url=config.url+songlist[i].audio_file.url;
+					}
+					m.songlist=m.songlist.concat(songlist);
+					m.songlist=m.playlist.concat(songlist);
+				}
+				else{
+					$ionicPopup.alert('api error');
+				}
+			})
+		}
 		$s.play=function(){
 			try{
 				var s=this;
@@ -123,5 +151,7 @@ ctrl
 			location='#/tab/facewaver';
 		}
 
+	// init
+		$s.init();
 	
 })

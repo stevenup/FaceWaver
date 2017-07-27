@@ -94,7 +94,7 @@ ctrl
 			// m.audio.loadSound('http://m2.music.126.net/hmZoNQaqzZALvVp0rE7faA==/0.mp3');
 			// m.audio.loadSound('http://m2.music.126.net/2HLi_KTxW7zpdNVigoorCg==/7959364674897599.mp3');
 			// m.audio.loadSound('http://101.227.176.68/m10.music.126.net/20170714153615/14030c809a28349b819ad1ebd0cb1874/ymusic/76af/e78f/3003/52e3a85ff7e6061b0597c041082fdfc5.mp3?wshc_tag=0&wsts_tag=59686e94&wsid_tag=b4a8078a&wsiphost=ipdbm');
-			m.audio.loadSound($s.get_song_act().url);
+			m.audio.loadSound($s.get_song_act().audio_file.url);
 
 			m.audio.playSound=function (buffer) {
 				m.audio.source = m.audio.context.createBufferSource(); // creates a sound source
@@ -994,6 +994,11 @@ ctrl
 			}
 		},100);
 
+	// fn
+		$s.init=function(){
+		}
 
+	// init
+		$s.init();
 	
 })

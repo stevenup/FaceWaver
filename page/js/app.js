@@ -138,3 +138,12 @@ angular.module('starter', [
   template:'<ion-spinner></ion-spinner>'
   // template:'<img src="img/loading2.gif">'
 })
+.config(function($sceDelegateProvider) {  
+	$sceDelegateProvider.resourceUrlWhitelist([
+	    // Allow same origin resource loads.
+	    'self',
+	    // Allow loading from our assets domain. **.
+	    // 'http://ergast.com/**'
+	    config.url+'/**',
+	]);
+})
