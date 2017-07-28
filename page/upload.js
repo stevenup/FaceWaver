@@ -26,6 +26,9 @@ ctrl
 			m.scale-=0.01;
 			m.cropper.cropper.scaleY(m.scale);
 		}
+		$s.photo_upload=function(input_file){
+			ec.api.img_upload(input_file)
+		}
 		$s.cropper_load_photo=function(input){
 
 			try{
