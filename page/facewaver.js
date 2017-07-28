@@ -15,6 +15,7 @@ ctrl
 		m.is_stop=false;
 		m.mouse_x=0;
 		m.mouse_y=0;
+		m.is_touch=false;
 
 		// m.type='sprite';
 		m.type='extrude'; m.extrude_meshes=[];	
@@ -26,7 +27,9 @@ ctrl
 		$s.$on('$ionicView.afterEnter',function(){
 			document.addEventListener( 'mousemove', onDocumentMouseMove, false );
 			document.addEventListener( 'touchstart', onDocumentTouchStart, false );
+			document.addEventListener( 'touchend', onDocumentTouchEnd, false );
 			document.addEventListener( 'touchmove', onDocumentTouchMove, false );
+			window.addEventListener('deviceorientation', handleOrientation);
 		})
 		$s.$on('$ionicView.beforeLeave',function(){
 			clearInterval(m.audio.interval);
@@ -34,14 +37,35 @@ ctrl
 			cancelAnimationFrame(m.requestAnimationFrame_id);
 			m.audio.context.close();
 
-			document.removeEventListener( 'mousemove' );
-			document.removeEventListener( 'touchstart' );
-			document.removeEventListener( 'touchmove' );
+			document.removeEventListener( 'mousemove', onDocumentMouseMove );
+			document.removeEventListener( 'touchstart', onDocumentTouchStart );
+			document.removeEventListener( 'touchend', onDocumentTouchEnd );
+			document.removeEventListener( 'touchmove', onDocumentTouchMove );
+			window.addEventListener('deviceorientation', handleOrientation);
 		})
 
 	// event
 		//
+		function handleOrientation(event) {
+			// if(!m.is_touch){
+				var x = event.gamma; // In degree in the range [-90,90]
+				var y = event.beta;  // In degree in the range [-180,180]
 
+				// Because we don't want to have the device upside down
+				// We constrain the y value to the range [-90,90]
+				if (y >  90) { y =  90};
+				if (y < -90) { y = -90};
+
+				y-=45;
+
+				m.mouse_x= (window.innerWidth/2 * x) / 90; 
+				m.mouse_y= (window.innerHeight/2 * y) / 90; 
+
+				m.mouse_x*=8;
+				m.mouse_y*=8;
+			// }
+
+		}
 		function onDocumentMouseMove( event ) {
 
 			m.mouse_x = event.clientX - window.innerWidth/2;
@@ -51,11 +75,21 @@ ctrl
 		function onDocumentTouchStart( event ) {
 
 			if ( event.touches.length == 1 ) {
-
+				m.is_touch=true;
 				event.preventDefault();
 
 				m.mouse_x = event.touches[ 0 ].pageX - window.innerWidth/2;
 				m.mouse_y = event.touches[ 0 ].pageY - window.innerHeight/2;
+
+			}
+
+		}
+
+		function onDocumentTouchEnd( event ) {
+
+			if ( event.touches.length == 1 ) {
+				m.is_touch=false;
+				event.preventDefault();
 
 			}
 
@@ -1193,8 +1227,8 @@ ctrl
 				}
 
 
-				m.camera.position.x += ( m.mouse_x/3 - m.camera.position.x ) * 0.05;
-				m.camera.position.y += ( - m.mouse_y/7 - m.camera.position.y ) * 0.05;
+				m.camera.position.x += ( - m.mouse_x/3 - m.camera.position.x ) * 0.05;
+				m.camera.position.y += (  m.mouse_y/7 - m.camera.position.y ) * 0.05;
 				m.camera.lookAt( m.scene.position );
 
 				renderer.render( m.scene, m.camera );
