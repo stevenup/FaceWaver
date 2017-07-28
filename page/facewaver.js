@@ -146,20 +146,75 @@ ctrl
 						// }
 
 
-						m.wave_geometry=new THREE.PlaneBufferGeometry(400 , 300 , m.WAVE_ROW-1 , m.WAVE_COL-1);
+						// points
+							m.wave_geometry=new THREE.PlaneBufferGeometry(400 , 300 , m.WAVE_ROW-1 , m.WAVE_COL-1);
 
-						m.wave_material = new THREE.PointsMaterial({color:'rgb(0,96,175)',blending:THREE['AdditiveBlending'],size:1.5});
+							m.wave_material = new THREE.PointsMaterial({color:'rgb(0,96,175)',blending:THREE['AdditiveBlending'],size:1.5});
 
-						m.wave_mesh = new THREE.Points( m.wave_geometry, m.wave_material );
+							m.wave_mesh = new THREE.Points( m.wave_geometry, m.wave_material );
 
-						m.wave_mesh.rotateX(-Math.PI/2);
-						m.wave_mesh.rotateZ(Math.PI/2);
-						m.wave_mesh.rotateY(Math.PI/90*3);
-						m.wave_mesh.position.y=-60;
-						m.wave_mesh.position.z=-135;
-						m.wave_mesh.rotateZ(Math.PI/90*1);
+							m.wave_mesh.rotateX(-Math.PI/2);
+							m.wave_mesh.rotateZ(Math.PI/2);
+							m.wave_mesh.rotateY(Math.PI/90*3);
+							m.wave_mesh.position.y=-60;
+							m.wave_mesh.position.z=-135;
+							m.wave_mesh.rotateZ(Math.PI/90*1);
 
-						m.scene.add(m.wave_mesh);
+							m.scene.add(m.wave_mesh);
+
+						// sprite
+							// m.wave_geometry=new THREE.PlaneGeometry(400 , 300 , m.WAVE_ROW-1 , m.WAVE_COL-1);
+							// m.wave_material = new THREE.PointsMaterial({color:'rgb(0,96,175)',blending:THREE['AdditiveBlending'],size:1.5});
+							// m.wave_mesh = new THREE.Points( m.wave_geometry, m.wave_material );
+							// m.wave_mesh.rotateX(-Math.PI/2);
+							// m.wave_mesh.rotateZ(Math.PI/2);
+							// m.wave_mesh.rotateY(Math.PI/90*3);
+							// m.wave_mesh.position.y=-60;
+							// m.wave_mesh.position.z=-135;
+							// m.wave_mesh.rotateZ(Math.PI/90*1);
+							// m.wave_mesh.rotateX(-Math.PI/2);
+							// m.wave_mesh.rotateZ(Math.PI/2);
+							// m.wave_mesh.rotateY(Math.PI/90*3);
+							// m.wave_mesh.position.y=-60;
+							// m.wave_mesh.position.z=-135;
+							// m.wave_mesh.rotateZ(Math.PI/90*1);
+
+							// var PI2 = Math.PI * 2;
+							// var program = function ( context ) {
+							// 	context.beginPath();
+							// 	context.arc( 0, 0, 1.5, 0, PI2, true );
+							// 	context.fill();
+							// };
+							// function generateSprite() {
+
+							// 	var canvas = document.createElement( 'canvas' );
+							// 	canvas.width = 16;
+							// 	canvas.height = 16;
+
+							// 	var context = canvas.getContext( '2d' );
+							// 	var gradient = context.createRadialGradient( canvas.width / 2, canvas.height / 2, 0, canvas.width / 2, canvas.height / 2, canvas.width / 2 );
+							// 	gradient.addColorStop( 0, 'rgba(255,255,255,1)' );
+							// 	gradient.addColorStop( 0.2, 'rgba(0,255,255,1)' );
+							// 	gradient.addColorStop( 0.4, 'rgba(0,0,64,1)' );
+							// 	gradient.addColorStop( 1, 'rgba(0,0,0,1)' );
+
+							// 	context.fillStyle = gradient;
+							// 	context.fillRect( 0, 0, canvas.width, canvas.height );
+
+							// 	return canvas;
+
+							// }
+							// m.wave_material = new THREE.SpriteMaterial( {
+							// 	map: new THREE.CanvasTexture( generateSprite() ),
+							// 	blending: THREE.AdditiveBlending,
+							// } );
+
+							// m.wave_sprites=[];
+							// for(var i=0;i<m.wave_geometry.vertices.length;i++){
+							// 	var wave_sprite=new THREE.Sprite(m.wave_material);
+							// 	m.wave_sprites.push(wave_sprite);
+							// 	m.scene.add(wave_sprite);
+							// }
 
 					}
 					create_wave_mesh();
@@ -337,8 +392,8 @@ ctrl
 							m.min_max_y=m.get_min_max_y();
 						}
 
-
-					animate();
+					// true animate
+						animate();
 
 				});
 
