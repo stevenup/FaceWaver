@@ -56,13 +56,14 @@ ctrl
 				if (y >  90) { y =  90};
 				if (y < -90) { y = -90};
 
-				y-=45;
+				y-=40;
 
 				m.mouse_x= (window.innerWidth/2 * x) / 90; 
 				m.mouse_y= (window.innerHeight/2 * y) / 90; 
 
-				m.mouse_x*=8;
-				m.mouse_y*=8;
+				m.mouse_x*=5;
+				// m.mouse_y*=8;
+
 			// }
 
 		}
@@ -193,9 +194,9 @@ ctrl
 				// init after audio loaded
 
 					// var big_scale_ratio=.15;
-					// for(var i=0,leni=m.scene.children.length;i<leni;i++){
-					// 	if(m.scene.children[i].is_head_mesh){
-					// 		var mesh=m.scene.children[i];
+					// for(var i=0,leni=m.group.children.length;i<leni;i++){
+					// 	if(m.group.children[i].is_head_mesh){
+					// 		var mesh=m.group.children[i];
 
 					// 		var is_big_scale=Math.random()<big_scale_ratio;
 					// 		if(is_big_scale){
@@ -207,9 +208,9 @@ ctrl
 					// 	}
 					// }
 
-					// for(var i=0,leni=m.scene.children.length;i<leni;i++){
-					// 	if(m.scene.children[i].is_head_mesh){
-					// 		var mesh=m.scene.children[i];
+					// for(var i=0,leni=m.group.children.length;i<leni;i++){
+					// 	if(m.group.children[i].is_head_mesh){
+					// 		var mesh=m.group.children[i];
 
 					// 		mesh.extrude_ratio=1+Math.random()*1.5+.000001;
 					// 		mesh.extrude_direction=Math.floor(Math.random()*2)?1:-1;
@@ -351,8 +352,8 @@ ctrl
 					init();
 					renderer.render(m.scene,m.camera);
 
-					// for(var i=0,len=m.scene.children.length;i<len;i++){
-					// 	var mesh=m.scene.children[i];
+					// for(var i=0,len=m.group.children.length;i<len;i++){
+					// 	var mesh=m.group.children[i];
 					// 	if(mesh.is_head_mesh){
 					// 		var scale_xy=Math.random();
 					// 		mesh.scale.set(scale_xy,scale_xy,1);
@@ -425,8 +426,8 @@ ctrl
 								m.xs=[];
 								var min=0;
 								var max=0;
-								for(var i=0;i<m.scene.children.length;i++){
-									var mesh=m.scene.children[i];
+								for(var i=0;i<m.group.children.length;i++){
+									var mesh=m.group.children[i];
 									if(mesh.is_head_mesh){
 										// m.scene.children[i].scale.set(1,1,Math.random()*5);
 										// console.log(m.scene.children[i].position);
@@ -451,8 +452,8 @@ ctrl
 								m.ys=[];
 								var min=0;
 								var max=0;
-								for(var i=0;i<m.scene.children.length;i++){
-									var mesh=m.scene.children[i];
+								for(var i=0;i<m.group.children.length;i++){
+									var mesh=m.group.children[i];
 									if(mesh.is_head_mesh){
 										// m.scene.children[i].scale.set(1,1,Math.random()*5);
 										// console.log(m.scene.children[i].position);
@@ -848,6 +849,7 @@ ctrl
 
 
 
+				m.group = new THREE.Group();
 
 				if(m.type=='sprite'){
 					var positions = new Float32Array( m.gv_vertices.length * 3 );
@@ -969,7 +971,7 @@ ctrl
 						m.a_mesh.position.set(gv_vertice.point.x , gv_vertice.point.y , gv_vertice.point.z);
 						m.extrude_meshes.push(m.a_mesh);
 						m.a_mesh.is_head_mesh=true;
-						m.scene.add( m.a_mesh );
+						m.group.add( m.a_mesh );
 						m.a_mesh.position_origin=new THREE.Vector3(
 							m.a_mesh.position.x,
 							m.a_mesh.position.y,
@@ -977,7 +979,7 @@ ctrl
 						)
 					}
 				}
-
+				m.scene.add(m.group);
 
 				m.scene.remove(mesh);
 				console.log('ok');
@@ -1127,9 +1129,9 @@ ctrl
 						var span_x=m.min_max_x.span/m.audio.bufferLength+0.000001;
 						var span_y=m.min_max_y.span/m.audio.bufferLength+0.000001;
 
-						for(var i=0,leni=m.scene.children.length;i<leni;i++){
-							if(m.scene.children[i].is_head_mesh){
-								var mesh=m.scene.children[i];
+						for(var i=0,leni=m.group.children.length;i<leni;i++){
+							if(m.group.children[i].is_head_mesh){
+								var mesh=m.group.children[i];
 
 								var position_x=mesh.position.x;
 								var position_y=mesh.position.y;
@@ -1227,8 +1229,14 @@ ctrl
 				}
 
 
-				m.camera.position.x += ( - m.mouse_x/3 - m.camera.position.x ) * 0.05;
-				m.camera.position.y += (  m.mouse_y/7 - m.camera.position.y ) * 0.05;
+				m.camera.position.x += ( - m.mouse_x/3 - m.camera.position.x ) * 0.08;
+				// m.camera.position.y += (  m.mouse_y/7 - m.camera.position.y ) * 0.05;
+
+
+				var max_rotation_y=(Math.PI/4 * m.mouse_y)/(window.innerHeight/2);
+
+				m.group.rotation.x +=  ( max_rotation_y-m.group.rotation.x)*0.3;
+
 				m.camera.lookAt( m.scene.position );
 
 				renderer.render( m.scene, m.camera );
