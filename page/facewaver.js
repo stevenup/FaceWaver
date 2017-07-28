@@ -13,6 +13,8 @@ ctrl
 		window.m=m;
 
 		m.is_stop=false;
+		m.mouse_x=0;
+		m.mouse_y=0;
 
 		// m.type='sprite';
 		m.type='extrude'; m.extrude_meshes=[];	
@@ -21,12 +23,58 @@ ctrl
 
 
 	// enter leave
+		$s.$on('$ionicView.afterEnter',function(){
+			document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+			document.addEventListener( 'touchstart', onDocumentTouchStart, false );
+			document.addEventListener( 'touchmove', onDocumentTouchMove, false );
+		})
 		$s.$on('$ionicView.beforeLeave',function(){
 			clearInterval(m.audio.interval);
 			m.is_stop=true;
 			cancelAnimationFrame(m.requestAnimationFrame_id);
 			m.audio.context.close();
+
+			document.removeEventListener( 'mousemove' );
+			document.removeEventListener( 'touchstart' );
+			document.removeEventListener( 'touchmove' );
 		})
+
+	// event
+		//
+
+		function onDocumentMouseMove( event ) {
+
+			m.mouse_x = event.clientX - window.innerWidth/2;
+			m.mouse_y = event.clientY - window.innerHeight/2;
+		}
+
+		function onDocumentTouchStart( event ) {
+
+			if ( event.touches.length == 1 ) {
+
+				event.preventDefault();
+
+				m.mouse_x = event.touches[ 0 ].pageX - window.innerWidth/2;
+				m.mouse_y = event.touches[ 0 ].pageY - window.innerHeight/2;
+
+			}
+
+		}
+
+		function onDocumentTouchMove( event ) {
+
+			if ( event.touches.length == 1 ) {
+
+				event.preventDefault();
+
+				m.mouse_x = event.touches[ 0 ].pageX - window.innerWidth/2;
+				m.mouse_y = event.touches[ 0 ].pageY - window.innerHeight/2;
+
+			}
+
+		}
+
+		//
 
 	// facewaver
 
@@ -149,7 +197,7 @@ ctrl
 						// points
 							m.wave_geometry=new THREE.PlaneBufferGeometry(800 , 512 , m.WAVE_ROW-1 , m.WAVE_COL-1);
 
-							m.wave_material = new THREE.PointsMaterial({color:'rgb(0,96,175)',blending:THREE['AdditiveBlending'],size:2});
+							m.wave_material = new THREE.PointsMaterial({color:'rgb(0,96,175)',blending:THREE['AdditiveBlending'],size:3});
 
 							m.wave_mesh = new THREE.Points( m.wave_geometry, m.wave_material );
 
@@ -473,7 +521,7 @@ ctrl
 				renderer.setSize( window.innerWidth, window.innerHeight );
 				container.appendChild( renderer.domElement );
 
-				var controls = new THREE.OrbitControls( m.camera, renderer.domElement );
+				// var controls = new THREE.OrbitControls( m.camera, renderer.domElement );
 
 				//
 
@@ -1143,6 +1191,11 @@ ctrl
 
 					}
 				}
+
+
+				m.camera.position.x += ( m.mouse_x/3 - m.camera.position.x ) * 0.05;
+				m.camera.position.y += ( - m.mouse_y/7 - m.camera.position.y ) * 0.05;
+				m.camera.lookAt( m.scene.position );
 
 				renderer.render( m.scene, m.camera );
 
