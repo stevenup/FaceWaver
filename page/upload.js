@@ -28,6 +28,9 @@ ctrl
 		}
 		$s.photo_upload=function(input_file){
 			ec.api.img_upload(input_file)
+			.then(function(re){
+				debugger;
+			})
 		}
 		$s.cropper_load_photo=function(input){
 

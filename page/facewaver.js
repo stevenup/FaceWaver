@@ -138,7 +138,7 @@ ctrl
 					function create_wave_mesh(){
 
 						m.WAVE_ROW=m.audio.bufferLength;
-						m.WAVE_COL=64;
+						m.WAVE_COL=128;
 						m.wave_datas=[];
 						// m.wave_datas=new Uint8Array(m.WAVE_COL+m.WAVE_ROW-1);
 						// for(var i=0,leni=m.wave_datas.length;i<leni;i++){
@@ -147,18 +147,18 @@ ctrl
 
 
 						// points
-							m.wave_geometry=new THREE.PlaneBufferGeometry(400 , 300 , m.WAVE_ROW-1 , m.WAVE_COL-1);
+							m.wave_geometry=new THREE.PlaneBufferGeometry(800 , 512 , m.WAVE_ROW-1 , m.WAVE_COL-1);
 
-							m.wave_material = new THREE.PointsMaterial({color:'rgb(0,96,175)',blending:THREE['AdditiveBlending'],size:1.5});
+							m.wave_material = new THREE.PointsMaterial({color:'rgb(0,96,175)',blending:THREE['AdditiveBlending'],size:2});
 
 							m.wave_mesh = new THREE.Points( m.wave_geometry, m.wave_material );
 
 							m.wave_mesh.rotateX(-Math.PI/2);
 							m.wave_mesh.rotateZ(Math.PI/2);
-							m.wave_mesh.rotateY(Math.PI/90*3);
+							// m.wave_mesh.rotateY(-Math.PI/90*3);
 							m.wave_mesh.position.y=-60;
-							m.wave_mesh.position.z=-135;
-							m.wave_mesh.rotateZ(Math.PI/90*1);
+							m.wave_mesh.position.z=-390;
+							// m.wave_mesh.rotateZ(Math.PI/90*1);
 
 							m.scene.add(m.wave_mesh);
 
@@ -408,8 +408,10 @@ ctrl
 
 				m.scene = new THREE.Scene();
 
-				m.camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 10000 );
-				m.camera.position.set(0,0,150);
+				m.scene.fog = new THREE.Fog( 0, 250, 1500  );
+
+				m.camera = new THREE.PerspectiveCamera( 30, window.innerWidth / window.innerHeight, 1, 10000 );
+				m.camera.position.set(0,0,230);
 
 				orth_camera = new THREE.OrthographicCamera( window.innerWidth / - 10, window.innerWidth / 10, window.innerHeight / 10, window.innerHeight / - 10, 1, 1000 );
 				orth_camera.position.z = 100;
@@ -435,7 +437,7 @@ ctrl
 					});
 					mesh = new THREE.Mesh( m.buffer_geometry, material );
 					// mesh.scale.set(10,10,10);
-					mesh.position.y=20;
+					mesh.position.y=15;
 					m.scene.add( mesh )
 
 				//
@@ -1123,21 +1125,21 @@ ctrl
 						}
 						m.wave_geometry.attributes.position.needsUpdate=true;
 
-						for(var i=0,leni=m.wave_datas.length;i<leni;i++){
-							if(m.wave_datas[i]){
+						// for(var i=0,leni=m.wave_datas.length;i<leni;i++){
+						// 	if(m.wave_datas[i]){
 
-								// m.wave_datas[i]=m.wave_datas[i].slice(2);
+						// 		// m.wave_datas[i]=m.wave_datas[i].slice(2);
 
-								// m.wave_datas[i].push(m.wave_datas[i].shift());
-								// m.wave_datas[i].push(m.wave_datas[i].shift());
+						// 		// m.wave_datas[i].push(m.wave_datas[i].shift());
+						// 		// m.wave_datas[i].push(m.wave_datas[i].shift());
 
-								m.wave_datas[i].shift();
-								m.wave_datas[i].push(m.wave_datas[i][m.wave_datas[i].length-1]);
-								m.wave_datas[i].shift();
-								m.wave_datas[i].push(m.wave_datas[i][m.wave_datas[i].length-1]);
+						// 		m.wave_datas[i].shift();
+						// 		m.wave_datas[i].push(m.wave_datas[i][m.wave_datas[i].length-1]);
+						// 		m.wave_datas[i].shift();
+						// 		m.wave_datas[i].push(m.wave_datas[i][m.wave_datas[i].length-1]);
 
-							}
-						}
+						// 	}
+						// }
 
 					}
 				}

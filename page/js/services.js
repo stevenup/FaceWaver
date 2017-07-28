@@ -20,14 +20,14 @@ angular.module('starter.services', [])
 	api.img_upload=function(input_file){
 		var form_data=new FormData();
 		form_data.append('user_id','abc');
-		form_data.append('face_data',input_file.files[0]);
-		$http({
-			method: 'POST',
-  			url: 'http://192.168.227.79:3000/api/v1/faces',
-			data: form_data,
-			transformRequest: angular.identity,
-			headers: { 'Content-Type': undefined }
-		})
+		form_data.append('face_pic',input_file.files[0]);
+		return $http({
+				method: 'POST',
+	  			url: 'http://192.168.227.79:3000/api/v1/faces',
+				data: form_data,
+				transformRequest: angular.identity,
+				headers: { 'Content-Type': undefined }
+			})
 	}
 
 	//***********************************************************************************************************************************************************************************************************************************************
