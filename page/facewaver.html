@@ -47,4 +47,42 @@
 
 	</script>
 
+	<script type="x-shader/x-vertex" id="wavevertexshader">
+
+		attribute float size;
+		attribute vec3 customColor;
+
+
+		void main() {
+
+
+			vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
+
+			gl_PointSize = 10.0 * ( 300.0 / -mvPosition.z );
+			// gl_PointSize = 3000.0 / -mvPosition.z ;
+			// gl_PointSize = size ;
+			// gl_PointSize = 5.0;
+
+			gl_Position = projectionMatrix * mvPosition;
+
+		}
+
+	</script>
+
+	<script type="x-shader/x-fragment" id="wavefragmentshader">
+
+		uniform vec3 color;
+		uniform sampler2D texture;
+
+
+		void main() {
+
+			gl_FragColor = vec4( 0.0, 0.0, .1, 1.0 );
+
+			// gl_FragColor = gl_FragColor * texture2D( texture, gl_PointCoord );
+
+		}
+
+	</script>
+
 </ion-view>

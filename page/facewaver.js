@@ -221,7 +221,7 @@ ctrl
 					function create_wave_mesh(){
 
 						m.WAVE_ROW=m.audio.bufferLength;
-						m.WAVE_COL=128;
+						m.WAVE_COL=256;
 						m.wave_datas=[];
 						// m.wave_datas=new Uint8Array(m.WAVE_COL+m.WAVE_ROW-1);
 						// for(var i=0,leni=m.wave_datas.length;i<leni;i++){
@@ -230,11 +230,55 @@ ctrl
 
 
 						// points
-							m.wave_geometry=new THREE.PlaneBufferGeometry(800 , 512 , m.WAVE_ROW-1 , m.WAVE_COL-1);
+							m.wave_geometry=new THREE.PlaneGeometry(800 , 512 , m.WAVE_ROW-1 , m.WAVE_COL-1);
 
-							m.wave_material = new THREE.PointsMaterial({color:'rgb(0,96,175)',blending:THREE['AdditiveBlending'],size:3});
+							var buffer_vertices=[];
+							for(var i=0;i<m.wave_geometry.vertices.length;i++){
+								var vertice=m.wave_geometry.vertices[i];
 
-							m.wave_mesh = new THREE.Points( m.wave_geometry, m.wave_material );
+								var is_same=false;
+								for(var j=0;j<buffer_vertices.length;j++){
+									if(
+										vertice.x==buffer_vertices.x
+										&&vertice.y==buffer_vertices.y
+										&&vertice.z==buffer_vertices.z
+									){
+										is_same=true;
+										break;
+									}
+								}
+								if(!is_same){
+									buffer_vertices.push(ng.copy(vertice));
+								}
+							}
+
+							m.wave_buffer_geometry=new THREE.BufferGeometry();
+							var positions=new Float32Array(buffer_vertices.length*3);
+							for(var i=0,i3=0;i<buffer_vertices.length;i++,i3+=3){
+								positions[i3+0]=buffer_vertices[i].x;
+								positions[i3+1]=buffer_vertices[i].y;
+								positions[i3+2]=buffer_vertices[i].z;
+							}
+							m.wave_buffer_geometry.addAttribute('position',new THREE.BufferAttribute(positions,3));
+
+
+							m.wave_material = new THREE.ShaderMaterial({
+								uniforms:{
+
+									// color:     { value: new THREE.Color( 0x0000ff ) },
+									// texture:   { value: new THREE.TextureLoader().load( "/img/square.png" ) }
+
+								},
+								vertexShader:   document.getElementById( 'wavevertexshader' ).textContent,
+								fragmentShader: document.getElementById( 'wavefragmentshader' ).textContent,
+
+								blending: THREE.AdditiveBlending,
+								depthTest:      false,
+								transparent:    true
+							});
+							// m.wave_material = new THREE.PointsMaterial({color:'rgb(0,96,175)',blending:THREE['AdditiveBlending'],size:3});
+
+							m.wave_mesh = new THREE.Points( m.wave_buffer_geometry, m.wave_material );
 
 							m.wave_mesh.rotateX(-Math.PI/2);
 							m.wave_mesh.rotateZ(Math.PI/2);
@@ -1193,7 +1237,7 @@ ctrl
 							if(m.wave_datas[i]){
 								for(var j_data=0,lenj=m.audio.bufferLength;j_data<lenj;j_data++){
 									var data=m.wave_datas[i][j_data];
-									m.wave_geometry.attributes.position.array[j_data*3+2+i_col*m.audio.bufferLength*3]=(data-128)/5;
+									m.wave_buffer_geometry.attributes.position.array[j_data*3+2+i_col*m.audio.bufferLength*3]=(data-128)/5;
 								}
 							}
 						}
@@ -1203,11 +1247,11 @@ ctrl
 							if(m.wave_datas[i]){
 								for(var j_data=0,lenj=m.audio.bufferLength;j_data<lenj;j_data++){
 									var data=m.wave_datas[i][m.audio.bufferLength-j_data];
-									m.wave_geometry.attributes.position.array[j_data*3+2+i_col*m.audio.bufferLength*3]=(data-128)/5;
+									m.wave_buffer_geometry.attributes.position.array[j_data*3+2+i_col*m.audio.bufferLength*3]=(data-128)/5;
 								}
 							}
 						}
-						m.wave_geometry.attributes.position.needsUpdate=true;
+						m.wave_buffer_geometry.attributes.position.needsUpdate=true;
 
 						// for(var i=0,leni=m.wave_datas.length;i<leni;i++){
 						// 	if(m.wave_datas[i]){
