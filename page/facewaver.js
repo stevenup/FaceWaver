@@ -262,21 +262,27 @@ ctrl
 							m.wave_buffer_geometry.addAttribute('position',new THREE.BufferAttribute(positions,3));
 
 
-							m.wave_material = new THREE.ShaderMaterial({
-								uniforms:{
+							// m.wave_material = new THREE.ShaderMaterial({
+							// 	uniforms:{
 
-									// color:     { value: new THREE.Color( 0x0000ff ) },
-									// texture:   { value: new THREE.TextureLoader().load( "/img/square.png" ) }
+							// 		// color:     { value: new THREE.Color( 0x0000ff ) },
+							// 		// texture:   { value: new THREE.TextureLoader().load( "/img/square.png" ) }
 
-								},
-								vertexShader:   document.getElementById( 'wavevertexshader' ).textContent,
-								fragmentShader: document.getElementById( 'wavefragmentshader' ).textContent,
+							// 	},
+							// 	vertexShader:   document.getElementById( 'wavevertexshader' ).textContent,
+							// 	fragmentShader: document.getElementById( 'wavefragmentshader' ).textContent,
 
-								blending: THREE.AdditiveBlending,
-								depthTest:      false,
-								transparent:    true
+							// 	blending: THREE.AdditiveBlending,
+							// 	depthTest:      false,
+							// 	transparent:    true
+							// });
+							m.wave_material = new THREE.PointsMaterial({
+								color:'rgb(0,96,175)',
+								blending:THREE.AdditiveBlending,
+								size:3,
+								// depthTest:false,
+								transparent:true,
 							});
-							// m.wave_material = new THREE.PointsMaterial({color:'rgb(0,96,175)',blending:THREE['AdditiveBlending'],size:3});
 
 							m.wave_mesh = new THREE.Points( m.wave_buffer_geometry, m.wave_material );
 
