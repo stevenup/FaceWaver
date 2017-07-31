@@ -281,10 +281,13 @@ ctrl
 								blending:THREE.AdditiveBlending,
 								size:3,
 								// depthTest:false,
+								depthWrite:false,
 								transparent:true,
+								// alphaTest:.5,
 							});
 
 							m.wave_mesh = new THREE.Points( m.wave_buffer_geometry, m.wave_material );
+							m.wave_mesh.renderOrder=999999;
 
 							m.wave_mesh.rotateX(-Math.PI/2);
 							m.wave_mesh.rotateZ(Math.PI/2);
@@ -1007,7 +1010,10 @@ ctrl
 							m.cylinder_height=3;
 							var geometry = new THREE.CylinderBufferGeometry( shape_size, shape_size, m.cylinder_height, 5 );
 
-						var material = new THREE.MeshLambertMaterial( { color: `rgb( ${gv_vertice.rgb[0]} , ${gv_vertice.rgb[1]} , ${gv_vertice.rgb[2]} )` } );
+						var material = new THREE.MeshLambertMaterial( { 
+							color: `rgb( ${gv_vertice.rgb[0]} , ${gv_vertice.rgb[1]} , ${gv_vertice.rgb[2]} )` ,
+							// depthTest:false,
+						} );
 						m.a_mesh = new THREE.Mesh( geometry, material ) ;
 
 						// for(var i=0;i<m.a_mesh.geometry.attributes.position.array.length;i++){
@@ -1280,7 +1286,7 @@ ctrl
 
 
 				m.camera.position.x += ( - m.mouse_x/3 - m.camera.position.x ) * 0.08;
-				// m.camera.position.y += (  m.mouse_y/7 - m.camera.position.y ) * 0.05;
+				m.camera.position.y += (  m.mouse_y/7 - m.camera.position.y ) * 0.05;
 
 
 				var max_rotation_y=(Math.PI/4 * m.mouse_y)/(window.innerHeight/2);

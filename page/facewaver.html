@@ -52,18 +52,23 @@
 		attribute float size;
 		attribute vec3 customColor;
 
+		// varying float positionz;
+
 
 		void main() {
 
+			// positionz=position.z;
 
 			vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
 
-			gl_PointSize = 10.0 * ( 300.0 / -mvPosition.z );
+			gl_PointSize = 5.0 * ( 300.0 / -mvPosition.z );
 			// gl_PointSize = 3000.0 / -mvPosition.z ;
 			// gl_PointSize = size ;
 			// gl_PointSize = 5.0;
 
 			gl_Position = projectionMatrix * mvPosition;
+
+
 
 		}
 
@@ -74,13 +79,22 @@
 		uniform vec3 color;
 		uniform sampler2D texture;
 
+		// varying float positionz;
 
 		void main() {
 
+			// float opacity=1.0;
+			// if(positionz<0.0){
+			// 	opacity=1.0-(-1.0 *positionz/300.0);
+			// }
+			// else{
+			// 	opacity=1.0;
+			// }
+
 			// gl_FragColor = vec4( 0.0, 0.0, .1, 1.0 );
 			// gl_FragColor = vec4( 15.0/255.0, 5.0/255.0, 87.0/255.0, 1.0 );
-			// gl_FragColor = vec4( 0.0/255.0, 0.0/255.0, 87.0/255.0, 1.0 );
-			gl_FragColor = vec4( 0.05, 0.05, 0.1, 1.0 );
+			gl_FragColor = vec4( 0.0/255.0, 96.0/255.0, 175.0/255.0, 1.0 );
+			// gl_FragColor = vec4( 0.05, 0.05, 0.1, 1.0 );
 
 			// gl_FragColor = gl_FragColor * texture2D( texture, gl_PointCoord );
 
