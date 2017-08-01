@@ -152,19 +152,24 @@ ctrl
 			// m.audio.distortion = m.audio.context.createWaveShaper();
 
 			m.audio.loadSound=function (url) {
+				var deferred=$q.defer();
 				var request = new XMLHttpRequest();
 				request.open('GET', url, true);
 				request.responseType = 'arraybuffer';
 
 				request.onload = function() {
 					m.audio.context.decodeAudioData(request.response, function(buffer) {
-						m.audio.sound_buffer = buffer;
-						debugger;
-						m.audio.playSound(buffer);
+						deferred.resolve(buffer);
+						// m.audio.sound_buffer = buffer;
+						// m.audio.playSound(buffer);
 						// animate();
-					}, m.audio.onError);
+					}, function(){
+						deferred.reject();
+					});
 				}
 				request.send();
+
+				return deferred.promise;
 			} 
 
 			m.audio.onError=function (e){
@@ -183,10 +188,13 @@ ctrl
 			m.audio.playSound=function (buffer) {
 				m.audio.source = m.audio.context.createBufferSource(); // creates a sound source
 				m.audio.source.buffer = buffer;                    // tell the source which sound to play
-				m.audio.source.connect(m.audio.analyser);
+
 				// m.audio.analyser.connect(m.audio.distortion);
 				// m.audio.distortion.connect(m.audio.context.destination);       // connect the source to the context's destination (the speakers)
+
+				m.audio.source.connect(m.audio.analyser);
 				m.audio.analyser.connect(m.audio.context.destination);
+
 
 				m.audio.analyser.fftSize = 256; // best 256 
 				m.audio.bufferLength = m.audio.analyser.frequencyBinCount;
@@ -1312,5 +1320,9 @@ ctrl
 
 	// init
 		$s.init();
+
+		setInterval(function(){
+			console.log('currentTime', m.audio.context.currentTime);
+		},1000)
 	
 })
