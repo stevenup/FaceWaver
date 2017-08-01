@@ -34,12 +34,20 @@ ctrl
 			localStorage.facewaver_song_act=ng.toJson(song);
 		}
 		$s.get_song_act=function(){
+			if(!localStorage.facewaver_song_act){
+				location='#/tab/home';
+				return;
+			}
 			return ng.fromJson(localStorage.facewaver_song_act);
 		}
 		$s.set_photo_url=function(photo_url){
 			localStorage.facewaver_photo_url=photo_url;
 		}
 		$s.get_photo_url=function(){
+			if(!localStorage.facewaver_photo_url){
+				location='#/tab/home';
+				return;
+			}
 			return localStorage.facewaver_photo_url;
 		}
 
