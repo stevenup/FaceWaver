@@ -17,6 +17,8 @@ ctrl
 
 		// m.type='sprite';
 		m.type='extrude'; m.extrude_meshes=[];	
+
+		m.song_index=0;
 		m.is_stop=false;
 		m.mouse_x=0;
 		m.mouse_y=0;
@@ -156,9 +158,12 @@ ctrl
 	// fn
 		$s.init=function(){
 
+			ec.api.do
+
 			$q.all([
 				$s.load_obj( 'model/head_4_long_face.obj'),
-				$s.loadSound($s.get_song_act().audio_file.url),
+				// $s.loadSound($s.get_song_act().audio_file.url),
+				$s.loadSound(ec.pm.playlist[0].audio_file.url),
 				$s.load_image($s.get_photo_url()),
 			])
 			.then(function(res){
@@ -170,10 +175,10 @@ ctrl
 
 				var re=res[1]; //sound
 					var buffer=re.buffer;
-					m.audio.source = m.audio.context.createBufferSource(); // creates a sound source
-					m.audio.source.buffer = buffer;  
+					m.audio.source_act = m.audio.context.createBufferSource(); 
+					m.audio.source_act.buffer = buffer;  
 
-					m.audio.source.connect(m.audio.analyser);
+					m.audio.source_act.connect(m.audio.analyser);
 					m.audio.analyser.connect(m.audio.context.destination);   
 
 					m.audio.analyser.fftSize = 256; // best 256 
@@ -1173,7 +1178,9 @@ ctrl
 
 
 					m.is_loaded_all=true;
-					$ionicLoading.hide();
+			})
+			.finally(function(){
+				$ionicLoading.hide();
 			})
 
 		}
@@ -1221,23 +1228,33 @@ ctrl
 			return deferred.promise;
 		}
 		$s.play=function (){
-			m.audio.source.start(0);
+			m.audio.source_act.start(0);
 			m.is_playing=true;
 		}
 		$s.next_song=function(){
-			$s.loadSound('song/B Brightz,Julian Jordan,Firebeatz - Rage(B Brightz Remix)_clip.mp3')
+			$ionicLoading.show();
+			m.song_index++;
+			if(m.song_index>ec.pm.playlist.length-1){
+				m.song_index=0;
+			}
+			$s.loadSound(ec.pm.playlist[m.song_index].audio_file.url)
 			.then(function(re){
 				var buffer=re.buffer;
 				m.audio.source_next = m.audio.context.createBufferSource(); // creates a sound source
 				m.audio.source_next.buffer = buffer;  
 
-				m.audio.source.disconnect(m.audio.analyser);
+				m.audio.source_act.disconnect(m.audio.analyser);
 				m.audio.source_next.connect(m.audio.analyser);
 
 				m.audio.source_next.start(0);                
 				// m.audio.analyser.fftSize = 256; // best 256 
 				// m.audio.bufferLength = m.audio.analyser.frequencyBinCount;
 				// m.audio.dataArray = new Uint8Array(m.audio.bufferLength);
+
+				m.audio.source_act=m.audio.source_next;
+			})
+			.finally(function(){
+				$ionicLoading.hide();
 			})
 		}
 

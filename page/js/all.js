@@ -12,8 +12,33 @@ ctrl
 		$s.config=config;
 		$s.ec={};
 		$s.ec.pm=ec.pm;
-		
 
+
+		ec.pm.songlist=[
+			{
+				title:'Refrain',
+				artist:'Anan Ryoko',
+				audio_file:{
+					url:'song/Anan Ryoko - Refrain_clip.mp3',
+				},
+			},
+			{
+				title:'Rage',
+				artist:'B Brightz,Julian Jordan,Firebeatz ',
+				audio_file:{
+					url:'song/B Brightz,Julian Jordan,Firebeatz - Rage(B Brightz Remix)_clip.mp3',
+				},
+			},
+			{
+				title:'Calavera',
+				artist:'Klaas',
+				audio_file:{
+					url:'song/Klaas - Calavera (Original Edit)_clip.mp3',
+				},
+			},
+		]
+
+		ec.pm.playlist=ng.copy(ec.pm.songlist);
 
 	// fn
 		$s.is_new_message=function(){

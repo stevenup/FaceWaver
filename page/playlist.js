@@ -9,51 +9,8 @@ ctrl
 		$s.m={};
 		var m=$s.m;
 
-		m.songlist=[
-			{
-				title:'Refrain',
-				artist:'Anan Ryoko',
-				audio_file:{
-					url:'song/Anan Ryoko - Refrain_clip.mp3',
-				},
-			},
-			// {
-			// 	title:'Rage',
-			// 	artist:'B Brightz,Julian Jordan,Firebeatz ',
-			// 	audio_file:{
-			// 		url:'song/B Brightz,Julian Jordan,Firebeatz - Rage(B Brightz Remix)_clip.mp3',
-			// 	},
-			// },
-			{
-				title:'Calavera',
-				artist:'Klaas',
-				audio_file:{
-					url:'song/Klaas - Calavera (Original Edit)_clip.mp3',
-				},
-			},
-		]
-
-		// m.songlist=[];
-		// for(var i=0;i<3;i++){
-		// 	m.songlist=m.songlist.concat(ng.copy(songlist));
-		// }
-
-		m.playlist=[
-			{
-				title:'Refrain',
-				artist:'Anan Ryoko',
-				audio_file:{
-					url:'song/Anan Ryoko - Refrain_clip.mp3',
-				},
-			},
-			{
-				title:'Calavera',
-				artist:'Klaas',
-				audio_file:{
-					url:'song/Klaas - Calavera (Original Edit)_clip.mp3',
-				},
-			},
-		]
+		m.songlist=ec.pm.songlist;
+		m.playlist=ec.pm.playlist;
 
 		// m.audio=jq('.page_songlist .audio')[0];
 
