@@ -172,8 +172,10 @@ ctrl
 					var buffer=re.buffer;
 					m.audio.source = m.audio.context.createBufferSource(); // creates a sound source
 					m.audio.source.buffer = buffer;  
+
 					m.audio.source.connect(m.audio.analyser);
-					m.audio.analyser.connect(m.audio.context.destination);                  // tell the source which sound to play
+					m.audio.analyser.connect(m.audio.context.destination);   
+
 					m.audio.analyser.fftSize = 256; // best 256 
 					m.audio.bufferLength = m.audio.analyser.frequencyBinCount;
 					m.audio.dataArray = new Uint8Array(m.audio.bufferLength);
@@ -1221,6 +1223,22 @@ ctrl
 		$s.play=function (){
 			m.audio.source.start(0);
 			m.is_playing=true;
+		}
+		$s.next_song=function(){
+			$s.loadSound('song/B Brightz,Julian Jordan,Firebeatz - Rage(B Brightz Remix)_clip.mp3')
+			.then(function(re){
+				var buffer=re.buffer;
+				m.audio.source_next = m.audio.context.createBufferSource(); // creates a sound source
+				m.audio.source_next.buffer = buffer;  
+
+				m.audio.source.disconnect(m.audio.analyser);
+				m.audio.source_next.connect(m.audio.analyser);
+
+				m.audio.source_next.start(0);                
+				// m.audio.analyser.fftSize = 256; // best 256 
+				// m.audio.bufferLength = m.audio.analyser.frequencyBinCount;
+				// m.audio.dataArray = new Uint8Array(m.audio.bufferLength);
+			})
 		}
 
 	// init

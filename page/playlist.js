@@ -17,13 +17,13 @@ ctrl
 					url:'song/Anan Ryoko - Refrain_clip.mp3',
 				},
 			},
-			{
-				title:'Rage',
-				artist:'B Brightz,Julian Jordan,Firebeatz ',
-				audio_file:{
-					url:'song/B Brightz,Julian Jordan,Firebeatz - Rage(B Brightz Remix).mp3',
-				},
-			},
+			// {
+			// 	title:'Rage',
+			// 	artist:'B Brightz,Julian Jordan,Firebeatz ',
+			// 	audio_file:{
+			// 		url:'song/B Brightz,Julian Jordan,Firebeatz - Rage(B Brightz Remix)_clip.mp3',
+			// 	},
+			// },
 			{
 				title:'Calavera',
 				artist:'Klaas',
