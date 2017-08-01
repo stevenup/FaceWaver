@@ -951,7 +951,7 @@ ctrl
 
 
 						m.camera.position.x += ( - m.mouse_x/3 - m.camera.position.x ) * 0.08;
-						m.camera.position.y += (  m.mouse_y/7 - m.camera.position.y ) * 0.05;
+						// m.camera.position.y += (  m.mouse_y/7 - m.camera.position.y ) * 0.05;
 
 
 						var max_rotation_y=(Math.PI/4 * m.mouse_y)/(window.innerHeight/2);

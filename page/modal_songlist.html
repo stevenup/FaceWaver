@@ -15,7 +15,7 @@
 				<h2 style="color:white;">{{song.title}}</h2>
 				<p style="color:white;">{{song.artist}}</p>
 				
-				<audio class="audio" gv-audio   style="display:none ;" ng-src="{{song.audio_file.url}}" >
+				<audio class="audio" preload="none" gv-audio   style="display:none ;" ng-src="{{song.audio_file.url}}" >
 					Your browser does not support the <code>audio</code> element.
 				</audio>
 

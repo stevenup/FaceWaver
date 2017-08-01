@@ -14,7 +14,7 @@ ctrl
 				title:'Refrain',
 				artist:'Anan Ryoko',
 				audio_file:{
-					url:'song/Anan Ryoko - Refrain.mp3',
+					url:'song/Anan Ryoko - Refrain_clip.mp3',
 				},
 			},
 			{
@@ -43,14 +43,7 @@ ctrl
 				title:'Refrain',
 				artist:'Anan Ryoko',
 				audio_file:{
-					url:'song/Anan Ryoko - Refrain.mp3',
-				},
-			},
-			{
-				title:'Rage',
-				artist:'B Brightz,Julian Jordan,Firebeatz ',
-				audio_file:{
-					url:'song/B Brightz,Julian Jordan,Firebeatz - Rage(B Brightz Remix).mp3',
+					url:'song/Anan Ryoko - Refrain_clip.mp3',
 				},
 			},
 			{
