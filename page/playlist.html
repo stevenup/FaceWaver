@@ -34,7 +34,7 @@
 				<i class="icon iconfont icon-play" ng-show="m.song_playing!=song" ng-click="$event.stopPropagation();play()" style="padding:0 11px;right: 0;"></i>
 				<i class="icon ion-ios-pause-outline" ng-show="m.song_playing==song" ng-click="$event.stopPropagation();stop()" style="    right: 12px; font-size: 38px;padding:0 11px;right: 0;"></i>
 
-				<audio class="audio" gv-audio ng-src="{{song.audio_file.url}}"    style="display: none;" >
+				<audio class="audio" preload="metadata" gv-audio ng-src="{{song.audio_file.url}}"    style="display: none;" >
 					Your browser does not support the <code>audio</code> element.
 				</audio>
 
