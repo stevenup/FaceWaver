@@ -1231,6 +1231,32 @@ ctrl
 			m.audio.source_act.start(0);
 			m.is_playing=true;
 		}
+		$s.prev_song=function(){
+			$ionicLoading.show();
+			m.song_index--;
+			if(m.song_index<0){
+				m.song_index=ec.pm.playlist.length-1;
+			}
+			$s.loadSound(ec.pm.playlist[m.song_index].audio_file.url)
+			.then(function(re){
+				var buffer=re.buffer;
+				m.audio.source_prev = m.audio.context.createBufferSource(); // creates a sound source
+				m.audio.source_prev.buffer = buffer;  
+
+				m.audio.source_act.disconnect(m.audio.analyser);
+				m.audio.source_prev.connect(m.audio.analyser);
+
+				m.audio.source_prev.start(0);                
+				// m.audio.analyser.fftSize = 256; // best 256 
+				// m.audio.bufferLength = m.audio.analyser.frequencyBinCount;
+				// m.audio.dataArray = new Uint8Array(m.audio.bufferLength);
+
+				m.audio.source_act=m.audio.source_prev;
+			})
+			.finally(function(){
+				$ionicLoading.hide();
+			})
+		}
 		$s.next_song=function(){
 			$ionicLoading.show();
 			m.song_index++;

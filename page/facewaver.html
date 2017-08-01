@@ -7,7 +7,8 @@
 
 	<div class="buttons" style="position: fixed;bottom:0;text-align: center;height: 50px;width:100%; " >
 		<button class="play" ng-if="m.is_loaded_all&&!m.is_playing" ng-click="play()">play</button>
-		<button class="next" ng-if="m.is_loaded_all " ng-click="next_song()">next song</button>
+		<button class="next" ng-if="m.is_loaded_all&&m.is_playing " ng-click="prev_song()">prev song</button>
+		<button class="next" ng-if="m.is_loaded_all&&m.is_playing " ng-click="next_song()">next song</button>
 	</div>
 
 	<script type="x-shader/x-vertex" id="vertexshader">
