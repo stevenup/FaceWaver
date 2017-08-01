@@ -48,7 +48,7 @@
 
 	<label class="upload" ng-if="!m.is_uploaded" style="position:fixed;width: 160px;height: 160px;margin: auto;left: 0;right: 0;bottom:0;">
 		<img src="img/upload.png" style="width: 100%;">
-		<input type="file" name="" onchange="angular.element(this).scope().cropper_load_photo(this);angular.element(this)[0].value=''" style="opacity: 0;">
+		<input type="file" name="" onchange="angular.element(this).scope().photo_upload(this);angular.element(this)[0].value=''" style="opacity: 0;">
 	</label>
 
 	<label class="generate" ng-if="m.is_uploaded" ng-click="cropper_finish()" style="position:fixed;width: 160px;height: 160px;margin: auto;left: 0;right: 0;bottom:0;">
@@ -61,7 +61,7 @@
 
 	<label class="reupload" ng-if="m.is_uploaded" style="position:fixed;width: 68px;height: 68px;right: 20px;bottom: 46px;">
 		<img src="img/reupload.png" style="width: 100%;">
-		<input type="file" name="" onchange="angular.element(this).scope().cropper_load_photo(this);angular.element(this)[0].value=''" style="opacity: 0;">
+		<input type="file" name="" onchange="angular.element(this).scope().photo_upload(this);angular.element(this)[0].value=''" style="opacity: 0;">
 	</label>
 
 </ion-view>

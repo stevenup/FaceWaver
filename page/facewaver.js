@@ -149,7 +149,7 @@ ctrl
 			m.audio.context = new AudioContext();
 			m.audio.source;
 			m.audio.analyser=m.audio.context.createAnalyser();
-			m.audio.distortion = m.audio.context.createWaveShaper();
+			// m.audio.distortion = m.audio.context.createWaveShaper();
 
 			m.audio.loadSound=function (url) {
 				var request = new XMLHttpRequest();
@@ -159,6 +159,7 @@ ctrl
 				request.onload = function() {
 					m.audio.context.decodeAudioData(request.response, function(buffer) {
 						m.audio.sound_buffer = buffer;
+						debugger;
 						m.audio.playSound(buffer);
 						// animate();
 					}, m.audio.onError);
@@ -183,8 +184,9 @@ ctrl
 				m.audio.source = m.audio.context.createBufferSource(); // creates a sound source
 				m.audio.source.buffer = buffer;                    // tell the source which sound to play
 				m.audio.source.connect(m.audio.analyser);
-				m.audio.analyser.connect(m.audio.distortion);
-				m.audio.distortion.connect(m.audio.context.destination);       // connect the source to the context's destination (the speakers)
+				// m.audio.analyser.connect(m.audio.distortion);
+				// m.audio.distortion.connect(m.audio.context.destination);       // connect the source to the context's destination (the speakers)
+				m.audio.analyser.connect(m.audio.context.destination);
 
 				m.audio.analyser.fftSize = 256; // best 256 
 				m.audio.bufferLength = m.audio.analyser.frequencyBinCount;
@@ -261,30 +263,29 @@ ctrl
 							}
 							m.wave_buffer_geometry.addAttribute('position',new THREE.BufferAttribute(positions,3));
 
+							// ShaderMaterial
+								// m.wave_material = new THREE.ShaderMaterial({
+								// 	uniforms:{
+								// 		color:     { value: new THREE.Color( 'rgb(0,96,175)' ) },
+								// 		texture:   { value: new THREE.TextureLoader().load( "img/disc_big.png" ) }
+								// 	},
+								// 	vertexShader:   document.getElementById( 'wavevertexshader' ).textContent,
+								// 	fragmentShader: document.getElementById( 'wavefragmentshader' ).textContent,
 
-							// m.wave_material = new THREE.ShaderMaterial({
-							// 	uniforms:{
+								// 	blending: THREE.AdditiveBlending,
+								// 	depthWrite:      false,
+								// 	transparent:    true
+								// });
 
-							// 		// color:     { value: new THREE.Color( 0x0000ff ) },
-							// 		// texture:   { value: new THREE.TextureLoader().load( "/img/square.png" ) }
-
-							// 	},
-							// 	vertexShader:   document.getElementById( 'wavevertexshader' ).textContent,
-							// 	fragmentShader: document.getElementById( 'wavefragmentshader' ).textContent,
-
-							// 	blending: THREE.AdditiveBlending,
-							// 	depthTest:      false,
-							// 	transparent:    true
-							// });
-							m.wave_material = new THREE.PointsMaterial({
-								color:'rgb(0,96,175)',
-								blending:THREE.AdditiveBlending,
-								size:3,
-								// depthTest:false,
-								depthWrite:false,
-								transparent:true,
-								// alphaTest:.5,
-							});
+							// PointsMaterial
+								m.wave_material = new THREE.PointsMaterial({
+									color:'rgb(0,96,175)',
+									blending:THREE.AdditiveBlending,
+									size:5,
+									map:new THREE.TextureLoader().load( "img/disc_big.png" ),
+									depthWrite:false,
+									transparent:true,
+								});
 
 							m.wave_mesh = new THREE.Points( m.wave_buffer_geometry, m.wave_material );
 							m.wave_mesh.renderOrder=999999;
