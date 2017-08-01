@@ -277,7 +277,7 @@ ctrl
 							// m.helper.mesh_z.position.z=5;
 							// m.scene.add(m.helper.mesh_z);
 
-						renderer = new THREE.WebGLRenderer();
+						renderer = new THREE.WebGLRenderer({antialias:true});
 						renderer.setPixelRatio( 1 );
 						renderer.setSize( window.innerWidth, window.innerHeight );
 						container.appendChild( renderer.domElement );
@@ -1095,7 +1095,7 @@ ctrl
 					function create_wave_mesh(){
 
 						m.WAVE_ROW=m.audio.bufferLength;
-						m.WAVE_COL=256;
+						m.WAVE_COL=64;
 						m.wave_datas=[];
 						// m.wave_datas=new Uint8Array(m.WAVE_COL+m.WAVE_ROW-1);
 						// for(var i=0,leni=m.wave_datas.length;i<leni;i++){
