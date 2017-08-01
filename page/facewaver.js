@@ -169,6 +169,14 @@ ctrl
 					m.geometry = new THREE.Geometry().fromBufferGeometry( m.buffer_geometry );
 
 				var re=res[1]; //sound
+					var buffer=re.buffer;
+					m.audio.source = m.audio.context.createBufferSource(); // creates a sound source
+					m.audio.source.buffer = buffer;  
+					m.audio.source.connect(m.audio.analyser);
+					m.audio.analyser.connect(m.audio.context.destination);                  // tell the source which sound to play
+					m.audio.analyser.fftSize = 256; // best 256 
+					m.audio.bufferLength = m.audio.analyser.frequencyBinCount;
+					m.audio.dataArray = new Uint8Array(m.audio.bufferLength);
 
 				var re=res[2]; //image
 					var image=re.image;
@@ -177,38 +185,6 @@ ctrl
 					m.texture.needsUpdate = true;
 
 				// after all
-					m.audio.playSound=function (buffer) {
-						m.audio.source = m.audio.context.createBufferSource(); // creates a sound source
-						m.audio.source.buffer = buffer;                    // tell the source which sound to play
-
-						// m.audio.analyser.connect(m.audio.distortion);
-						// m.audio.distortion.connect(m.audio.context.destination);       // connect the source to the context's destination (the speakers)
-
-						m.audio.source.connect(m.audio.analyser);
-						m.audio.analyser.connect(m.audio.context.destination);
-
-
-						m.audio.analyser.fftSize = 256; // best 256 
-						m.audio.bufferLength = m.audio.analyser.frequencyBinCount;
-						console.log('bufferLength',m.audio.bufferLength);
-						m.audio.dataArray = new Uint8Array(m.audio.bufferLength);
-
-					}
-
-					m.audio.interval=setInterval(function(){
-						if(m.audio.source){
-							// jq('.loading').hide();
-							$ionicLoading.hide();
-							jq('.play').show();
-							clearInterval(m.audio.interval);
-						}
-					},300)
-
-					$s.play=function (){
-						m.audio.source.start(0);
-						m.is_playing=true;
-						jq('.play').hide();
-					}
 
 					var canvas2d=document.createElement('canvas');
 					canvas2d.width=window.innerWidth;
@@ -729,7 +705,6 @@ ctrl
 
 						m.scene.remove(mesh);
 						console.log('ok');
-						// jq('.loading').hide();
 
 						//
 
@@ -1191,10 +1166,12 @@ ctrl
 
 					}
 					create_wave_mesh();
-					
+
 					animate();
 
 
+					m.is_loaded_all=true;
+					$ionicLoading.hide();
 			})
 
 		}
@@ -1220,9 +1197,6 @@ ctrl
 			request.onload = function() {
 				m.audio.context.decodeAudioData(request.response, function(buffer) {
 					deferred.resolve({buffer:buffer});
-					// m.audio.sound_buffer = buffer;
-					// m.audio.playSound(buffer);
-					// animate();
 				}, function(){
 					deferred.reject();
 				});
@@ -1243,6 +1217,10 @@ ctrl
 			})
 
 			return deferred.promise;
+		}
+		$s.play=function (){
+			m.audio.source.start(0);
+			m.is_playing=true;
 		}
 
 	// init
