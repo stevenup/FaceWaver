@@ -27,6 +27,7 @@ ctrl
 		m.window_ratio=window.innerWidth/window.innerHeight;
 		m.scale_xy=1;
 		var camera;
+		m.switch={}
 
 		m.audio={};
 		m.audio.sound_buffer = null;
@@ -241,6 +242,7 @@ ctrl
 
 						m.camera = new THREE.PerspectiveCamera( 30, window.innerWidth / window.innerHeight, 1, 10000 );
 						m.camera.position.set(0,0,230);
+						m.camera.position.set(0,0,630);
 
 						orth_camera = new THREE.OrthographicCamera( window.innerWidth / - 10, window.innerWidth / 10, window.innerHeight / 10, window.innerHeight / - 10, 1, 1000 );
 						orth_camera.position.z = 100;
@@ -772,6 +774,7 @@ ctrl
 
 					var frame_count=0;
 					var is_frame_count_trigger=false;
+					m.switch.scale_num=300;
 					// var center=0;
 					function render() {
 
@@ -977,6 +980,38 @@ ctrl
 
 							}
 						}
+
+
+						// update switch spline
+							m.switch.scale_num--;
+							for(var j=0;j<m.switch.scale_num;j++){
+								for(var i=j*4;i<(j+1)*4;i++){
+									var vertex=new THREE.Vector3(
+										m.switch.position_origin.array[i*3+0],
+										m.switch.position_origin.array[i*3+1],
+										m.switch.position_origin.array[i*3+2]
+									)
+									var normal=new THREE.Vector3(
+										m.switch.normal_origin.array[i*3+0],
+										m.switch.normal_origin.array[i*3+1],
+										m.switch.normal_origin.array[i*3+2]
+									)
+									var sub_vector=normal.multiplyScalar((m.switch.scale_num-j)/20);
+									if(sub_vector.length()<m.switch.SWITCH_SPLINE_RADIUS){
+										vertex.sub(sub_vector);
+										m.switch.buffer_geometry.attributes.position.array[i*3+0]=vertex.x;
+										m.switch.buffer_geometry.attributes.position.array[i*3+1]=vertex.y;
+										m.switch.buffer_geometry.attributes.position.array[i*3+2]=vertex.z;
+									}
+									else{
+										var result=m.switch.curve.getPointAt(j/m.switch.SWITCH_SPLINE_STEP);
+										m.switch.buffer_geometry.attributes.position.array[i*3+0]=result.x;
+										m.switch.buffer_geometry.attributes.position.array[i*3+1]=result.y;
+										m.switch.buffer_geometry.attributes.position.array[i*3+2]=result.z;
+									}
+								}
+							}
+							m.switch.buffer_geometry.attributes.position.needsUpdate=true;
 
 
 						if(!m.is_orbit_control){
@@ -1194,13 +1229,10 @@ ctrl
 							// m.wave_mesh.rotateZ(Math.PI/90*1);
 
 							m.scene.add(m.wave_mesh);
-
 					}
 					create_wave_mesh();
 
 					function create_switch_spline(){
-
-						m.switch={}
 						m.switch.spline_points=[
 							new THREE.Vector3(-38.07014625027938, -81.2354956134634, 56.10018915737797),
 							new THREE.Vector3(-96.87676607360422, 447.113624436634, -14.495472686253045),
@@ -1238,35 +1270,7 @@ ctrl
 							m.switch.position_origin=m.switch.buffer_geometry.attributes.position.clone();
 							m.switch.normal_origin=m.switch.buffer_geometry.attributes.normal.clone();
 
-							var scale_num=30;
-							for(var j=0;j<scale_num;j++){
-								for(var i=j*4;i<(j+1)*4;i++){
-									var vertex=new THREE.Vector3(
-										m.switch.position_origin.array[i*3+0],
-										m.switch.position_origin.array[i*3+1],
-										m.switch.position_origin.array[i*3+2]
-									)
-									var normal=new THREE.Vector3(
-										m.switch.normal_origin.array[i*3+0],
-										m.switch.normal_origin.array[i*3+1],
-										m.switch.normal_origin.array[i*3+2]
-									)
-									var sub_vector=normal.multiplyScalar((scale_num-j)/20);
-									if(sub_vector.length()<m.switch.SWITCH_SPLINE_RADIUS){
-										vertex.sub(sub_vector);
-										m.switch.buffer_geometry.attributes.position.array[i*3+0]=vertex.x;
-										m.switch.buffer_geometry.attributes.position.array[i*3+1]=vertex.y;
-										m.switch.buffer_geometry.attributes.position.array[i*3+2]=vertex.z;
-									}
-									else{
-										var result=m.switch.curve.getPointAt(j/m.switch.SWITCH_SPLINE_STEP);
-										m.switch.buffer_geometry.attributes.position.array[i*3+0]=result.x;
-										m.switch.buffer_geometry.attributes.position.array[i*3+1]=result.y;
-										m.switch.buffer_geometry.attributes.position.array[i*3+2]=result.z;
-									}
-								}
-							}
-							m.switch.buffer_geometry.attributes.position.needsUpdate=true;
+
 
 
 						var material=new THREE.MeshLambertMaterial( {color: 0x00ff00, } ) ;
@@ -1281,7 +1285,6 @@ ctrl
 
 
 						m.scene.add(m.switch.mesh);
-
 					}
 					create_switch_spline();
 
