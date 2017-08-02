@@ -17,6 +17,7 @@ ctrl
 
 		// m.type='sprite';
 		m.type='extrude'; m.extrude_meshes=[];	
+		m.is_orbit_control=true;
 
 		m.song_index=0;
 		m.is_stop=false;
@@ -217,6 +218,25 @@ ctrl
 
 						m.scene = new THREE.Scene();
 
+						// spline
+							// var positions=[
+							// 	new THREE.Vector3(-38.07014625027938, -81.2354956134634, 56.10018915737797),
+							// 	new THREE.Vector3(-96.87676607360422, 447.113624436634, -14.495472686253045),
+							// 	new THREE.Vector3(-287.6519965692264, 172.69411171024336, -6.958271935582161),
+							// 	new THREE.Vector3(-368.11497148743507, 377.86089003648794, 47.869296953772746),
+							// 	new THREE.Vector3(-1016.3539972815835, 186.01520238793034, -239.4963928623966)
+							// ]
+							// var curve = new THREE.CatmullRomCurve3( positions );
+							// var geometry=new THREE.Geometry();
+							// geometry.vertices=curve.getPoints(50);
+							// var mesh = new THREE.Line( geometry.clone(), new THREE.LineBasicMaterial( {
+							// 	color: 0x00ff00,
+							// 	opacity: 0.35,
+							// 	linewidth: 20
+							// } ) );
+							// m.scene.add(mesh);
+
+
 						m.scene.fog = new THREE.Fog( 0, 250, 1500  );
 
 						m.camera = new THREE.PerspectiveCamera( 30, window.innerWidth / window.innerHeight, 1, 10000 );
@@ -282,7 +302,9 @@ ctrl
 						renderer.setSize( window.innerWidth, window.innerHeight );
 						container.appendChild( renderer.domElement );
 
-						// var controls = new THREE.OrbitControls( m.camera, renderer.domElement );
+						if(m.is_orbit_control){
+							var controls = new THREE.OrbitControls( m.camera, renderer.domElement );
+						}
 
 						//
 
@@ -957,15 +979,17 @@ ctrl
 						}
 
 
-						m.camera.position.x += ( - m.mouse_x/3 - m.camera.position.x ) * 0.08;
-						// m.camera.position.y += (  m.mouse_y/7 - m.camera.position.y ) * 0.05;
+						if(!m.is_orbit_control){
+							m.camera.position.x += ( - m.mouse_x/3 - m.camera.position.x ) * 0.08;
+							// m.camera.position.y += (  m.mouse_y/7 - m.camera.position.y ) * 0.05;
 
 
-						var max_rotation_y=(Math.PI/4 * m.mouse_y)/(window.innerHeight/2);
+							var max_rotation_y=(Math.PI/4 * m.mouse_y)/(window.innerHeight/2);
 
-						m.group.rotation.x +=  ( max_rotation_y-m.group.rotation.x)*0.3;
+							m.group.rotation.x +=  ( max_rotation_y-m.group.rotation.x)*0.3;
 
-						m.camera.lookAt( m.scene.position );
+							m.camera.lookAt( m.scene.position );
+						}
 
 						renderer.render( m.scene, m.camera );
 
@@ -1173,6 +1197,93 @@ ctrl
 
 					}
 					create_wave_mesh();
+
+					function create_switch_spline(){
+
+						m.switch={}
+						m.switch.spline_points=[
+							new THREE.Vector3(-38.07014625027938, -81.2354956134634, 56.10018915737797),
+							new THREE.Vector3(-96.87676607360422, 447.113624436634, -14.495472686253045),
+							new THREE.Vector3(-287.6519965692264, 172.69411171024336, -6.958271935582161),
+							new THREE.Vector3(-368.11497148743507, 377.86089003648794, 47.869296953772746),
+							new THREE.Vector3(-1016.3539972815835, 186.01520238793034, -239.4963928623966)
+						];
+						for(var i=0;i<m.switch.spline_points.length;i++){
+							m.switch.spline_points[i].multiplyScalar(.1);
+						}
+						m.switch.curve = new THREE.CatmullRomCurve3(m.switch.spline_points);
+
+						m.switch.SWITCH_SPLINE_RADIUS=1;
+						m.switch.SWITCH_SPLINE_STEP=128;
+						m.switch.buffer_geometry = new THREE.TubeBufferGeometry( 
+							m.switch.curve,//path — Curve - A path that inherits from the Curve base class
+							m.switch.SWITCH_SPLINE_STEP,//tubularSegments — Integer - The number of segments that make up the tube, default is 64
+							m.switch.SWITCH_SPLINE_RADIUS,//radius — Float - The radius of the tube, default is 1
+							3,//radiusSegments — Integer - The number of segments that make up the cross-section, default is 8 
+							//closed — Boolean Is the tube open or closed, default is false 
+						);
+
+						// spline wireframe
+							// var wireframe = new THREE.WireframeGeometry( m.switch.buffer_geometry );
+
+							// var line = new THREE.LineSegments( wireframe );
+							// line.material.depthTest = false;
+							// line.material.opacity = 0.25;
+							// line.material.transparent = true;
+
+							// scene.add( line );
+
+
+						// tweek points position
+							m.switch.position_origin=m.switch.buffer_geometry.attributes.position.clone();
+							m.switch.normal_origin=m.switch.buffer_geometry.attributes.normal.clone();
+
+							var scale_num=30;
+							for(var j=0;j<scale_num;j++){
+								for(var i=j*4;i<(j+1)*4;i++){
+									var vertex=new THREE.Vector3(
+										m.switch.position_origin.array[i*3+0],
+										m.switch.position_origin.array[i*3+1],
+										m.switch.position_origin.array[i*3+2]
+									)
+									var normal=new THREE.Vector3(
+										m.switch.normal_origin.array[i*3+0],
+										m.switch.normal_origin.array[i*3+1],
+										m.switch.normal_origin.array[i*3+2]
+									)
+									var sub_vector=normal.multiplyScalar((scale_num-j)/20);
+									if(sub_vector.length()<m.switch.SWITCH_SPLINE_RADIUS){
+										vertex.sub(sub_vector);
+										m.switch.buffer_geometry.attributes.position.array[i*3+0]=vertex.x;
+										m.switch.buffer_geometry.attributes.position.array[i*3+1]=vertex.y;
+										m.switch.buffer_geometry.attributes.position.array[i*3+2]=vertex.z;
+									}
+									else{
+										var result=m.switch.curve.getPointAt(j/m.switch.SWITCH_SPLINE_STEP);
+										m.switch.buffer_geometry.attributes.position.array[i*3+0]=result.x;
+										m.switch.buffer_geometry.attributes.position.array[i*3+1]=result.y;
+										m.switch.buffer_geometry.attributes.position.array[i*3+2]=result.z;
+									}
+								}
+							}
+							m.switch.buffer_geometry.attributes.position.needsUpdate=true;
+
+
+						var material=new THREE.MeshLambertMaterial( {color: 0x00ff00, } ) ;
+
+
+
+						m.switch.mesh = new THREE.Mesh( m.switch.buffer_geometry, material);
+						// m.switch.mesh.position.x=50;
+						// m.switch.mesh.position.y=50;
+						m.switch.mesh.position.y=-20;
+						m.switch.mesh.position.z=-10;
+
+
+						m.scene.add(m.switch.mesh);
+
+					}
+					create_switch_spline();
 
 					animate();
 
