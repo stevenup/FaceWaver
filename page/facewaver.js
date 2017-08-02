@@ -985,9 +985,9 @@ ctrl
 
 						// update switch spline
 							if(m.switch.scale_num>18){
-								m.switch.scale_num-=2;
+								m.switch.scale_num-=3;
 							}
-							m.switch.scale_num2-=2;
+							m.switch.scale_num2-=3;
 
 							if(m.switch.scale_num2<-100){
 								m.switch.scale_num=128;
