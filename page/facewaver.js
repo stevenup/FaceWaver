@@ -774,7 +774,8 @@ ctrl
 
 					var frame_count=0;
 					var is_frame_count_trigger=false;
-					m.switch.scale_num=300;
+					m.switch.scale_num=128;
+					m.switch.scale_num2=128+100;
 					// var center=0;
 					function render() {
 
@@ -983,7 +984,10 @@ ctrl
 
 
 						// update switch spline
-							m.switch.scale_num--;
+							if(m.switch.scale_num>18){
+								m.switch.scale_num-=2;
+							}
+							m.switch.scale_num2-=2;
 							for(var j=0;j<m.switch.scale_num;j++){
 								for(var i=j*4;i<(j+1)*4;i++){
 									var vertex=new THREE.Vector3(
@@ -997,6 +1001,33 @@ ctrl
 										m.switch.normal_origin.array[i*3+2]
 									)
 									var sub_vector=normal.multiplyScalar((m.switch.scale_num-j)/20);
+									if(sub_vector.length()<m.switch.SWITCH_SPLINE_RADIUS){
+										vertex.sub(sub_vector);
+										m.switch.buffer_geometry.attributes.position.array[i*3+0]=vertex.x;
+										m.switch.buffer_geometry.attributes.position.array[i*3+1]=vertex.y;
+										m.switch.buffer_geometry.attributes.position.array[i*3+2]=vertex.z;
+									}
+									else{
+										var result=m.switch.curve.getPointAt(j/m.switch.SWITCH_SPLINE_STEP);
+										m.switch.buffer_geometry.attributes.position.array[i*3+0]=result.x;
+										m.switch.buffer_geometry.attributes.position.array[i*3+1]=result.y;
+										m.switch.buffer_geometry.attributes.position.array[i*3+2]=result.z;
+									}
+								}
+							}
+							for(var j=m.switch.scale_num2;j<=128;j++){
+								for(var i=j*4;i<(j+1)*4;i++){
+									var vertex=new THREE.Vector3(
+										m.switch.position_origin.array[i*3+0],
+										m.switch.position_origin.array[i*3+1],
+										m.switch.position_origin.array[i*3+2]
+									)
+									var normal=new THREE.Vector3(
+										m.switch.normal_origin.array[i*3+0],
+										m.switch.normal_origin.array[i*3+1],
+										m.switch.normal_origin.array[i*3+2]
+									)
+									var sub_vector=normal.multiplyScalar((j-m.switch.scale_num2)/20);
 									if(sub_vector.length()<m.switch.SWITCH_SPLINE_RADIUS){
 										vertex.sub(sub_vector);
 										m.switch.buffer_geometry.attributes.position.array[i*3+0]=vertex.x;
