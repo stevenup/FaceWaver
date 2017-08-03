@@ -8,38 +8,45 @@
 		<img src="img/start.png" style="width: 100%;">
 	</a> -->
 
-	<div class="anim_head place_holder" style="">
-		<img ng-src="img/anim_head/head_{{pad2(m.anim_head_index)}}.png" style="">
+	<div class="loading" ng-if="!m.is_loaded" style="width: 60px;height: 100px;position: fixed;left: 0;right: 0;top:0;bottom:0;margin:auto;">
+		<canvas vs-loading-progress="m.loading_progress" width="60" height="60"></canvas>
+		<div>LOADING...</div>
 	</div>
 
-	<div class="anim_head" ng-attr-style="
-		transform:
-			translateX({{m.gamma_result*2}}px) 
-			translateY({{m.beta_result*1.2}}px);
-	">
-		<img ng-src="img/anim_head/head_{{pad2(m.anim_head_index)}}.png" style="">
-	</div>
+	<div ng-if="m.is_loaded">
+		<div class="anim_head place_holder" style="">
+			<img ng-src="img/anim_head/head_{{pad2(m.anim_head_index)}}.png" style="">
+		</div>
 
-	<div class="anim_band" ng-attr-style="
-		transform:
-			translateX({{m.gamma_result*1.5}}px) 
-			translateY({{m.beta_result*1.0}}px);
-	">
-		<img ng-src="img/anim_band/飘带_{{pad2(m.anim_band_index)}}.png" style="">
-	</div>
+		<div class="anim_head" ng-attr-style="
+			transform:
+				translateX({{m.gamma_result*2}}px) 
+				translateY({{m.beta_result*1.2}}px);
+		">
+			<img ng-src="img/anim_head/head_{{pad2(m.anim_head_index)}}.png" style="">
+		</div>
 
-	<div class="anim_logo" ng-attr-style="
-		transform:
-			translateX({{m.gamma_result*.6}}px) 
-			translateY({{m.beta_result*.6}}px);
-	">
-		<img ng-src="img/anim_logo/标题_{{pad2(m.anim_logo_index)}}.png" style="">
-	</div>
+		<div class="anim_band" ng-attr-style="
+			transform:
+				translateX({{m.gamma_result*1.2}}px) 
+				translateY({{m.beta_result*0.8}}px);
+		">
+			<img ng-src="img/anim_band/飘带_{{pad2(m.anim_band_index)}}.png" style="">
+		</div>
 
-	<a class="start" href="#/tab/upload" ng-click="$event.stopPropagation()" style="">
-		<img class="normal" src="img/home_satart2.png">
-		<img class="pressed" src="img/home_satart.png">
-	</a>
+		<div class="anim_logo" ng-attr-style="
+			transform:
+				translateX({{m.gamma_result*.6}}px) 
+				translateY({{m.beta_result*.6}}px);
+		">
+			<img ng-src="img/anim_logo/标题_{{pad2(m.anim_logo_index)}}.png" style="">
+		</div>
+
+		<a class="start" href="#/tab/upload" ng-click="$event.stopPropagation()" style="">
+			<img class="normal" src="img/home_satart2.png">
+			<img class="pressed" src="img/home_satart.png">
+		</a>
+	</div>
 
 	<div class="orientation" ng-if="false" style="position: fixed;background: white;top:0;left: 100px;height: 80px;width:100%;color:black;">
 		<div>{{m.alpha}}</div>

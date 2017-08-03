@@ -9,6 +9,15 @@ ctrl
 		$s.m={};
 		var m=$s.m;
 
+		// m.is_loaded=true;
+
+		m.loading_progress=.0;
+
+		$interval(function(){
+			m.loading_progress+=0.01;
+			// console.log(m.loading_progress);
+		},100)
+
 		m.anim_head_max=44;
 		m.anim_head_index=0;
 		m.anim_head_interval;

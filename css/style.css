@@ -18,8 +18,8 @@
 	.page_home .anim_logo img{display: block;width: 100%;}
 	.page_home .anim_logo img{display: block;width: 100%;}
 
-	.page_home .start {display: block;text-align: center;}
-	.page_home .start img{width: 80px;margin-top: 10%;}
+	.page_home .start {display: block;width: 80px;margin:auto;}
+	.page_home .start img{width:100%;margin-top: 10%;}
 	.page_home .start .pressed{display: none;}
 	.page_home .start.activated .normal{display: none;}
 	.page_home .start.activated .pressed{display: inline;}
