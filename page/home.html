@@ -1,4 +1,4 @@
-<ion-view class="page_home"  view-title="home"  hide-back-button="true" can-swipe-back="false" style="    position: fixed; width: 100%; height: 100%; top: 0; left: 0;background: url(img/bg.jpg);background-size:cover;">
+<ion-view class="page_home"  view-title="home"  hide-back-button="true" can-swipe-back="false" ng-click="reset_gyro()" style="    position: fixed; width: 100%; height: 100%; top: 0; left: 0;background: url(img/bg.jpg);background-size:cover;">
 
 	<!-- <div class="logo" style="width:80%;margin:auto;margin-top: 90px;">
 		<img src="img/logo.png" style="width: 100%;">
@@ -12,21 +12,39 @@
 		<img ng-src="img/anim_head/head_{{pad2(m.anim_head_index)}}.png" style="">
 	</div>
 
-	<div class="anim_head" style="">
+	<div class="anim_head" ng-attr-style="
+		transform:
+			translateX({{m.gamma_result*2}}px) 
+			translateY({{m.beta_result*1.2}}px);
+	">
 		<img ng-src="img/anim_head/head_{{pad2(m.anim_head_index)}}.png" style="">
 	</div>
 
-	<div class="anim_band" style="">
+	<div class="anim_band" ng-attr-style="
+		transform:
+			translateX({{m.gamma_result*1.5}}px) 
+			translateY({{m.beta_result*1.0}}px);
+	">
 		<img ng-src="img/anim_band/飘带_{{pad2(m.anim_band_index)}}.png" style="">
 	</div>
 
-	<div class="anim_logo" style="">
+	<div class="anim_logo" ng-attr-style="
+		transform:
+			translateX({{m.gamma_result*.6}}px) 
+			translateY({{m.beta_result*.6}}px);
+	">
 		<img ng-src="img/anim_logo/标题_{{pad2(m.anim_logo_index)}}.png" style="">
 	</div>
 
-	<a class="start" href="#/tab/upload" style="">
+	<a class="start" href="#/tab/upload" ng-click="$event.stopPropagation()" style="">
 		<img class="normal" src="img/home_satart2.png">
 		<img class="pressed" src="img/home_satart.png">
 	</a>
+
+	<div class="orientation" ng-if="false" style="position: fixed;background: white;top:0;left: 100px;height: 80px;width:100%;color:black;">
+		<div>{{m.alpha}}</div>
+		<div>{{m.beta}}</div>
+		<div>{{m.gamma}}</div>
+	</div>
 
 </ion-view>

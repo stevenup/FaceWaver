@@ -9,7 +9,7 @@
 	.page_home .anim_head{width:90%;position: absolute;top:0;margin:-20px auto;left: 0;right: 0;}
 	.page_home .anim_head img{display: block;width: 100%;}
 	
-	.page_home .anim_head.place_holder{position: static;}
+	.page_home .anim_head.place_holder{position: static;visibility: hidden;}
 
 	.page_home .anim_band{width:140%;position: absolute;top:30px;left:-20%;}
 	.page_home .anim_band img{display: block;width: 100%;}

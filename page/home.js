@@ -31,26 +31,22 @@ ctrl
     // event
 		window.addEventListener('deviceorientation', handleOrientation);
 		function handleOrientation(event) {
-			debugger;
-			// if(!m.is_touch){
-				var x = event.gamma; // In degree in the range [-90,90]
-				var y = event.beta;  // In degree in the range [-180,180]
+			$s.$apply(function(){
 
-				// Because we don't want to have the device upside down
-				// We constrain the y value to the range [-90,90]
-				if (y >  90) { y =  90};
-				if (y < -90) { y = -90};
+				if(!m.alpha_init){
+					m.alpha_init=event.alpha;
+					m.beta_init=event.beta;
+					m.gamma_init=event.gamma;
+				}
 
-				y-=40;
+				m.alpha=event.alpha;
+				m.beta=event.beta;
+				m.gamma=event.gamma;
 
-				m.mouse_x= (window.innerWidth/2 * x) / 90; 
-				m.mouse_y= (window.innerHeight/2 * y) / 90; 
-
-				m.mouse_x*=5;
-				// m.mouse_y*=8;
-
-			// }
-
+				m.alpha_result=event.alpha;
+				m.beta_result=event.beta-m.beta_init;
+				m.gamma_result=event.gamma-m.gamma_init;
+			})
 		}
 	// fn
 		$s.init=function(){
@@ -59,6 +55,11 @@ ctrl
 			$s.anim_logo_start();
 		}
 
+		$s.reset_gyro=function(){
+			m.alpha_init=undefined;
+			m.beta_init=undefined;
+			m.gamma_init=undefined;
+		}
 		$s.pad2=function(int){
 			var str='0'+int;
 			return str.slice(-2);
