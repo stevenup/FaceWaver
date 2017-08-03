@@ -17,7 +17,7 @@ ctrl
 
 		// m.type='sprite';
 		m.type='extrude'; m.extrude_meshes=[];	
-		m.is_orbit_control=true;
+		m.is_orbit_control=false;
 
 		m.song_index=0;
 		m.is_stop=false;
@@ -242,7 +242,9 @@ ctrl
 
 						m.camera = new THREE.PerspectiveCamera( 30, window.innerWidth / window.innerHeight, 1, 10000 );
 						m.camera.position.set(0,0,230);
-						m.camera.position.set(0,0,430);
+						if(m.is_orbit_control){
+							m.camera.position.set(0,0,430);
+						}
 
 						orth_camera = new THREE.OrthographicCamera( window.innerWidth / - 10, window.innerWidth / 10, window.innerHeight / 10, window.innerHeight / - 10, 1, 1000 );
 						orth_camera.position.z = 100;
