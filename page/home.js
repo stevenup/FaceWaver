@@ -86,6 +86,9 @@ ctrl
 					m.loading_progress=m.loaded_pic_count/m.total_pic_count;
 					if(m.loaded_pic_count == m.total_pic_count){
 						m.is_loaded=true;
+						setTimeout(function() {
+							$s.set_transition();
+						}, 0);
 					}
 					$s.$apply();
 				})
@@ -102,6 +105,9 @@ ctrl
 					m.loading_progress=m.loaded_pic_count/m.total_pic_count;
 					if(m.loaded_pic_count == m.total_pic_count){
 						m.is_loaded=true;
+						setTimeout(function() {
+							$s.set_transition();
+						}, 0);
 					}
 					$s.$apply();
 				})
@@ -118,6 +124,9 @@ ctrl
 					m.loading_progress=m.loaded_pic_count/m.total_pic_count;
 					if(m.loaded_pic_count == m.total_pic_count){
 						m.is_loaded=true;
+						setTimeout(function() {
+							$s.set_transition();
+						}, 0);
 					}
 					$s.$apply();
 				})
@@ -127,13 +136,25 @@ ctrl
 			}
 		}
 		$s.reset_gyro=function(){
+			$s.remove_transition();
 			m.alpha_init=undefined;
 			m.beta_init=undefined;
 			m.gamma_init=undefined;
+			$s.set_transition();
 		}
 		$s.pad2=function(int){
 			var str='0'+int;
 			return str.slice(-2);
+		}
+		$s.set_transition=function(){
+			// jq('.anim_head').css('transition','transform .3s');
+			// jq('.anim_band').css('transition','transform .3s');
+			// jq('.anim_logo').css('transition','transform .3s');
+		}
+		$s.remove_transition=function(){
+			// jq('anim_head').css('transition','');
+			// jq('anim_band').css('transition','');
+			// jq('anim_logo').css('transition','');
 		}
 
 		$s.anim_head_start=function(){

@@ -6,15 +6,15 @@
 
 /*home*/
 
-	.page_home .anim_head{width:90%;position: absolute;top:0;margin:-20px auto;left: 0;right: 0;}
+	.page_home .anim_head{width:90%;position: absolute;top:0;margin:-20px auto;left: 0;right: 0;transition:transform .5s linear;}
 	.page_home .anim_head img{display: block;width: 100%;}
 	
 	.page_home .anim_head.place_holder{position: static;visibility: hidden;}
 
-	.page_home .anim_band{width:140%;position: absolute;top:30px;left:-20%;}
+	.page_home .anim_band{width:140%;position: absolute;top:30px;left:-20%;transition:transform .5s linear;}
 	.page_home .anim_band img{display: block;width: 100%;}
 
-	.page_home .anim_logo{width:80%;margin:auto;}
+	.page_home .anim_logo{width:80%;margin:auto;transition:transform .5s linear;}
 	.page_home .anim_logo img{display: block;width: 100%;}
 	.page_home .anim_logo img{display: block;width: 100%;}
 
