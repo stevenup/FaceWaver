@@ -14,9 +14,14 @@ ctrl
 		m.loading_progress=.0;
 
 		$interval(function(){
-			m.loading_progress+=0.01;
+			if(m.loading_progress>1.0){
+				m.loading_progress=0.0;
+			}
+			else{
+				m.loading_progress+=0.01;
+			}
 			// console.log(m.loading_progress);
-		},100)
+		},30)
 
 		m.anim_head_max=44;
 		m.anim_head_index=0;

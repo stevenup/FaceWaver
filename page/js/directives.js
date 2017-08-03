@@ -42,30 +42,32 @@ angular.module('starter.directives', [])
 
 			ctx.lineCap='round';
 
-			// bg
-				ctx.lineWidth=10;
-				ctx.strokeStyle=color_bg;
-
-				ctx.beginPath();
-				ctx.moveTo(dot1.x,dot1.y);
-				ctx.lineTo(dot2.x,dot2.y);
-				ctx.stroke();
-
-				ctx.beginPath();
-				ctx.moveTo(dot2.x,dot2.y);
-				ctx.lineTo(dot3.x,dot3.y);
-				ctx.stroke();
-
-				ctx.beginPath();
-				ctx.moveTo(dot3.x,dot3.y);
-				ctx.lineTo(dot1.x,dot1.y);
-				ctx.stroke();
-
 			scope.$watch('progress',function(){
+
+				ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+				// bg
+					ctx.lineWidth=10;
+					ctx.strokeStyle=color_bg;
+
+					ctx.beginPath();
+					ctx.moveTo(dot1.x,dot1.y);
+					ctx.lineTo(dot2.x,dot2.y);
+					ctx.stroke();
+
+					ctx.beginPath();
+					ctx.moveTo(dot2.x,dot2.y);
+					ctx.lineTo(dot3.x,dot3.y);
+					ctx.stroke();
+
+					ctx.beginPath();
+					ctx.moveTo(dot3.x,dot3.y);
+					ctx.lineTo(dot1.x,dot1.y);
+					ctx.stroke();
+
 				// color
 				ctx.lineWidth=10;
 
-				console.log(scope.progress);
 				if(scope.progress>0&&scope.progress<=1.0/3.0){
 					var dot1_r=dot1.clone().add(dot2.clone().sub(dot1).multiplyScalar((scope.progress-1.0/3.0*0)*3));
 					ctx.beginPath();
