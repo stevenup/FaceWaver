@@ -81,7 +81,7 @@ ctrl
 			document.removeEventListener( 'touchstart', onDocumentTouchStart );
 			document.removeEventListener( 'touchend', onDocumentTouchEnd );
 			document.removeEventListener( 'touchmove', onDocumentTouchMove );
-			window.addEventListener('deviceorientation', handleOrientation);
+			window.removeEventListener('deviceorientation', handleOrientation);
 		})
 
 	// event

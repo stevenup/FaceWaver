@@ -28,6 +28,30 @@ ctrl
           $s.anim_logo_stop();
         });
 
+    // event
+		window.addEventListener('deviceorientation', handleOrientation);
+		function handleOrientation(event) {
+			debugger;
+			// if(!m.is_touch){
+				var x = event.gamma; // In degree in the range [-90,90]
+				var y = event.beta;  // In degree in the range [-180,180]
+
+				// Because we don't want to have the device upside down
+				// We constrain the y value to the range [-90,90]
+				if (y >  90) { y =  90};
+				if (y < -90) { y = -90};
+
+				y-=40;
+
+				m.mouse_x= (window.innerWidth/2 * x) / 90; 
+				m.mouse_y= (window.innerHeight/2 * y) / 90; 
+
+				m.mouse_x*=5;
+				// m.mouse_y*=8;
+
+			// }
+
+		}
 	// fn
 		$s.init=function(){
 			$s.anim_head_start();
