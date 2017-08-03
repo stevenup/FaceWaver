@@ -4,6 +4,11 @@
 	/*ionic bug fix*/
 		.item h2{height: 20px;}
 
+/*home*/
+	.page_home .start .pressed{display: none;}
+	.page_home .start.activated .normal{display: none;}
+	.page_home .start.activated .pressed{display: inline;}
+
 /*upload*/
 
 	.page_upload .button_wrap_top .icon{float: right;margin-left: 8px;color:white;font-size: 32px;}
