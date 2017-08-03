@@ -777,7 +777,7 @@ ctrl
 					m.switch.scale_num=128;
 					m.switch.scale_num2=128+100;
 					// var center=0;
-					function render() {
+					var render=function() {
 
 						is_frame_count_trigger=false;
 						if(frame_count%5==0){
@@ -984,6 +984,7 @@ ctrl
 
 
 						// update switch spline
+						if(m.switch.spline_on){
 							if(m.switch.scale_num>18){
 								m.switch.scale_num-=3;
 							}
@@ -1049,6 +1050,13 @@ ctrl
 								}
 							}
 							m.switch.buffer_geometry.attributes.position.needsUpdate=true;
+						}
+
+						// update switch mesh
+						// for(var i=0,leni=m.group.children.length/2;i<leni;i++){
+						// 	var mesh=m.group.children[i];
+						// 	mesh.scale.set(0,0,0);
+						// }
 
 
 						if(!m.is_orbit_control){
@@ -1270,6 +1278,7 @@ ctrl
 					create_wave_mesh();
 
 					function create_switch_spline(){
+						m.switch.spline_on=true;
 						m.switch.spline_points=[
 							new THREE.Vector3(-38.07014625027938, -81.2354956134634, 56.10018915737797),
 							new THREE.Vector3(-96.87676607360422, 447.113624436634, -14.495472686253045),
@@ -1323,7 +1332,7 @@ ctrl
 
 						m.scene.add(m.switch.mesh);
 					}
-					create_switch_spline();
+					// create_switch_spline();
 
 					animate();
 

@@ -5,6 +5,21 @@
 		.item h2{height: 20px;}
 
 /*home*/
+
+	.page_home .anim_head{width:90%;position: absolute;top:0;margin:-20px auto;left: 0;right: 0;}
+	.page_home .anim_head img{display: block;width: 100%;}
+	
+	.page_home .anim_head.place_holder{position: static;}
+
+	.page_home .anim_band{width:140%;position: absolute;top:30px;left:-20%;}
+	.page_home .anim_band img{display: block;width: 100%;}
+
+	.page_home .anim_logo{width:80%;margin:auto;}
+	.page_home .anim_logo img{display: block;width: 100%;}
+	.page_home .anim_logo img{display: block;width: 100%;}
+
+	.page_home .start {display: block;text-align: center;}
+	.page_home .start img{width: 80px;margin-top: 10%;}
 	.page_home .start .pressed{display: none;}
 	.page_home .start.activated .normal{display: none;}
 	.page_home .start.activated .pressed{display: inline;}
