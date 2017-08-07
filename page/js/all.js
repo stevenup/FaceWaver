@@ -439,8 +439,8 @@ ctrl
 					am.is_first_render=false;
 				}
 
-				var gamma_radius=-am.gamma*Math.PI/180;
-				camera.rotation.z+=(gamma_radius-camera.rotation.z)/100;
+				// var gamma_radius=-am.gamma*Math.PI/180;
+				// camera.rotation.z+=(gamma_radius-camera.rotation.z)/100;
 				// console.log(am.gamma);
 
 			}
