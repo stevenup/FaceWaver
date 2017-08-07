@@ -5,9 +5,9 @@ ctrl
 
 	// init
 		var $s=$scope;
-		ecstore.scope.home_ctrl=$s;
+		window.home_ctrl=ecstore.scope.home_ctrl=$s;
 		$s.m={};
-		var m=$s.m;
+		var m=window.m=$s.m;
 
 		// m.is_loaded=true;
 
@@ -133,8 +133,10 @@ ctrl
 
 			function init() {
 
-				camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 3000 );
-				camera.position.set( 0, 200, 350 );
+				camera = m.camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 3000 );
+				// camera.position.set( 0, 200, 350 );
+				camera.position.set( 0, 20, 250 );
+				// camera.setRotationFromQuaternion(JSON.parse('{"_x":-0.03990439489501756,"_y":0,"_z":0,"_w":0.9992035024298417}'));
 
 				scene = new THREE.Scene();
 
@@ -153,7 +155,7 @@ ctrl
 				// container.appendChild( renderer.domElement );
 				jq('.page_home .bg_wave').append( renderer.domElement );
 
-				// controls = new THREE.OrbitControls( camera, renderer.domElement );
+				controls = new THREE.OrbitControls( camera, renderer.domElement );
 
 
 
@@ -211,7 +213,10 @@ ctrl
 
 				var materialColor = 0x0040C0;
 
-				var geometry = new THREE.PlaneBufferGeometry( BOUNDS, BOUNDS, WIDTH - 1, WIDTH -1 );
+				var geometry=m.geometry=new THREE.PlaneBufferGeometry( BOUNDS, BOUNDS, WIDTH - 1, WIDTH -1 );
+				// var geometry1 =m.geometry1= new THREE.PlaneBufferGeometry( BOUNDS, BOUNDS, 1, 1 );
+				// var geometry=m.geometry=vs.threejs.remove_same_point(geometry1);
+				// var geometry=geometry1;
 
 				// material: make a ShaderMaterial clone of MeshPhongMaterial, with customized vertex shader
 				var material = new THREE.ShaderMaterial( {
@@ -411,6 +416,7 @@ ctrl
 
 			}
 
+			m.is_first_render=true;
 			function render() {
 
 				// Set uniforms: mouse interaction
@@ -444,6 +450,11 @@ ctrl
 
 				// Render
 				renderer.render( scene, camera );
+
+				if(m.is_first_render){
+					camera.lookAt(new THREE.Vector3(0,50,0));
+					m.is_first_render=false;
+				}
 
 			}
 		}
