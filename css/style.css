@@ -4,10 +4,11 @@
 	/*ionic bug fix*/
 		.item h2{height: 20px;}
 
-/*home*/
 
-	.page_home .bg_wave{position: fixed;width: 100%;height: 100%;top:0;left: 0;}
-	.page_home .bg_wave canvas{width: 100%;height: 100%;top:0;left: 0;}
+	.bg_wave{position: fixed;width: 100%;height: 100%;top:0;left: 0;}
+	.bg_wave canvas{width: 100%;height: 100%;top:0;left: 0;}
+	
+/*home*/
 
 	.page_home .main{position: fixed;width: 100%;height: 100%;top:0;left: 0;}
 
