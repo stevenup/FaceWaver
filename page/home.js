@@ -47,27 +47,6 @@ ctrl
           $s.anim_band_stop();
           $s.anim_logo_stop();
         });
-
-    // event
-		window.addEventListener('deviceorientation', handleOrientation);
-		function handleOrientation(event) {
-			$s.$apply(function(){
-
-				if(!m.alpha_init){
-					m.alpha_init=event.alpha;
-					m.beta_init=event.beta;
-					m.gamma_init=event.gamma;
-				}
-
-				m.alpha=event.alpha;
-				m.beta=event.beta;
-				m.gamma=event.gamma;
-
-				m.alpha_result=event.alpha;
-				m.beta_result=event.beta-m.beta_init;
-				m.gamma_result=event.gamma-m.gamma_init;
-			})
-		}
 	// fn
 		$s.init=function(){
 
@@ -77,9 +56,6 @@ ctrl
 			// 	})
 			// }
 
-			m.alpha=0;
-			m.beta=0;
-			m.gamma=0;
 
 			$s.anim_head_start();
 			$s.anim_band_start();
@@ -143,13 +119,6 @@ ctrl
 					m.is_loaded=true;
 				}
 			})
-		}
-		$s.reset_gyro=function(){
-			$s.remove_transition();
-			m.alpha_init=undefined;
-			m.beta_init=undefined;
-			m.gamma_init=undefined;
-			$s.set_transition();
 		}
 		$s.pad2=function(int){
 			var str='0'+int;

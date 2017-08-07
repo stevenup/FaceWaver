@@ -40,8 +40,32 @@ ctrl
 
 		ec.pm.playlist=ng.copy(ec.pm.songlist);
 
+
+    // event
+		window.addEventListener('deviceorientation', handleOrientation);
+		function handleOrientation(event) {
+			$s.$apply(function(){
+
+				if(!am.alpha_init){
+					am.alpha_init=event.alpha;
+					am.beta_init=event.beta;
+					am.gamma_init=event.gamma;
+				}
+
+				am.alpha=event.alpha;
+				am.beta=event.beta;
+				am.gamma=event.gamma;
+
+				am.alpha_result=event.alpha;
+				am.beta_result=event.beta-am.beta_init;
+				am.gamma_result=event.gamma-am.gamma_init;
+			})
+		}
 	// fn
 		$s.init=function(){
+			am.alpha=0;
+			am.beta=0;
+			am.gamma=0;
 			$s.bg_wave();
 		}
 		$s.bg_wave=function(){
@@ -439,11 +463,17 @@ ctrl
 					am.is_first_render=false;
 				}
 
-				// var gamma_radius=-am.gamma*Math.PI/180;
-				// camera.rotation.z+=(gamma_radius-camera.rotation.z)/100;
+				var gamma_radius=-am.gamma*Math.PI/180;
+				camera.rotation.z+=(gamma_radius-camera.rotation.z)/100;
 				// console.log(am.gamma);
 
 			}
+		}
+		$s.reset_gyro=function(){
+			$s.remove_transition();
+			am.alpha_init=undefined;
+			am.beta_init=undefined;
+			am.gamma_init=undefined;
 		}
 		$s.is_new_message=function(){
 			return localStorage.nzapp_is_new_message;
