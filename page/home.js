@@ -74,14 +74,91 @@ ctrl
 			// 		code:localStorage.facewaver_wx_code,
 			// 	})
 			// }
-
+			$s.bg_wave();
 			$s.anim_head_start();
 			$s.anim_band_start();
 			$s.anim_logo_start();
 			$s.load_imgs();
 		}
 
+		$s.bg_wave=function(){
 
+			var scene = new THREE.Scene();
+			var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
+
+			var renderer = new THREE.WebGLRenderer();
+			renderer.setSize( window.innerWidth, window.innerHeight );
+			jq('.page_home .bg_wave').prepend( renderer.domElement);
+			// document.body.appendChild( renderer.domElement );
+
+			var controls = new THREE.OrbitControls(camera , renderer.domElement);
+
+			scene.add( new THREE.AmbientLight( 0x888888 ) );
+
+			var light = new THREE.PointLight( 0xffffff );
+			light.position.set(-10,10,10);
+			scene.add( light );
+
+
+
+			var heartShape = new THREE.Shape();
+
+			heartShape.moveTo( 0 , 0 );
+			heartShape.lineTo( 0 , 10 );
+			heartShape.lineTo( 30 , 10 );
+
+			var extrudeSettings = { 
+				steps: 2,
+				amount: 8,
+				bevelEnabled: false,
+				// bevelSegments: 2,
+				// bevelSize: 1,
+				// bevelThickness: 1 ,
+			};
+
+			var geometry = new THREE.ExtrudeGeometry( heartShape, extrudeSettings );
+
+			var material = new THREE.MeshLambertMaterial( { color: 'red', wireframe: false } );
+
+			var mesh = new THREE.Mesh( geometry, material );
+
+			scene.add(mesh);
+
+
+			// helper
+				var helper={};
+				helper.gridHelper = new THREE.GridHelper( 20 , 20 );
+				scene.add( helper.gridHelper );
+
+				helper.geometry_x = new THREE.BoxGeometry( 10 , 0.1 , 0.1 );
+				helper.material_x = new THREE.MeshBasicMaterial( {color:'red'});
+				helper.mesh_x=new THREE.Mesh(helper.geometry_x,helper.material_x);
+				helper.mesh_x.position.x=5;
+				scene.add(helper.mesh_x);
+
+				helper.geometry_y = new THREE.BoxGeometry( .1 , 10 , 0.1 );
+				helper.material_y = new THREE.MeshBasicMaterial( {color:'green'});
+				mesh_y=new THREE.Mesh(helper.geometry_y,helper.material_y);
+				mesh_y.position.y=5;
+				scene.add(mesh_y);
+
+				helper.geometry_z = new THREE.BoxGeometry( .1 , .1 , 10 );
+				helper.material_z = new THREE.MeshBasicMaterial( {color:'blue'});
+				helper.mesh_z=new THREE.Mesh(helper.geometry_z,helper.material_z);
+				helper.mesh_z.position.z=5;
+				scene.add(helper.mesh_z);
+
+
+			camera.position.z = 100;
+
+			var animate = function () {
+				requestAnimationFrame( animate );
+
+				renderer.render(scene, camera);
+			};
+
+			animate();
+		}
 		$s.load_imgs=function(){
 
 			for(let i=0;i<m.anim_head_num;i++){
