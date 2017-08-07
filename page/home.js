@@ -135,7 +135,6 @@ ctrl
 
 				camera = m.camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 3000 );
 				// camera.position.set( 0, 200, 350 );
-				camera.position.set( 0, 20, 250 );
 				// camera.setRotationFromQuaternion(JSON.parse('{"_x":-0.03990439489501756,"_y":0,"_z":0,"_w":0.9992035024298417}'));
 
 				scene = new THREE.Scene();
@@ -452,7 +451,8 @@ ctrl
 				renderer.render( scene, camera );
 
 				if(m.is_first_render){
-					camera.lookAt(new THREE.Vector3(0,50,0));
+					camera.position.set( 0, 30, 250 );
+					camera.lookAt(new THREE.Vector3(0,90,0));
 					m.is_first_render=false;
 				}
 
