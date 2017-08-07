@@ -148,6 +148,7 @@
 		#define PHONG
 
 		varying vec3 vViewPosition;
+		varying vec3 v_position;
 
 		#ifndef FLAT_SHADED
 
@@ -169,6 +170,7 @@
 
 		void main() {
 
+			v_position=position;
 
 			vec2 cellSize = vec2( 1.0 / WIDTH, 1.0 / WIDTH );
 
@@ -221,12 +223,18 @@
 
 		uniform sampler2D texture;
 
+		varying vec3 v_position;
 
 		void main() {
 
+			vec4 custom_color;
 			// gl_FragColor = vec4( color * vColor, 1.0 );
 
-			gl_FragColor = vec4(0.0, .1, 0.0, 1.0) * texture2D( texture, gl_PointCoord );
+			float x_ratio=(v_position.x+256.0)/512.0;
+			float y_ratio=(v_position.y+256.0)/512.0;
+			custom_color=vec4(0.2*x_ratio, 0.0, 0.2*(1.0-x_ratio), 1.0);
+
+			gl_FragColor = custom_color * texture2D( texture, gl_PointCoord );
 
 			// if ( gl_FragColor.a < ALPHATEST ) discard;
 

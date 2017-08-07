@@ -236,7 +236,7 @@ ctrl
 					// ] ),
 					uniforms:{
 						heightmap: { value: null },
-						texture:{value:new THREE.TextureLoader().load('/test/threejs/shader_point_size/spark1.png')},
+						texture:{value:new THREE.TextureLoader().load('img/spark1.png')},
 					},
 					vertexShader: document.getElementById( 'waterVertexShader' ).textContent,
 					// fragmentShader: THREE.ShaderChunk[ 'meshphong_frag' ],
