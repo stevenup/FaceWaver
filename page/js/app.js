@@ -14,6 +14,12 @@ angular.module('starter', [
 
 .run(function($ionicPlatform,$rootScope,ec) {
 
+	var wx_code=vs.getQueryStringByName('code');
+	if(wx_code){
+		localStorage.facewaver_wx_code=wx_code;
+		location=location.origin+location.pathname;
+	}
+
 	// if(!localStorage.nzapp_is_new_starter||localStorage.nzapp_is_new_starter==true){
 	// 	location='#/tab/starter';
 	// 	localStorage.nzapp_is_new_starter=false;

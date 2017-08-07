@@ -68,6 +68,13 @@ ctrl
 		}
 	// fn
 		$s.init=function(){
+
+			// if(localStorage.facewaver_wx_code){
+			// 	ec.api.do({method:'/users',
+			// 		code:localStorage.facewaver_wx_code,
+			// 	})
+			// }
+
 			$s.anim_head_start();
 			$s.anim_band_start();
 			$s.anim_logo_start();

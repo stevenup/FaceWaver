@@ -4,16 +4,15 @@ angular.module('starter.services', [])
 
 	//***********************************************************************************************************************************************************************************************************************************************
 	var pm={};//pm=param
-	pm.url=config.url;
+
 
 	//***********************************************************************************************************************************************************************************************************************************************
 	var api={};
 	api.do=function(params){ 
-		params.api_version=params.api_version||pm.api_version;
-		params.app_platform=params.app_platform||ionic.Platform.platform();
 		return $http({
-			method: 'GET',
-			url: pm.url+params.method,
+			method: 'POST',
+			url: config.api_url+params.method,
+			data:fn.getParams(params),
 			headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
 		})
 	}
@@ -24,6 +23,7 @@ angular.module('starter.services', [])
 		return $http({
 				method: 'POST',
 	  			url: 'http://192.168.227.79:3000/api/v1/faces',
+	  			url: config.api_url+'faces',
 				data: form_data,
 				transformRequest: angular.identity,
 				headers: { 'Content-Type': undefined }
