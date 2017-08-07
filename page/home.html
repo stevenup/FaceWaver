@@ -16,7 +16,7 @@
 
 	<div class="bg_wave" ng-show="m.is_loaded"></div>
 
-	<div class="main" ng-show="m.is_loaded">
+	<div class="main" ng-show="m.is_loaded" style="pointer-events: none;">
 
 		<div class="anim_head place_holder" style="">
 			<img ng-src="img/anim_head/head_{{pad2(m.anim_head_index)}}.png" style="">
@@ -46,7 +46,7 @@
 			<img ng-src="img/anim_logo/标题_{{pad2(m.anim_logo_index)}}.png" style="">
 		</div>
 
-		<a class="start" href="#/tab/upload" ng-click="$event.stopPropagation()" style="">
+		<a class="start" href="#/tab/upload" ng-click="$event.stopPropagation()" style="pointer-events: all;">
 			<img class="normal" src="img/home_satart2.png">
 			<img class="pressed" src="img/home_satart.png">
 		</a>

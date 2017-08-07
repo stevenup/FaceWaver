@@ -74,6 +74,11 @@ ctrl
 			// 		code:localStorage.facewaver_wx_code,
 			// 	})
 			// }
+
+			m.alpha=0;
+			m.beta=0;
+			m.gamma=0;
+
 			$s.bg_wave();
 			$s.anim_head_start();
 			$s.anim_band_start();
@@ -133,11 +138,12 @@ ctrl
 
 			function init() {
 
-				camera = m.camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 3000 );
+				camera = m.camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 3000 );
 				// camera.position.set( 0, 200, 350 );
 				// camera.setRotationFromQuaternion(JSON.parse('{"_x":-0.03990439489501756,"_y":0,"_z":0,"_w":0.9992035024298417}'));
 
 				scene = new THREE.Scene();
+				// scene.fog = new THREE.Fog( 0, 0, 100  );
 
 				var sun = new THREE.DirectionalLight( 0xFFFFFF, 1.0 );
 				sun.position.set( 300, 400, 175 );
@@ -154,13 +160,13 @@ ctrl
 				// container.appendChild( renderer.domElement );
 				jq('.page_home .bg_wave').append( renderer.domElement );
 
-				controls = new THREE.OrbitControls( camera, renderer.domElement );
+				// controls = new THREE.OrbitControls( camera, renderer.domElement );
 
 
 
-				// document.addEventListener( 'mousemove', onDocumentMouseMove, false );
-				// document.addEventListener( 'touchstart', onDocumentTouchStart, false );
-				// document.addEventListener( 'touchmove', onDocumentTouchMove, false );
+				document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+				document.addEventListener( 'touchstart', onDocumentTouchStart, false );
+				document.addEventListener( 'touchmove', onDocumentTouchMove, false );
 
 				// document.addEventListener( 'keydown', function( event ) {
 
@@ -258,7 +264,7 @@ ctrl
 
 				waterUniforms = material.uniforms;
 
-				waterMesh = new THREE.Points( geometry, material );
+				waterMesh = m.waterMesh = new THREE.Points( geometry, material );
 				waterMesh.rotation.x = - Math.PI / 2;
 				waterMesh.matrixAutoUpdate = false;
 				waterMesh.updateMatrix();
@@ -287,7 +293,7 @@ ctrl
 				gpuCompute.setVariableDependencies( heightmapVariable, [ heightmapVariable ] );
 
 				heightmapVariable.material.uniforms.mousePos = { value: new THREE.Vector2( 10000, 10000 ) };
-				heightmapVariable.material.uniforms.mouseSize = { value: 20.0 };
+				heightmapVariable.material.uniforms.mouseSize = { value: 70.0 };
 				heightmapVariable.material.uniforms.viscosityConstant = { value: 0.03 };
 				heightmapVariable.material.defines.BOUNDS = BOUNDS.toFixed( 1 );
 
@@ -416,20 +422,32 @@ ctrl
 			}
 
 			m.is_first_render=true;
+
+			m.random_push_count=0;
+			$interval(function(){ // random water push
+				m.random_push_x=Math.random()*512-256;
+				m.ramdom_push_z=Math.random()*11.2e-14-5.6e-14;
+
+				m.random_push_count=10;
+
+			},1000)
+
 			function render() {
 
 				// Set uniforms: mouse interaction
 				var uniforms = heightmapVariable.material.uniforms;
+
+				var mouse_push=false;
 				if ( mouseMoved ) {
 
-					this.raycaster.setFromCamera( mouseCoords, camera );
+					raycaster.setFromCamera( mouseCoords, camera );
 
-					var intersects = this.raycaster.intersectObject( meshRay );
+					var intersects = raycaster.intersectObject( meshRay );
 
 					if ( intersects.length > 0 ) {
 					    var point = intersects[ 0 ].point;
 					    uniforms.mousePos.value.set( point.x, point.z );
-
+					    mouse_push=true;
 					}
 					else {
 					    uniforms.mousePos.value.set( 10000, 10000 );
@@ -439,6 +457,13 @@ ctrl
 				}
 				else {
 					uniforms.mousePos.value.set( 10000, 10000 );
+				}
+
+				if(!mouse_push&&m.random_push_count>0){
+				    uniforms.mousePos.value.set( m.random_push_x, m.ramdom_push_z );
+				}
+				if(m.random_push_count>0){
+					m.random_push_count--;
 				}
 
 				// Do the gpu computation
@@ -451,10 +476,14 @@ ctrl
 				renderer.render( scene, camera );
 
 				if(m.is_first_render){
-					camera.position.set( 0, 30, 250 );
-					camera.lookAt(new THREE.Vector3(0,90,0));
+					camera.position.set( 0, 40, 280 );
+					camera.lookAt(new THREE.Vector3(0,60,0));
 					m.is_first_render=false;
 				}
+
+				var gamma_radius=-m.gamma*Math.PI/180;
+				camera.rotation.z+=(gamma_radius-camera.rotation.z)/100;
+				// console.log(m.gamma);
 
 			}
 		}
