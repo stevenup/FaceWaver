@@ -430,7 +430,7 @@ ctrl
 				m.random_push_x=Math.random()*512-256;
 				m.ramdom_push_z=Math.random()*11.2e-14-5.6e-14;
 
-				m.random_push_count=10;
+				m.random_push_count=8;
 
 			},1000)
 
