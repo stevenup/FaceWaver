@@ -14,7 +14,7 @@
 	.page_home .anim_head{width:90%;position: absolute;top:0;margin:-20px auto;left: 0;right: 0;transition:transform .5s linear;}
 	.page_home .anim_head img{display: block;width: 100%;}
 	
-	.page_home .anim_head.place_holder{position: static;visibility: hidden;margin-top: -40px;margin-bottom: -40px;}
+	.page_home .anim_head.place_holder{position: static;visibility: hidden;margin-top: -40px;margin-bottom: -30px;}
 
 	.page_home .anim_band{width:140%;position: absolute;top:30px;left:-20%;transition:transform .5s linear;}
 	.page_home .anim_band img{display: block;width: 100%;}

@@ -1,7 +1,7 @@
 ctrl
 
 //***********************************************************************************************************************************************************************************************************************************************
-.controller('home_ctrl', function($scope,ec,$ionicPopup,$stateParams,$ionicNavBarDelegate,$ionicSlideBoxDelegate,$document,$timeout,$interval,$ionicLoading) {
+.controller('home_ctrl', function($scope,ec,$ionicPopup,$stateParams,$ionicNavBarDelegate,$ionicSlideBoxDelegate,$document,$timeout,$interval,$ionicLoading,$ionicConfig) {
 
 	// init
 		var $s=$scope;
@@ -10,6 +10,8 @@ ctrl
 		var m=window.m=$s.m;
 
 		// m.is_loaded=true;
+
+		$ionicConfig.views.swipeBackEnabled(false);
 
 		m.loading_progress=.0;
 

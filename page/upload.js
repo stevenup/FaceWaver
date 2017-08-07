@@ -1,7 +1,7 @@
 ctrl
 
 //***********************************************************************************************************************************************************************************************************************************************
-.controller('upload_ctrl', function($scope,ec,$ionicPopup,$stateParams,$ionicNavBarDelegate,$ionicSlideBoxDelegate,$document,$timeout,$interval,$ionicLoading) {
+.controller('upload_ctrl', function($scope,ec,$ionicPopup,$stateParams,$ionicNavBarDelegate,$ionicSlideBoxDelegate,$document,$timeout,$interval,$ionicLoading,$ionicConfig) {
 
 	// init
 		var $s=$scope;
@@ -9,6 +9,8 @@ ctrl
 		$s.m={};
 		var m=$s.m;
 
+		$ionicConfig.views.swipeBackEnabled(false);
+		
 		m.is_uploaded=false;
 		m.scale=1;
 
