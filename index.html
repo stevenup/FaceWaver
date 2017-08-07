@@ -242,7 +242,7 @@
 
 			float x_ratio=(v_position.x+256.0)/512.0;
 			float y_ratio=(v_position.y+256.0)/512.0;
-			custom_color=vec4(0.2*x_ratio, 0.0, 0.2*(1.0-x_ratio), 1.0);
+			custom_color=vec4(0.17*x_ratio, 0.0, 0.2*(1.0-x_ratio), 1.0);
 
 			gl_FragColor = custom_color * texture2D( texture, gl_PointCoord );
 

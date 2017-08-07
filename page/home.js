@@ -9,7 +9,7 @@ ctrl
 		$s.m={};
 		var m=window.m=$s.m;
 
-		// m.is_loaded=true;
+		m.is_loaded=false;
 
 		$ionicConfig.views.swipeBackEnabled(false);
 
@@ -94,15 +94,7 @@ ctrl
 
 				jq(img)
 				.on('load',function(){
-					m.loaded_pic_count++;
-					m.loading_progress=m.loaded_pic_count/m.total_pic_count;
-					if(m.loaded_pic_count == m.total_pic_count){
-						m.is_loaded=true;
-						setTimeout(function() {
-							$s.set_transition();
-						}, 0);
-					}
-					$s.$apply();
+					$s.set_loading_progress();
 				})
 				.each(function() {
 				  if(this.complete) jq(this).trigger('load');
@@ -113,15 +105,7 @@ ctrl
 
 				jq(img)
 				.on('load',function(){
-					m.loaded_pic_count++;
-					m.loading_progress=m.loaded_pic_count/m.total_pic_count;
-					if(m.loaded_pic_count == m.total_pic_count){
-						m.is_loaded=true;
-						setTimeout(function() {
-							$s.set_transition();
-						}, 0);
-					}
-					$s.$apply();
+					$s.set_loading_progress();
 				})
 				.each(function() {
 				  if(this.complete) jq(this).trigger('load');
@@ -132,20 +116,33 @@ ctrl
 
 				jq(img)
 				.on('load',function(){
-					m.loaded_pic_count++;
-					m.loading_progress=m.loaded_pic_count/m.total_pic_count;
-					if(m.loaded_pic_count == m.total_pic_count){
-						m.is_loaded=true;
-						setTimeout(function() {
-							$s.set_transition();
-						}, 0);
-					}
-					$s.$apply();
+					$s.set_loading_progress();
 				})
 				.each(function() {
 				  if(this.complete) jq(this).trigger('load');
 				});
 			}
+		}
+		$s.set_loading_progress=function(){
+			$s.$apply(function(){
+				m.loaded_pic_count++;
+				m.loading_progress=m.loaded_pic_count/m.total_pic_count;
+				if(m.loaded_pic_count == m.total_pic_count){
+					m.is_loaded=true;
+				}
+
+				m.loaded_pic_count++;
+				m.loading_progress=m.loaded_pic_count/m.total_pic_count;
+				if(m.loaded_pic_count == m.total_pic_count){
+					m.is_loaded=true;
+				}
+
+				m.loaded_pic_count++;
+				m.loading_progress=m.loaded_pic_count/m.total_pic_count;
+				if(m.loaded_pic_count == m.total_pic_count){
+					m.is_loaded=true;
+				}
+			})
 		}
 		$s.reset_gyro=function(){
 			$s.remove_transition();
