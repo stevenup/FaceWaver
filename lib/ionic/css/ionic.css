@@ -9699,8 +9699,10 @@ a.button {
 [nav-view-transition="ios"] [nav-view="leaving"] {
   -webkit-transition-duration: 500ms;
   transition-duration: 500ms;
-  -webkit-transition-timing-function: cubic-bezier(0.36, 0.66, 0.04, 1);
-  transition-timing-function: cubic-bezier(0.36, 0.66, 0.04, 1);
+  /*-webkit-transition-timing-function: cubic-bezier(0.36, 0.66, 0.04, 1);
+  transition-timing-function: cubic-bezier(0.36, 0.66, 0.04, 1);*/
+  -webkit-transition-timing-function: ease;
+  transition-timing-function: ease;
   -webkit-transition-property: opacity, -webkit-transform, box-shadow;
   transition-property: opacity, transform, box-shadow; }
 
