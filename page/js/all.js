@@ -153,43 +153,7 @@ ctrl
 				document.addEventListener( 'touchstart', onDocumentTouchStart, false );
 				document.addEventListener( 'touchmove', onDocumentTouchMove, false );
 
-				// document.addEventListener( 'keydown', function( event ) {
-
-				// 	// W Pressed: Toggle wireframe
-				// 	if ( event.keyCode === 87 ) {
-
-				// 		waterMesh.material.wireframe = ! waterMesh.material.wireframe;
-				// 		waterMesh.material.needsUpdate = true;
-
-				// 	}
-
-				// } , false );
-
 				window.addEventListener( 'resize', onWindowResize, false );
-
-
-				// var gui = new dat.GUI();
-
-				// var effectController = {
-				// 	mouseSize: 20.0,
-				// 	viscosity: 0.03
-				// };
-
-				// var valuesChanger = function() {
-
-				// 	heightmapVariable.material.uniforms.mouseSize.value = effectController.mouseSize;
-				// 	heightmapVariable.material.uniforms.viscosityConstant.value = effectController.viscosity;
-
-				// };
-
-				// gui.add( effectController, "mouseSize", 1.0, 100.0, 1.0 ).onChange( valuesChanger );
-				// gui.add( effectController, "viscosity", 0.0, 0.1, 0.001 ).onChange( valuesChanger );
-				// var buttonSmooth = {
-				//     smoothWater: function() {
-				// 	smoothWater();
-				//     }
-				// };
-				// gui.add( buttonSmooth, 'smoothWater' );
 
 
 				initWater();
@@ -278,7 +242,7 @@ ctrl
 				gpuCompute.setVariableDependencies( heightmapVariable, [ heightmapVariable ] );
 
 				heightmapVariable.material.uniforms.mousePos = { value: new THREE.Vector2( 10000, 10000 ) };
-				heightmapVariable.material.uniforms.mouseSize = { value: 70.0 };
+				heightmapVariable.material.uniforms.mouseSize = { value: 50.0 };
 				heightmapVariable.material.uniforms.viscosityConstant = { value: 0.03 };
 				heightmapVariable.material.defines.BOUNDS = BOUNDS.toFixed( 1 );
 
@@ -413,9 +377,9 @@ ctrl
 				am.random_push_x=Math.random()*512-256;
 				am.ramdom_push_z=Math.random()*11.2e-14-5.6e-14;
 
-				am.random_push_count=8;
+				am.random_push_count=10;
 
-			},1000)
+			},800)
 
 			function render() {
 

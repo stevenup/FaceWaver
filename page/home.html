@@ -1,5 +1,5 @@
 <!-- <ion-view class="page_home"  view-title="home"  hide-back-button="true" can-swipe-back="false" ng-click="reset_gyro()" style="    position: fixed; width: 100%; height: 100%; top: 0; left: 0;background: url(img/bg.jpg);background-size:cover;"> -->
-<ion-view class="page_home"  view-title="home"  hide-back-button="true" can-swipe-back="false" ng-click="reset_gyro()" style="    position: fixed; width: 100%; height: 100%; top: 0; left: 0; ">
+<ion-view class="page page_home"  view-title="home"  hide-back-button="true" can-swipe-back="false" ng-click="reset_gyro()" style="    position: fixed; width: 100%; height: 100%; top: 0; left: 0; ">
 
 	<!-- <div class="logo" style="width:80%;margin:auto;margin-top: 90px;">
 		<img src="img/logo.png" style="width: 100%;">
@@ -11,7 +11,7 @@
 
 
 	<div class="loading" ng-if="!m.is_loaded" style="width: 100px;height: 100px;position: fixed;left: 0;right: 0;top:0;bottom:0;margin:auto;text-align: center;">
-		<canvas vs-loading-progress="m.loading_progress" width="60" height="60" style="display: block;margin:auto;"></canvas>
+		<canvas vs-loading-progress="m.loading_progress" vs-loaded="m.is_loaded=true" width="60" height="60" style="display: block;margin:auto;"></canvas>
 		<div>LOADING...</div>
 	</div>
 

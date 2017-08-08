@@ -8,9 +8,8 @@
 	ion-side-menu-content.all_bg .all_bg_img{background:black url(../img/bg_upload.jpg);background-size: cover;width: 100%;height: 100%;position: absolute;left: 0;right: 0;transition:opacity 1s;opacity: 0;}
 	ion-side-menu-content.all_bg .all_bg_img.active{opacity: 1;}
 
-	ion-nav-view
-	,ion-nav-view *
-		{background: none !important;}
+	ion-nav-view{background: none !important;}
+	.page{background: none ;}
 
 	.bg_wave{position: fixed;width: 100%;height: 100%;top:0;left: 0;}
 	.bg_wave canvas{width: 100%;height: 100%;top:0;left: 0;}
@@ -41,6 +40,11 @@
 /*upload*/
 
 	.page_upload .button_wrap_top .icon{float: right;margin-left: 8px;color:white;font-size: 32px;}
+
+	.page_upload .vs_button{position:fixed;width: 160px;height:40px;margin: auto;left: 0;right: 0;bottom:140px;color:white;text-align: center;border-radius: 20px;line-height: 40px;background: linear-gradient(to right, rgb(118,33,247) 0%,rgb(237,45,183) 100%);}
+	.page_upload .vs_button_outline{position:fixed;width: 160px;height:40px;margin: auto;left: 0;right: 0;bottom:80px;color:white;text-align: center;border-radius: 20px;line-height: 40px;background: linear-gradient(to right, rgb(118,33,247) 0%,rgb(237,45,183) 100%);}
+	.page_upload .vs_button_outline:before{content:' ';display: block;position: absolute;left: 2px;top:2px;width: 156px;height: 36px;background: black;border-radius: 18px;}
+	.page_upload .vs_button_outline span{position: relative;}
 
 	/*cropper*/
 		.cropper_wrap .button_wrap{position: fixed;bottom:10px;text-align: center;width: 100%;}

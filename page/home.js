@@ -103,21 +103,10 @@ ctrl
 			$s.$apply(function(){
 				m.loaded_pic_count++;
 				m.loading_progress=m.loaded_pic_count/m.total_pic_count;
-				if(m.loaded_pic_count == m.total_pic_count){
-					m.is_loaded=true;
-				}
-
-				m.loaded_pic_count++;
-				m.loading_progress=m.loaded_pic_count/m.total_pic_count;
-				if(m.loaded_pic_count == m.total_pic_count){
-					m.is_loaded=true;
-				}
-
-				m.loaded_pic_count++;
-				m.loading_progress=m.loaded_pic_count/m.total_pic_count;
-				if(m.loaded_pic_count == m.total_pic_count){
-					m.is_loaded=true;
-				}
+				// if(m.loaded_pic_count == m.total_pic_count){
+					// m.is_loaded=true;
+				// }
+				// console.log(m.loading_progress);
 			})
 		}
 		$s.pad2=function(int){
