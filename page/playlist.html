@@ -1,4 +1,4 @@
-<ion-view class="page page_songlist"  view-title="playlist"  hide-back-button="true" can-swipe-back="false" style="  ">
+<ion-view class="page page_playlist"  view-title="playlist"  hide-back-button="true" can-swipe-back="false" style="  ">
 
 	<div class="photo">
 		<img src="img/head_bg.png" style="position: absolute; width: 160px; height: 160px; margin: auto; left: 0; right: 0; top: 23px;">
@@ -6,44 +6,83 @@
 	</div>
 
 	<div class="title" style="    text-align: center; color: white; background: rgba(128,128,128,.3); font-size: 28px; line-height: 46px; position: absolute; width: 100%; top: 194px;">
-		MY PLAYLIST
-		<i class="icon iconfont icon-edit" ng-click="show_modal_songlist()" style="    position: absolute; right: 20px; font-size: 26px; top: -2px;"></i>
+		<span ng-if="!m.songlist_act">MY PLAYLIST</span>
+		<span ng-if="m.songlist_act">SONGLIST</span>
+		<i class="icon iconfont icon-edit" ng-if="!m.songlist_act" ng-click="show_songlist()" style="    position: absolute; right: 0; font-size: 26px; top: -2px; padding: 0 20px;"></i>
 	</div>
 
-	<ion-content style="top: 240px;">
+	<div class="contents_wrap" ng-class="{songlist_act:m.songlist_act}">
+		<div class="content_wrap playlist_content">
+			<ion-content class="ion_content  has-footer">
 
-		<div class="list">
+				<div class="list">
 
-			<div class="item" style="display: none;">
-				audio
-				<audio class="audio" >
-					Your browser does not support the <code>audio</code> element.
-				</audio>
+					<div class="item" style="display: none;">
+						audio
+						<audio class="audio" >
+							Your browser does not support the <code>audio</code> element.
+						</audio>
+					</div>
+
+					<div class="item item-avatar item-icon-right" ng-repeat="song in m.playlist" ng-click="song_of_playlist_click()" style="/*padding-left: 104px;*/background: none;color:white;border-color:rgb(141,142,187);" >
+
+						<img src="img/music_cover.png" style="border-radius: 0;">
+
+						<!-- <i class="icon ion-ios-circle-outline" ng-if="!song.act" ng-click="song.act=!song.act"></i>
+						<i class="icon ion-ios-circle-filled" ng-if="song.act" ng-click="song.act=!song.act"></i> -->
+
+						<h2 style="color:white;">{{song.title}}</h2>
+						<p style="color:white;">{{song.artist}}</p>
+
+						<i class="icon iconfont icon-play" ng-show="m.song_playing!=song" ng-click="$event.stopPropagation();play()" style="padding:0 11px;right: 0;"></i>
+						<i class="icon ion-ios-pause-outline" ng-show="m.song_playing==song" ng-click="$event.stopPropagation();stop()" style="    right: 12px; font-size: 38px;padding:0 11px;right: 0;"></i>
+
+						<audio class="audio" preload="none" gv-audio ng-src="{{song.audio_file.url}}"    style="display: none;" >
+							Your browser does not support the <code>audio</code> element.
+						</audio>
+
+					</div>
+
+				</div>
+
+				<!-- <div ng-if="m.playlist.length==0" ng-click="show_songlist()" style="    border: solid 2px white; color: white; width: 80%; line-height: 40px; font-size: 20px; margin: auto; text-align: center;">Add Song</div> -->
+			</ion-content>
+			<div class="bar bar-footer" style="background: none;color:white;padding: 0;">
+				<div class="vs_button_outline" ng-if="m.playlist.length>0" ng-click="goto_facewaver()" style="margin:0 auto;"><span>FACE WAVER</span></div>
+				<div class="vs_button_outline" ng-if="m.playlist.length==0" ng-click="show_songlist()" style="margin:0 auto;"><span>CHOOSE MY PLAYLIST</span></div>
 			</div>
-
-			<div class="item item-avatar item-icon-right" ng-repeat="song in m.playlist" ng-click="song_of_playlist_click()" style="/*padding-left: 104px;*/background: none;color:white;border-color:rgb(141,142,187);" >
-
-				<img src="img/music_cover.png" style="border-radius: 0;">
-
-				<!-- <i class="icon ion-ios-circle-outline" ng-if="!song.act" ng-click="song.act=!song.act"></i>
-				<i class="icon ion-ios-circle-filled" ng-if="song.act" ng-click="song.act=!song.act"></i> -->
-
-				<h2 style="color:white;">{{song.title}}</h2>
-				<p style="color:white;">{{song.artist}}</p>
-
-				<i class="icon iconfont icon-play" ng-show="m.song_playing!=song" ng-click="$event.stopPropagation();play()" style="padding:0 11px;right: 0;"></i>
-				<i class="icon ion-ios-pause-outline" ng-show="m.song_playing==song" ng-click="$event.stopPropagation();stop()" style="    right: 12px; font-size: 38px;padding:0 11px;right: 0;"></i>
-
-				<audio class="audio" preload="none" gv-audio ng-src="{{song.audio_file.url}}"    style="display: none;" >
-					Your browser does not support the <code>audio</code> element.
-				</audio>
-
-			</div>
-
 		</div>
 
-		<div ng-if="m.playlist.length==0" ng-click="show_modal_songlist()" style="    border: solid 2px white; color: white; width: 80%; line-height: 40px; font-size: 20px; margin: auto; text-align: center;">Add Song</div>
+		<div class="content_wrap songlist_content">
+			<ion-content class="ion_content has-footer">
 
-	</ion-content>
+				<div class="list">
+
+					<div class="item item-avatar item-icon-left item-icon-right" ng-repeat="song in m.songlist" style="padding-left: 104px;background: none;color:white;border-color:rgb(141,142,187);" >
+						<img src="img/music_cover.png" style="border-radius: 0;left: 52px;">
+
+						<i class="icon ion-ios-circle-outline" ng-if="!song.act" ng-click="song.act=!song.act"></i>
+						<i class="icon ion-ios-circle-filled" ng-if="song.act" ng-click="song.act=!song.act"></i>
+
+						<h2 style="color:white;">{{song.title}}</h2>
+						<p style="color:white;">{{song.artist}}</p>
+						
+						<audio class="audio" preload="none" gv-audio   style="display:none ;" ng-src="{{song.audio_file.url}}" >
+							Your browser does not support the <code>audio</code> element.
+						</audio>
+
+						<i class="icon iconfont icon-play" ng-if="m.song_playing!=song" ng-click="play()"></i>
+						<i class="icon ion-ios-pause-outline" ng-if="m.song_playing==song" ng-click="stop()" style="    right: 12px; font-size: 38px;"></i>
+
+
+					</div>
+
+				</div>
+			</ion-content>
+			<div class="bar bar-footer" ng-click="add_to_playlist()" style="background: none;color:white;padding: 0;">
+				<div class="vs_button_outline" style="margin:0 auto;"><span>ADD TO MY PLAYLIST</span></div>
+			</div>
+		</div>
+	</div>
 
 </ion-view>

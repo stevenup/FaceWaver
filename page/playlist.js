@@ -14,12 +14,17 @@ ctrl
 
 		// m.audio=jq('.page_songlist .audio')[0];
 
-	//modal songlist
-		$ionicModal.fromTemplateUrl('page/modal_songlist.html', {
-			scope: $s
-		}).then(function(modal) {
-			m.modal_songlist = modal;
-		});
+	// function
+		var stop=function(){
+			if(m.song_playing){
+				m.audio_act.pause();
+				m.audio_act.currentTime=0;
+				m.song_playing=undefined;
+			}
+		}
+
+
+	//fn songlist
 
 		$s.add_to_playlist=function(){
 			m.playlist=[];
@@ -29,13 +34,13 @@ ctrl
 					m.playlist.push(ng.copy(song));
 				}
 			}
-			$s.close_modal_songlist();
+			$s.hide_songlist();
 		}
-		$s.close_modal_songlist=function(){
+		$s.hide_songlist=function(){
 			stop();
-			m.modal_songlist.hide();
+			m.songlist_act=false;
 		}
-		$s.show_modal_songlist=function(){
+		$s.show_songlist=function(){
 			stop();
 			for(var i=0;i<m.songlist.length;i++){
 				var song_of_songlist=m.songlist[i];
@@ -48,18 +53,8 @@ ctrl
 					}
 				}
 			}
-			m.modal_songlist.show();
+			m.songlist_act=true;
 		}
-
-	// function
-		var stop=function(){
-			if(m.song_playing){
-				m.audio_act.pause();
-				m.audio_act.currentTime=0;
-				m.song_playing=undefined;
-			}
-		}
-
 	// fn
 		$s.init=function(){
 			// ec.api.do({method:'/api/v1/audios'})
@@ -94,10 +89,18 @@ ctrl
 		}
 		$s.song_of_playlist_click=function(){
 			var s=this;
-			$s.set_song_act(ng.copy(s.song));
-			$ionicHistory.nextViewOptions({
-				disableAnimate:true,
-			})
+			$s.goto_facewaver(s.song);
+		}
+		$s.goto_facewaver=function(song){
+			if(song){
+				$s.set_song_act(ng.copy(song));
+			}
+			else{
+				$s.set_song_act(ng.copy(m.playlist[0]));
+			}
+			// $ionicHistory.nextViewOptions({
+			// 	disableAnimate:true,
+			// })
 			location='#/tab/facewaver';
 		}
 

@@ -15,6 +15,11 @@
 	.bg_wave canvas{width: 100%;height: 100%;top:0;left: 0;}
 
 
+	.vs_button{width: 200px;height:40px;color:white;text-align: center;border-radius: 20px;line-height: 40px;background: linear-gradient(to right, rgb(118,33,247) 0%,rgb(237,45,183) 100%);}
+	.vs_button_outline{width: 200px;height:40px;color:white;text-align: center;border-radius: 20px;line-height: 40px;background: linear-gradient(to right, rgb(118,33,247) 0%,rgb(237,45,183) 100%);position: relative;}
+	.vs_button_outline:before{content:' ';display: block;position: absolute;left: 2px;top:2px;width: 196px;height: 36px;background: black;border-radius: 18px;}
+	.vs_button_outline span{position: relative;}
+
 /*home*/
 
 	.page_home .main{position: fixed;width: 100%;height: 100%;top:0;left: 0;}
@@ -61,3 +66,9 @@
 		.cropper_wrap .cropper-move{background: none;}
 		.cropper_wrap .cropper-crop{background: none;}
 		.cropper_wrap .cropper-bg{background: none;}
+
+/*playlist*/
+	.page_playlist .contents_wrap{top:240px;bottom:0;left:0;position: absolute;width: 200%;transition: left .5s ease;}
+	.page_playlist .contents_wrap.songlist_act{left: -100%;}
+	.page_playlist .content_wrap{top:0;bottom:0;left:0;position: absolute;width: 50%;height: 100%;}
+	.page_playlist .content_wrap.songlist_content{left: 50%;}
