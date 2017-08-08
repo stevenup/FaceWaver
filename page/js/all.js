@@ -146,13 +146,11 @@ ctrl
 				// container.appendChild( renderer.domElement );
 				jq('.bg_wave').append( renderer.domElement );
 
-				controls = new THREE.OrbitControls( camera, renderer.domElement );
 
 
-
-				// document.addEventListener( 'mousemove', onDocumentMouseMove, false );
-				// document.addEventListener( 'touchstart', onDocumentTouchStart, false );
-				// document.addEventListener( 'touchmove', onDocumentTouchMove, false );
+				document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+				document.addEventListener( 'touchstart', onDocumentTouchStart, false );
+				document.addEventListener( 'touchmove', onDocumentTouchMove, false );
 
 				window.addEventListener( 'resize', onWindowResize, false );
 
@@ -385,6 +383,14 @@ ctrl
 
 			function render() {
 
+				if(am.is_first_render){
+					camera.position.set( 0, 40, 280 );
+					camera.lookAt(new THREE.Vector3(0,60,0));
+					controls = new THREE.OrbitControls( camera, renderer.domElement );
+					
+					am.is_first_render=false;
+				}
+
 				// Set uniforms: mouse interaction
 				var uniforms = heightmapVariable.material.uniforms;
 
@@ -425,12 +431,6 @@ ctrl
 
 				// Render
 				renderer.render( scene, camera );
-
-				if(am.is_first_render){
-					camera.position.set( 0, 40, 280 );
-					camera.lookAt(new THREE.Vector3(0,60,0));
-					am.is_first_render=false;
-				}
 
 				var gamma_radius=-am.gamma*Math.PI/180;
 				camera.rotation.z+=(gamma_radius-camera.rotation.z)/100;
