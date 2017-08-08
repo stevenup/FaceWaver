@@ -878,8 +878,8 @@ ctrl
 								for(var i=0,leni=m.audio.dataArray.length;i<leni;i++){
 									col_datas.push(m.audio.dataArray[i]);
 								}
-								// m.wave_datas.unshift(col_datas);
-								// m.wave_datas=m.wave_datas.slice(0,m.WAVE_COL/2);
+								m.wave_datas.unshift(col_datas);
+								m.wave_datas=m.wave_datas.slice(0,m.WAVE_COL/2);
 
 
 								var span_x=m.min_max_x.span/m.audio.bufferLength+0.000001;
@@ -942,6 +942,44 @@ ctrl
 
 									}
 								}
+
+								var i=0;
+								for(var i_col=m.WAVE_COL/2;i_col<m.WAVE_COL;i_col++){
+									i++;
+									if(m.wave_datas[i]){
+										for(var j_data=0,lenj=m.audio.bufferLength;j_data<lenj;j_data++){
+											var data=m.wave_datas[i][j_data];
+											m.wave_buffer_geometry.attributes.position.array[j_data*3+2+i_col*m.audio.bufferLength*3]=(data-128)/5;
+										}
+									}
+								}
+								var i=0;
+								for(var i_col=m.WAVE_COL/2-1;i_col>=0;i_col--){
+									i++;
+									if(m.wave_datas[i]){
+										for(var j_data=0,lenj=m.audio.bufferLength;j_data<lenj;j_data++){
+											var data=m.wave_datas[i][m.audio.bufferLength-j_data];
+											m.wave_buffer_geometry.attributes.position.array[j_data*3+2+i_col*m.audio.bufferLength*3]=(data-128)/5;
+										}
+									}
+								}
+								m.wave_buffer_geometry.attributes.position.needsUpdate=true;
+
+								// for(var i=0,leni=m.wave_datas.length;i<leni;i++){
+								// 	if(m.wave_datas[i]){
+
+								// 		// m.wave_datas[i]=m.wave_datas[i].slice(2);
+
+								// 		// m.wave_datas[i].push(m.wave_datas[i].shift());
+								// 		// m.wave_datas[i].push(m.wave_datas[i].shift());
+
+								// 		m.wave_datas[i].shift();
+								// 		m.wave_datas[i].push(m.wave_datas[i][m.wave_datas[i].length-1]);
+								// 		m.wave_datas[i].shift();
+								// 		m.wave_datas[i].push(m.wave_datas[i][m.wave_datas[i].length-1]);
+
+								// 	}
+								// }
 
 							}
 						}
@@ -1239,7 +1277,7 @@ ctrl
 
 							m.scene.add(m.wave_mesh);
 					}
-					// create_wave_mesh();
+					create_wave_mesh();
 
 					function create_switch_spline(){
 						m.switch.spline_on=true;
