@@ -125,18 +125,18 @@ ctrl
 				// camera.position.set( 0, 200, 350 );
 				// camera.setRotationFromQuaternion(JSON.parse('{"_x":-0.03990439489501756,"_y":0,"_z":0,"_w":0.9992035024298417}'));
 
-				scene = new THREE.Scene();
+				scene = am.scene = new THREE.Scene();
 				// scene.fog = new THREE.Fog( 0, 0, 100  );
 
-				var sun = new THREE.DirectionalLight( 0xFFFFFF, 1.0 );
-				sun.position.set( 300, 400, 175 );
-				scene.add( sun );
+				// var sun = new THREE.DirectionalLight( 0xFFFFFF, 1.0 );
+				// sun.position.set( 300, 400, 175 );
+				// scene.add( sun );
 
-				var sun2 = new THREE.DirectionalLight( 0x40A040, 0.6 );
-				sun2.position.set( -100, 350, -200 );
-				scene.add( sun2 );
+				// var sun2 = new THREE.DirectionalLight( 0x40A040, 0.6 );
+				// sun2.position.set( -100, 350, -200 );
+				// scene.add( sun2 );
 
-				renderer = new THREE.WebGLRenderer({
+				renderer = am.renderer = new THREE.WebGLRenderer({
 					alpha:true, 
 					// antialias:true,
 				});
@@ -146,13 +146,13 @@ ctrl
 				// container.appendChild( renderer.domElement );
 				jq('.bg_wave').append( renderer.domElement );
 
-				// controls = new THREE.OrbitControls( camera, renderer.domElement );
+				controls = new THREE.OrbitControls( camera, renderer.domElement );
 
 
 
-				document.addEventListener( 'mousemove', onDocumentMouseMove, false );
-				document.addEventListener( 'touchstart', onDocumentTouchStart, false );
-				document.addEventListener( 'touchmove', onDocumentTouchMove, false );
+				// document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+				// document.addEventListener( 'touchstart', onDocumentTouchStart, false );
+				// document.addEventListener( 'touchmove', onDocumentTouchMove, false );
 
 				window.addEventListener( 'resize', onWindowResize, false );
 
@@ -189,7 +189,7 @@ ctrl
 					vertexShader: document.getElementById( 'waterVertexShader' ).textContent,
 					// fragmentShader: THREE.ShaderChunk[ 'meshphong_frag' ],
 					fragmentShader: document.getElementById('fragmentshader').textContent,
-					depthTest:false,
+					depthWrite:false,
 					blending:THREE.AdditiveBlending,
 					transparent:true,
 
@@ -218,6 +218,7 @@ ctrl
 				waterMesh.rotation.x = - Math.PI / 2;
 				waterMesh.matrixAutoUpdate = false;
 				waterMesh.updateMatrix();
+				waterMesh.renderOrder=999;
 
 				scene.add( waterMesh );
 
@@ -378,7 +379,7 @@ ctrl
 				am.random_push_x=Math.random()*512-256;
 				am.ramdom_push_z=Math.random()*11.2e-14-5.6e-14;
 
-				am.random_push_count=10;
+				am.random_push_count=6;
 
 			},800)
 

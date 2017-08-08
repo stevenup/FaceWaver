@@ -1,0 +1,113 @@
+<ion-view class="page page_facewaver"  view-title="facewaver" cache-view="false"  hide-back-button="true" can-swipe-back="false" style="    position: fixed; width: 100%; height: 100%; top: 0; left: 0;">
+
+
+	<div id="container"></div>
+
+	<!-- <canvas id="canvas2d" style="    position: fixed; top: 0; left: 0; width: 100%; height: 100%;display: none;"></canvas> -->
+
+	<div class="buttons" style="position: fixed;bottom:0;text-align: center;height: 50px;width:100%; " >
+		<button class="play" ng-if="m.is_loaded_all&&!m.is_playing" ng-click="play()">play</button>
+		<button class="next" ng-if="m.is_loaded_all&&m.is_playing " ng-click="prev_song()">prev song</button>
+		<button class="next" ng-if="m.is_loaded_all&&m.is_playing " ng-click="next_song()">next song</button>
+	</div>
+
+	<script type="x-shader/x-vertex" id="vertexshader">
+
+		attribute float size;
+		attribute vec3 customColor;
+
+		varying vec3 vColor;
+
+		void main() {
+
+			vColor = customColor;
+
+			vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
+
+			gl_PointSize = size * ( 300.0 / -mvPosition.z );
+
+			gl_Position = projectionMatrix * mvPosition;
+
+		}
+
+	</script>
+
+	<script type="x-shader/x-fragment" id="fragmentshader">
+
+		uniform vec3 color;
+		uniform sampler2D texture;
+
+		varying vec3 vColor;
+
+		void main() {
+
+			gl_FragColor = vec4( color * vColor, 1.0 );
+
+			gl_FragColor = gl_FragColor * texture2D( texture, gl_PointCoord );
+
+			if ( gl_FragColor.a < ALPHATEST ) discard;
+
+		}
+
+	</script>
+
+	<script type="x-shader/x-vertex" id="wavevertexshader">
+
+		attribute float size;
+		attribute vec3 customColor;
+
+		// varying float positionz;
+
+
+		void main() {
+
+			// positionz=position.z;
+
+			vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
+
+			gl_PointSize = 5.0 * ( 300.0 / -mvPosition.z );
+			// gl_PointSize = 3000.0 / -mvPosition.z ;
+			// gl_PointSize = size ;
+			// gl_PointSize = 5.0;
+
+			gl_Position = projectionMatrix * mvPosition;
+
+
+
+		}
+
+	</script>
+
+	<script type="x-shader/x-fragment" id="wavefragmentshader">
+
+		uniform vec3 color;
+		uniform sampler2D texture;
+
+		// varying float positionz;
+
+		void main() {
+
+			// float opacity=1.0;
+			// if(positionz<0.0){
+			// 	opacity=1.0-(-1.0 *positionz/300.0);
+			// }
+			// else{
+			// 	opacity=1.0;
+			// }
+
+			// gl_FragColor = vec4( 0.0, 0.0, .1, 1.0 );
+			// gl_FragColor = vec4( 15.0/255.0, 5.0/255.0, 87.0/255.0, 1.0 );
+			gl_FragColor = vec4( 0.0/255.0, 96.0/255.0, 175.0/255.0, 1.0 );
+			// gl_FragColor = vec4( 0.05, 0.05, 0.1, 1.0 );
+
+			// gl_FragColor = gl_FragColor * texture2D( texture, gl_PointCoord );
+
+		}
+
+	</script>
+
+	<div class="status" style="position: fixed;top:0;right: 0;">
+		
+	</div>
+
+</ion-view>
