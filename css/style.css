@@ -4,12 +4,22 @@
 	/*ionic bug fix*/
 		.item h2{height: 20px;}
 
-	ion-side-menu-content.all_bg{background: black;}
-	ion-side-menu-content.all_bg .all_bg_img{background:black url(../img/bg_upload.jpg);background-size: cover;width: 100%;height: 100%;position: absolute;left: 0;right: 0;transition:opacity 1s;opacity: 0;}
-	ion-side-menu-content.all_bg .all_bg_img.active{opacity: 1;}
+	.all_bg{background: black;position: fixed;width: 100%;height: 100%;left: 0;top: 0;}
+	.all_bg .all_bg_img{background:black url(../img/bg_upload.jpg);background-size: cover;width: 100%;height: 100%;position: absolute;left: 0;right: 0;transition:opacity 1s;opacity: 0;}
+	.all_bg .all_bg_img.active{opacity: 1;}
 
-	ion-nav-view{background: none !important;}
+	ion-side-menus
+	,ion-side-menu
+	,ion-side-menu *
+	,ion-nav-view
+	,ion-side-menu-content.menu-content
+		{background: none !important;}
 	.page{background: none ;}
+
+	ion-side-menu
+	,ion-side-menu.menu-left
+		{color:white;left: -275px;    transition: left 200ms ease;width:275px;}
+	.menu-open ion-side-menu.menu-left{left: 0;}
 
 	.bg_wave{position: fixed;width: 100%;height: 100%;top:0;left: 0;}
 	.bg_wave canvas{width: 100%;height: 100%;top:0;left: 0;}

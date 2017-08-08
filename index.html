@@ -43,8 +43,13 @@
 	<script src="page/upload.js"></script>
 
 </head>
-<body>
-	<ion-side-menus>
+<body style="display: none;">
+	<div class="all_bg">
+		<div class="all_bg_img" ng-class="{active:ec.pm.page_act=='upload'}"></div>
+
+		<div class="bg_wave" ></div>
+	</div>
+	<ion-side-menus >
 
 		<ion-side-menu side="left">
 			<ion-header-bar>
@@ -60,11 +65,7 @@
 			</ion-content>
 		</ion-side-menu>
 
-		<ion-side-menu-content class="all_bg" drag-content="false" style="" >
-
-			<div class="all_bg_img" ng-class="{active:ec.pm.page_act=='upload'}"></div>
-
-			<div class="bg_wave" ></div>
+		<ion-side-menu-content drag-content="false" style="" >
 
 			<ion-nav-view class="ion_nav_view"></ion-nav-view>
 

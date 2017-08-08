@@ -113,16 +113,6 @@ ctrl
 			var str='0'+int;
 			return str.slice(-2);
 		}
-		$s.set_transition=function(){
-			// jq('.anim_head').css('transition','transform .3s');
-			// jq('.anim_band').css('transition','transform .3s');
-			// jq('.anim_logo').css('transition','transform .3s');
-		}
-		$s.remove_transition=function(){
-			// jq('anim_head').css('transition','');
-			// jq('anim_band').css('transition','');
-			// jq('anim_logo').css('transition','');
-		}
 
 		$s.anim_head_start=function(){
 			m.anim_head_interval=$interval(function(){

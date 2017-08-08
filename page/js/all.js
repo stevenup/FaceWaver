@@ -67,6 +67,7 @@ ctrl
 			am.beta=0;
 			am.gamma=0;
 			$s.bg_wave();
+			jq('body').show();
 		}
 		$s.bg_wave=function(){
 
@@ -437,7 +438,6 @@ ctrl
 			}
 		}
 		$s.reset_gyro=function(){
-			$s.remove_transition();
 			am.alpha_init=undefined;
 			am.beta_init=undefined;
 			am.gamma_init=undefined;
