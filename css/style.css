@@ -4,12 +4,17 @@
 	/*ionic bug fix*/
 		.item h2{height: 20px;}
 
+	ion-side-menu-content.all_bg{background: black;}
+	ion-side-menu-content.all_bg .all_bg_img{background:black url(../img/bg_upload.jpg);background-size: cover;width: 100%;height: 100%;position: absolute;left: 0;right: 0;transition:opacity 1s;opacity: 0;}
+	ion-side-menu-content.all_bg .all_bg_img.active{opacity: 1;}
+
 	ion-nav-view
 	,ion-nav-view *
 		{background: none !important;}
 
 	.bg_wave{position: fixed;width: 100%;height: 100%;top:0;left: 0;}
 	.bg_wave canvas{width: 100%;height: 100%;top:0;left: 0;}
+
 
 /*home*/
 

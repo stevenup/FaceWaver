@@ -135,7 +135,10 @@ ctrl
 				sun2.position.set( -100, 350, -200 );
 				scene.add( sun2 );
 
-				renderer = new THREE.WebGLRenderer();
+				renderer = new THREE.WebGLRenderer({
+					alpha:true, 
+					// antialias:true,
+				});
 				renderer.setClearColor( 0x000000 );
 				renderer.setPixelRatio( window.devicePixelRatio );
 				renderer.setSize( window.innerWidth, window.innerHeight );

@@ -14,6 +14,14 @@ ctrl
 		m.is_uploaded=false;
 		m.scale=1;
 
+	// $on
+		$s.$on('$ionicView.beforeEnter',function(){
+			ec.pm.page_act='upload';
+		})
+		$s.$on('$ionicView.beforeLeave',function(){
+			ec.pm.page_act='';
+		})
+
 	// cropper
 		m.cropper={};
 
