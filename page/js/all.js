@@ -365,13 +365,13 @@ ctrl
 
 			}
 
-			var onDocumentMouseMove=am.onDocumentMouseMove=function ( event ) {
+			function onDocumentMouseMove( event ) {
 
 				setMouseCoords( event.clientX, event.clientY );
 
 			}
 
-			var onDocumentTouchStart=am.onDocumentTouchStart=function ( event ) {
+			function onDocumentTouchStart( event ) {
 
 				if ( event.touches.length === 1 ) {
 
@@ -384,7 +384,7 @@ ctrl
 
 			}
 
-			var onDocumentTouchMove=am.onDocumentTouchMove=function ( event ) {
+			function onDocumentTouchMove( event ) {
 
 				if ( event.touches.length === 1 ) {
 
