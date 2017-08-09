@@ -127,12 +127,6 @@ ctrl
 
 			fw.result_head=new THREE.Group();
 
-			var extrudeSettings = {
-				steps: 1,
-				amount: 3,
-				bevelEnabled: false,
-			};
-
 			for ( var i = 0, leni = fw.intersect_points.length; i < leni; i ++ ) {
 
 				var intersect_point=fw.intersect_points[i];
@@ -140,7 +134,7 @@ ctrl
 
 				var shape_size=intersect_point.size;
 
-				var cylinder_height=3;
+				var cylinder_height=2;
 				var geometry = new THREE.CylinderBufferGeometry( shape_size, shape_size, cylinder_height, 5 );
 
 				var material = new THREE.MeshLambertMaterial( { 
@@ -201,7 +195,7 @@ ctrl
 					})
 				}
 			}
-			// fw.intersect_points=fw.intersect_points.slice(0,800);
+			// fw.intersect_points=fw.intersect_points.slice(0,1000);
 		}
 		$s.projector_points=function(){
 			fw.projector_points=[];
@@ -223,22 +217,22 @@ ctrl
 
 						var grayscale=Math.floor((color_data[0]+color_data[1]+color_data[2])/3);
 					    if(grayscale>=42.5*5){
-					    	vertice_num=3;
+					    	vertice_num=3/3;
 					    }
 					    else if(grayscale>=42.5*4){
-					    	vertice_num=2.5;
+					    	vertice_num=2.5/3;
 					    }
 					    else if(grayscale>=42.5*3){
-					    	vertice_num=2;
+					    	vertice_num=2/3;
 					    }
 					    else if(grayscale>=42.5*2){
-					    	vertice_num=1.5;
+					    	vertice_num=1.5/3;
 					    }
 					    else if(grayscale>=42.5*1){
-					    	vertice_num=1;
+					    	vertice_num=1/3;
 					    }
 					   	else{
-					   		vertice_num=.5;
+					   		vertice_num=.5/3;
 					    };
 
 						rgb=fw.COLOR_GRADIENT[grayscale];

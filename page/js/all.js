@@ -111,7 +111,6 @@ ctrl
 			var mouseCoords = new THREE.Vector2();
 			var raycaster = new THREE.Raycaster();
 
-			var waterMesh;
 			var meshRay;
 			var gpuCompute;
 			var heightmapVariable;
@@ -239,13 +238,13 @@ ctrl
 
 				waterUniforms = material.uniforms;
 
-				waterMesh = am.waterMesh = new THREE.Points( geometry, material );
-				waterMesh.rotation.x = - Math.PI / 2;
-				waterMesh.matrixAutoUpdate = false;
-				waterMesh.updateMatrix();
-				waterMesh.renderOrder=999;
+				am.waterMesh = new THREE.Points( geometry, material );
+				am.waterMesh.rotation.x = - Math.PI / 2;
+				am.waterMesh.matrixAutoUpdate = false;
+				am.waterMesh.updateMatrix();
+				am.waterMesh.renderOrder=999;
 
-				scene.add( waterMesh );
+				// scene.add( am.waterMesh );
 
 				// Mesh just for mouse raycasting
 				var geometryRay = new THREE.PlaneBufferGeometry( BOUNDS, BOUNDS, 1, 1 );
