@@ -65,19 +65,60 @@ ctrl
 					$s.canvas_2d();
 					$s.projector_points();
 					$s.intersect_points();
+					am.scene.remove(fw.head_mesh);
+					$s.light();
+					$s.result_head();
 			})
 			.finally(function(){
 				$ionicLoading.hide();
 			})
 		}
+		$s.result_head=function(){
+
+			fw.result_head=new THREE.Group();
+
+			var extrudeSettings = {
+				steps: 1,
+				amount: 3,
+				bevelEnabled: false,
+			};
+
+			for ( var i = 0, leni = fw.intersect_points.length; i < leni; i ++ ) {
+
+				var intersect_point=fw.intersect_points[i];
+
+
+				var shape_size=intersect_point.size;
+
+				var cylinder_height=3;
+				var geometry = new THREE.CylinderBufferGeometry( shape_size, shape_size, cylinder_height, 5 );
+
+				var material = new THREE.MeshLambertMaterial( { 
+					color: `rgb( ${intersect_point.rgb[0]} , ${intersect_point.rgb[1]} , ${intersect_point.rgb[2]} )` ,
+				});
+				var a_mesh = new THREE.Mesh( geometry, material ) ;
+
+				a_mesh.rotateX(Math.PI/2);
+
+				a_mesh.position.set(intersect_point.point.x , intersect_point.point.y , intersect_point.point.z);
+				a_mesh.is_head_mesh=true;
+				fw.result_head.add( a_mesh );
+				a_mesh.position_origin=new THREE.Vector3(
+					a_mesh.position.x,
+					a_mesh.position.y,
+					a_mesh.position.z
+				)
+			}
+			am.scene.add(fw.result_head);
+		}
 		$s.intersect_points=function(){
 			fw.intersect_points=[];
 			for(var i=0,leni=fw.projector_points.length;i<leni;i++){
-				var project_point=fw.projector_points[i];
+				var projector_point=fw.projector_points[i];
 
 				var test_point=new THREE.Vector2(
-					project_point.x,
-					project_point.y
+					projector_point.x,
+					projector_point.y
 				);
 				fw.raycaster.setFromCamera(test_point, fw.orth_camera );
 				var intersects = fw.raycaster.intersectObject( fw.head_mesh , true );
@@ -85,7 +126,9 @@ ctrl
 					var intersect_point=intersects[0].point;
 
 					var vector2=vs.threejs.screen_xy(intersect_point, fw.orth_camera);
-				    var color_data = fw.context_2d.getImageData(vector2.x, vector2.y, 1, 1).data; 
+					// console.log(vector2);
+				    var color_data = fw.context_2d.getImageData(Math.floor(vector2.x)*window.devicePixelRatio, Math.floor(vector2.y)*window.devicePixelRatio, 1, 1).data; 
+					// console.log(color_data);
 
 				    var rgb=[];
 					// grayscale
@@ -99,8 +142,8 @@ ctrl
 
 					fw.intersect_points.push({
 						point:intersect_point,
-						rgb:project_point.rgb,
-						size:project_point.size,
+						rgb:projector_point.rgb,
+						size:projector_point.size,
 					})
 				}
 			}
@@ -118,7 +161,7 @@ ctrl
 						var intersect_point=intersects[0].point;
 
 						var vector2=vs.threejs.screen_xy(intersect_point, fw.orth_camera);
-					    var color_data = fw.context_2d.getImageData(vector2.x, vector2.y, 1, 1).data; 
+					    var color_data = fw.context_2d.getImageData(Math.floor(vector2.x)*window.devicePixelRatio, Math.floor(vector2.y)*window.devicePixelRatio, 1, 1).data; 
 
 					    var rgb=[];
 					    var vertice_num=0;
