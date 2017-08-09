@@ -33,6 +33,8 @@
 	.canvas_2d{position: fixed;width: 100%;height: 100%;top:0;left: 0;display: none;}
 	.canvas_2d canvas{position: fixed;width: 100%;height: 100%;top:0;left: 0;}
 
+	.stats{left: auto !important;right:0 !important;}
+
 /*home*/
 
 	.page_home .main{position: fixed;width: 100%;height: 100%;top:0;left: 0;}

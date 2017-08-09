@@ -151,6 +151,7 @@ ctrl
 					})
 				}
 			}
+			// fw.intersect_points=fw.intersect_points.slice(0,800);
 		}
 		$s.projector_points=function(){
 			fw.projector_points=[];
