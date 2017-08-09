@@ -4,9 +4,9 @@
 	<!-- <canvas id="canvas2d" style="    position: fixed; top: 0; left: 0; width: 100%; height: 100%;display: none;"></canvas> -->
 
 	<div class="buttons" style="position: fixed;bottom:0;text-align: center;height: 50px;width:100%; " >
-		<button class="play" ng-if="fw.is_loaded_all&&!fw.is_playing" ng-click="play()">play</button>
-		<button class="next" ng-if="fw.is_loaded_all&&fw.is_playing " ng-click="prev_song()">prev song</button>
-		<button class="next" ng-if="fw.is_loaded_all&&fw.is_playing " ng-click="next_song()">next song</button>
+		<button class="play" ng-if="fw.is_inited&&!fw.is_playing" ng-click="play()">play</button>
+		<button class="next" ng-if="fw.is_inited&&fw.is_playing " ng-click="prev_song()">prev song</button>
+		<button class="next" ng-if="fw.is_inited&&fw.is_playing " ng-click="next_song()">next song</button>
 	</div>
 
 </ion-view>

@@ -85,6 +85,12 @@ ctrl
 			$s.bg_wave();
 			jq('body').show();
 		}
+		$s.light=function(){
+			am.scene.add( new THREE.AmbientLight( 'rgb(180,180,180)' ) );
+			am.light = new THREE.PointLight( 'rgb(128,128,128)' );
+			am.light.position.set(-100,300,800);
+			am.scene.add( am.light );
+		}
 		$s.bg_wave=function(){
 
 
@@ -172,6 +178,7 @@ ctrl
 
 
 				initWater();
+				$s.light();
 
 				// valuesChanger();
 

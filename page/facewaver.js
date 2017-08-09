@@ -15,8 +15,13 @@ ctrl
 			fw.on=true;
 			am.camera.rotation.z=0;
 		})
-		$s.$on('$ionicView.beforeLeave',function(){
+		$s.$on('$ionicView.afterLeave',function(){
 			fw.on=false;
+			am.scene.remove(fw.result_head);
+			audio.source_act.disconnect(audio.analyser);
+			for(var key in fw){
+				delete fw[key];
+			}
 		})
 
 	// fn
@@ -60,11 +65,10 @@ ctrl
 					$s.projector_points();
 					$s.intersect_points();
 					am.scene.remove(fw.head_mesh);
-					$s.light();
 					$s.result_head();
 					$s.min_max();
 
-					fw.is_loaded_all=true;
+					fw.is_inited=true;
 			})
 			.finally(function(){
 				$ionicLoading.hide();
@@ -291,12 +295,6 @@ ctrl
 			// fw.head_mesh.position.y=50;
 			// fw.head_mesh.position.z=0;
 			am.scene.add( fw.head_mesh );
-		}
-		$s.light=function(){
-			am.scene.add( new THREE.AmbientLight( 'rgb(180,180,180)' ) );
-			am.light = new THREE.PointLight( 'rgb(128,128,128)' );
-			am.light.position.set(-100,300,800);
-			am.scene.add( am.light );
 		}
 		$s.canvas_2d=function(){
 			fw.canvas_2d=document.createElement('canvas');
