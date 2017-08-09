@@ -1,18 +1,34 @@
 ctrl
 
 //***********************************************************************************************************************************************************************************************************************************************
-.controller('allCtrl',function($scope,$ionicLoading,$ionicActionSheet,$ionicPopup,ec,$q,$ionicSideMenuDelegate,$interval){
+.controller('all_ctrl',function($scope,$ionicLoading,$ionicActionSheet,$ionicPopup,ec,$q,$ionicSideMenuDelegate,$interval){
 
 	// init
 		var $s=$scope;
-		ecstore.scope.all=$s;
+		ecstore.scope.all_ctrl=$s;
+
 		$s.am={};
 		var am=window.am=$s.am;
-		
+
+		am.gyro={};
+
+
+
+		$s.fw={};
+		var fw=window.fw=$s.fw;
+
+
+
+		$s.audio={};
+		var audio=$s.audio;
+		window.AudioContext = window.AudioContext || window.webkitAudioContext;
+		audio.context = new AudioContext();
+		audio.analyser=audio.context.createAnalyser();
+
+
 		$s.config=config;
 		$s.ec={};
 		$s.ec.pm=ec.pm;
-
 
 		ec.pm.songlist=[
 			{
@@ -46,26 +62,26 @@ ctrl
 		function handleOrientation(event) {
 			$s.$apply(function(){
 
-				if(!am.alpha_init){
-					am.alpha_init=event.alpha;
-					am.beta_init=event.beta;
-					am.gamma_init=event.gamma;
+				if(!am.gyro.alpha_init){
+					am.gyro.alpha_init=event.alpha;
+					am.gyro.beta_init=event.beta;
+					am.gyro.gamma_init=event.gamma;
 				}
 
-				am.alpha=event.alpha;
-				am.beta=event.beta;
-				am.gamma=event.gamma;
+				am.gyro.alpha=event.alpha;
+				am.gyro.beta=event.beta;
+				am.gyro.gamma=event.gamma;
 
-				am.alpha_result=event.alpha;
-				am.beta_result=event.beta-am.beta_init;
-				am.gamma_result=event.gamma-am.gamma_init;
+				am.gyro.alpha_result=event.alpha;
+				am.gyro.beta_result=event.beta-am.gyro.beta_init;
+				am.gyro.gamma_result=event.gamma-am.gyro.gamma_init;
 			})
 		}
 	// fn
 		$s.init=function(){
-			am.alpha=0;
-			am.beta=0;
-			am.gamma=0;
+			am.gyro.alpha=0;
+			am.gyro.beta=0;
+			am.gyro.gamma=0;
 			$s.bg_wave();
 			jq('body').show();
 		}
@@ -387,7 +403,7 @@ ctrl
 					camera.position.set( 0, 40, 280 );
 					camera.lookAt(new THREE.Vector3(0,60,0));
 					// controls = new THREE.OrbitControls( camera, renderer.domElement );
-					
+
 					am.is_first_render=false;
 				}
 
@@ -432,16 +448,18 @@ ctrl
 				// Render
 				renderer.render( scene, camera );
 
-				var gamma_radius=-am.gamma*Math.PI/180;
-				camera.rotation.z+=(gamma_radius-camera.rotation.z)/100;
-				// console.log(am.gamma);
+				if(!fw.on){
+					var gamma_radius=-am.gyro.gamma*Math.PI/180;
+					camera.rotation.z+=(gamma_radius-camera.rotation.z)/100;
+					// console.log(am.gyro.gamma);
+				}
 
 			}
 		}
 		$s.reset_gyro=function(){
-			am.alpha_init=undefined;
-			am.beta_init=undefined;
-			am.gamma_init=undefined;
+			am.gyro.alpha_init=undefined;
+			am.gyro.beta_init=undefined;
+			am.gyro.gamma_init=undefined;
 		}
 		$s.is_new_message=function(){
 			return localStorage.nzapp_is_new_message;
@@ -476,6 +494,49 @@ ctrl
 				return;
 			}
 			return localStorage.facewaver_photo_url;
+		}
+		$s.load_obj=function(obj_name){
+			var deferred=$q.defer();
+			var loader = new THREE.OBJLoader();
+			loader.load(obj_name,function(object){
+				deferred.resolve({object:object});
+			},function(){
+				// onprogress
+			},function(){
+				deferred.reject();
+			})
+
+			return deferred.promise;
+		}
+		$s.load_sound=function(url){
+			var deferred=$q.defer();
+			var request = new XMLHttpRequest();
+			request.open('GET', url, true);
+			request.responseType = 'arraybuffer';
+
+			request.onload = function() {
+				audio.context.decodeAudioData(request.response, function(buffer) {
+					deferred.resolve({buffer:buffer});
+				}, function(){
+					deferred.reject();
+				});
+			}
+			request.send();
+
+			return deferred.promise;
+		}
+		$s.load_image=function(url){
+			var deferred=$q.defer();
+			var loader = new THREE.ImageLoader();
+			loader.load(url,function(image){
+				deferred.resolve({image:image});
+			},function(){
+				// onprogress
+			},function(){
+				deferred.reject();
+			})
+
+			return deferred.promise;
 		}
 
 	// init
