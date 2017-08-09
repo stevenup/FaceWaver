@@ -313,7 +313,7 @@ ctrl
 						//
 
 						raycaster = new THREE.Raycaster();
-						mouse = new THREE.Vector2();
+						vsmark mouse = new THREE.Vector2();
 
 						//
 

@@ -30,6 +30,9 @@
 	.vs_button_outline:before{content:' ';display: block;position: absolute;left: 2px;top:2px;width: 196px;height: 36px;background: black;border-radius: 18px;}
 	.vs_button_outline span{position: relative;}
 
+	.canvas_2d{position: fixed;width: 100%;height: 100%;top:0;left: 0;display: none;}
+	.canvas_2d canvas{position: fixed;width: 100%;height: 100%;top:0;left: 0;}
+
 /*home*/
 
 	.page_home .main{position: fixed;width: 100%;height: 100%;top:0;left: 0;}

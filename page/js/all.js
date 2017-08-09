@@ -20,7 +20,7 @@ ctrl
 
 
 		$s.audio={};
-		var audio=$s.audio;
+		var audio=window.audio=$s.audio;
 		window.AudioContext = window.AudioContext || window.webkitAudioContext;
 		audio.context = new AudioContext();
 		audio.analyser=audio.context.createAnalyser();
