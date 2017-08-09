@@ -16,21 +16,39 @@ angular.module('starter.services', [])
 		})
 	}
 	api.post=function(params){ 
+		var method=params.method;
+		delete params.method;
 		return $http({
 			method: 'POST',
-			url: config.api_url+params.method,
-			data:fn.getParams(params),
-			headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+			url: config.api_url+method,
+			// data:fn.getParams(params),
+			// data:JSON.stringify(params),
+			data:{ favorite: { user_id: '1', audio_id: '10' } },
+			// headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+			headers: { 'Content-Type': 'application/json; charset=utf-8' }
 		})
 	}
+	// api.img_upload=function(input_file){
+	// 	var form_data=new FormData();
+	// 	form_data.append('user_id','abc');
+	// 	form_data.append('face_pic',input_file.files[0]);
+	// 	return $http({
+	// 			method: 'POST',
+	//   			url: 'http://192.168.227.79:3000/api/v1/faces',
+	//   			url: config.api_url+'faces',
+	// 			data: form_data,
+	// 			transformRequest: angular.identity,
+	// 			headers: { 'Content-Type': undefined }
+	// 		})
+	// }
 	api.img_upload=function(input_file){
 		var form_data=new FormData();
-		form_data.append('user_id','abc');
+		form_data.append('user_id','1');
 		form_data.append('face_pic',input_file.files[0]);
 		return $http({
 				method: 'POST',
-	  			url: 'http://192.168.227.79:3000/api/v1/faces',
-	  			url: config.api_url+'faces',
+	  			url: 'http://facewaver.gonnavis.com/api/v1/faces',
+	  			// url: config.api_url+'faces',
 				data: form_data,
 				transformRequest: angular.identity,
 				headers: { 'Content-Type': undefined }
@@ -82,8 +100,9 @@ angular.module('starter.services', [])
 			}
 		}
 		// console.log(params);
-		// debugger;
-		return result+'sign='+fn.getSign(params,pm.token);
+		result=result.slice(0,result.length-1);
+		return result;
+		// return result+'sign='+fn.getSign(params,pm.token);
 	}
 	fn.getSign=function(params){
 		var keys=Object.keys(params);

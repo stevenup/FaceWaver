@@ -1,7 +1,7 @@
 ctrl
 
 //***********************************************************************************************************************************************************************************************************************************************
-.controller('playlist_ctrl', function($scope,ec,$ionicPopup,$stateParams,$ionicNavBarDelegate,$ionicSlideBoxDelegate,$document,$timeout,$interval,$ionicLoading,$ionicModal,$ionicHistory) {
+.controller('playlist_ctrl', function($scope,ec,$ionicPopup,$stateParams,$ionicNavBarDelegate,$ionicSlideBoxDelegate,$document,$timeout,$interval,$ionicLoading,$ionicModal,$ionicHistory,$http,$httpParamSerializerJQLike) {
 
 	// init
 		var $s=$scope;
@@ -57,7 +57,26 @@ ctrl
 		}
 	// fn
 		$s.init=function(){
-			ec.api.get({method:'/audios'})
+
+			// var myData={ favorite: { user_id: '1', audio_id: '11' } };
+			// $http({
+			// 	url: 'http://facewaver.gonnavis.com/api/v1/favorites',
+			// 	method: 'POST',
+			// 	data: $httpParamSerializerJQLike(myData),
+			// 	headers: {
+			// 		'Content-Type': 'application/x-www-form-urlencoded'
+			// 	}
+			// });
+
+			var myParams={ user_id: '1' };
+			$http({
+				url: 'http://facewaver.gonnavis.com/api/v1/favorites',
+				method: 'GET',
+				params: myParams,
+				paramSerializer: '$httpParamSerializerJQLike'
+			});
+
+			// ec.api.get({method:'/audios'})
 			// .then(function(re){
 			// 	if(re.data.result.status=='SUCCESS'){
 			// 		var songlist=re.data.result.data;
