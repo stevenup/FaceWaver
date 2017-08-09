@@ -137,7 +137,7 @@ ctrl
 
 			function init() {
 
-				camera = am.camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 3000 );
+				camera = am.camera = new THREE.PerspectiveCamera( 33, window.innerWidth / window.innerHeight, 1, 3000 );
 				// camera.position.set( 0, 200, 350 );
 				// camera.setRotationFromQuaternion(JSON.parse('{"_x":-0.03990439489501756,"_y":0,"_z":0,"_w":0.9992035024298417}'));
 
@@ -404,7 +404,8 @@ ctrl
 			function render() {
 
 				if(am.is_first_render){
-					camera.position.set( 0, 40, 280 );
+					// camera.position.set( 0, 40, 280 );
+					camera.position.set( 0, 30, 320 );
 					camera.lookAt(new THREE.Vector3(0,60,0));
 
 					// controls = new THREE.OrbitControls( camera, renderer.domElement );
@@ -454,7 +455,78 @@ ctrl
 				// Render
 				renderer.render( scene, camera );
 
-				if(!fw.on){
+				if(fw.on){
+					fw.is_frame_count_trigger=false;
+					if(fw.frame_count%5==0){
+						fw.frame_count=0;
+						fw.is_frame_count_trigger=true;
+					}
+					fw.frame_count++;
+
+					if(fw.is_playing && audio.bufferLength&&audio.dataArray.length>0){
+
+
+						audio.analyser.getByteTimeDomainData(audio.dataArray);
+						var col_datas=[];
+						for(var i=0,leni=audio.dataArray.length;i<leni;i++){
+							col_datas.push(audio.dataArray[i]);
+						}
+
+
+						var span_x=fw.min_max_x.span/audio.bufferLength+0.000001;
+						var span_y=fw.min_max_y.span/audio.bufferLength+0.000001;
+
+						for(var i=0,leni=fw.result_head.children.length;i<leni;i++){
+							if(fw.result_head.children[i].is_head_mesh){
+								var mesh=fw.result_head.children[i];
+
+								var position_x=mesh.position.x;
+								var position_y=mesh.position.y;
+
+								for(var j=0,lenj=audio.bufferLength;j<lenj;j++){
+									if(position_x>=fw.min_max_x.min + j*span_x&&position_x< fw.min_max_x.min + (j+1)*span_x){
+										var ratio_x=audio.dataArray[j]/255;
+										mesh.$ratio_x=ratio_x;
+									}
+								}
+								
+								for(var j=0,lenj=audio.bufferLength;j<lenj;j++){
+									if(position_y>=fw.min_max_y.min + j*span_y&&position_y< fw.min_max_y.min + (j+1)*span_y){
+										var ratio_y=audio.dataArray[j]/255;
+										mesh.$ratio_y=ratio_y;
+									}
+								}
+
+
+								if(fw.is_frame_count_trigger){
+									var big_scale_ratio=.1;
+									var is_big_scale=Math.random()<big_scale_ratio;
+									if(is_big_scale){
+										mesh.extrude_ratio=.5+Math.random()*2+.000001;
+									}
+									else{
+										mesh.extrude_ratio=1;
+									}
+								}
+
+								var scale=.000001+(mesh.$ratio_x+mesh.$ratio_y);
+								//
+								var scale_x=scale/0.8;
+								var scale_y=scale/0.8;
+								var scale_z=scale*6*mesh.extrude_ratio;
+								//
+								mesh.scale.set(
+									scale_x,
+									scale_z, // if cylinder this is z because rotate
+									scale_y // if cylinder this is y because rotate
+								);
+
+							}
+						}
+
+					}
+				}
+				else{
 					var gamma_radius=-am.gyro.gamma*Math.PI/180;
 					camera.rotation.z+=(gamma_radius-camera.rotation.z)/100;
 					// console.log(am.gyro.gamma);
