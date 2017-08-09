@@ -109,6 +109,10 @@ ctrl
 					a_mesh.position.z
 				)
 			}
+			fw.result_head.position.x=0;
+			fw.result_head.position.y=70;
+			fw.result_head.position.z=130;
+			fw.result_head.rotateX(Math.PI/180*7);
 			am.scene.add(fw.result_head);
 		}
 		$s.intersect_points=function(){
