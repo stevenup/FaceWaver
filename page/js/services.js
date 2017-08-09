@@ -8,7 +8,14 @@ angular.module('starter.services', [])
 
 	//***********************************************************************************************************************************************************************************************************************************************
 	var api={};
-	api.do=function(params){ 
+	api.get=function(params){ 
+		return $http({
+			method: 'GET',
+			url: config.api_url+params.method,
+			headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+		})
+	}
+	api.post=function(params){ 
 		return $http({
 			method: 'POST',
 			url: config.api_url+params.method,

@@ -57,7 +57,7 @@ ctrl
 		}
 	// fn
 		$s.init=function(){
-			// ec.api.do({method:'/api/v1/audios'})
+			ec.api.get({method:'/audios'})
 			// .then(function(re){
 			// 	if(re.data.result.status=='SUCCESS'){
 			// 		var songlist=re.data.result.data;
