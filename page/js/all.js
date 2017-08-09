@@ -386,7 +386,7 @@ ctrl
 				if(am.is_first_render){
 					camera.position.set( 0, 40, 280 );
 					camera.lookAt(new THREE.Vector3(0,60,0));
-					controls = new THREE.OrbitControls( camera, renderer.domElement );
+					// controls = new THREE.OrbitControls( camera, renderer.domElement );
 					
 					am.is_first_render=false;
 				}
