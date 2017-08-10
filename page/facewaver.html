@@ -17,10 +17,10 @@
 		<div class="operate" >
 			<div class="plays" ng-if="fw.is_inited">
 				<div class="outline"></div>
-				<div class="prev icon iconfont icon-prev" ng-class="{enabled:fw.is_playing} " ng-click="prev_song()"></div>
-				<div class="play icon iconfont icon-play enabled" ng-class="{enabled:fw.is_playing} " ng-if="!fw.is_playing" ng-click="play()"></div>
-				<div class="pause icon ion-ios-pause-outline enabled" ng-class="{enabled:fw.is_playing} " ng-if="fw.is_playing" ng-click="pause()"></div>
-				<div class="next icon iconfont icon-next" ng-class="{enabled:fw.is_playing} " ng-click="next_song()"></div>
+				<div class="prev icon iconfont icon-prev " ng-click="prev_song()"></div>
+				<div class="play icon iconfont icon-play " ng-if="!fw.is_playing" ng-click="play()"></div>
+				<div class="pause icon ion-ios-pause-outline " ng-if="fw.is_playing" ng-click="pause()"></div>
+				<div class="next icon iconfont icon-next " ng-click="next_song()"></div>
 			</div>
 		</div>
 	</div>

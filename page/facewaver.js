@@ -18,7 +18,9 @@ ctrl
 		$s.$on('$ionicView.afterLeave',function(){
 			fw.on=false;
 			am.scene.remove(fw.result_head);
-			audio.source_act.disconnect(audio.analyser);
+			try{
+				audio.source_act.disconnect(audio.analyser);
+			}catch(e){}
 			for(var key in fw){
 				delete fw[key];
 			}
@@ -46,7 +48,6 @@ ctrl
 					audio.source_act = audio.context.createBufferSource(); 
 					audio.source_act.buffer = buffer;  
 
-					audio.source_act.connect(audio.analyser);
 					audio.analyser.connect(audio.context.destination);   
 
 					audio.analyser.fftSize = 256; // best 256 
@@ -74,6 +75,7 @@ ctrl
 					jq('.vs_loading_repeat').hide();
 					requestAnimationFrame(function(){
 						jq('.bg_wave').show();
+						am.camera.rotation.z=0;
 					})
 			})
 			.finally(function(){
@@ -316,10 +318,16 @@ ctrl
 			fw.orth_camera.position.z = 500;
 		}
 		$s.play=function(){
-			audio.source_act.start(0);
+			audio.source_act.connect(audio.analyser);
+			try{
+				audio.source_act.start(0);
+			}catch(e){}
 			fw.is_playing=true;
 		}
 		$s.pause=function(){
+			try{
+				audio.source_act.disconnect(audio.analyser);
+			}catch(e){}
 			fw.is_playing=false;
 		}
 		$s.prev_song=function(){
@@ -334,8 +342,11 @@ ctrl
 				audio.source_prev = audio.context.createBufferSource(); // creates a sound source
 				audio.source_prev.buffer = buffer;  
 
-				audio.source_act.disconnect(audio.analyser);
+				try{
+					audio.source_act.disconnect(audio.analyser);
+				}catch(e){}
 				audio.source_prev.connect(audio.analyser);
+				fw.is_playing=true;
 
 				audio.source_prev.start(0);                
 
@@ -357,8 +368,11 @@ ctrl
 				audio.source_next = audio.context.createBufferSource(); // creates a sound source
 				audio.source_next.buffer = buffer;  
 
-				audio.source_act.disconnect(audio.analyser);
+				try{
+					audio.source_act.disconnect(audio.analyser);
+				}catch(e){}
 				audio.source_next.connect(audio.analyser);
+				fw.is_playing=true;
 
 				audio.source_next.start(0);                
 
@@ -371,5 +385,9 @@ ctrl
 
 	// init
 		$s.init();
+
+		$interval(function(){
+			audio.audio_act_current_time=audio.context.currentTime;
+		},500);
 
 })

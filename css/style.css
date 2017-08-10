@@ -104,10 +104,9 @@
 	.page_facewaver .operate_wrap .song_info .title{font-size: 18px;}
 
 	.page_facewaver .operate_wrap .operate{height: 60px;position: fixed;width: 100%;bottom:60px;}
-	.page_facewaver .operate_wrap .operate .icon{opacity: .5;font-size: 26px;}
+	.page_facewaver .operate_wrap .operate .icon{font-size: 26px;}
 	.page_facewaver .operate_wrap .operate .plays{width: 200px;margin:auto;text-align: center;position: relative;top: 26px;}
 	.page_facewaver .operate_wrap .operate .plays .icon{display: inline-block; position: relative;}
-	.page_facewaver .operate_wrap .operate .plays .icon.enabled{opacity: 1;}
 	.page_facewaver .operate_wrap .operate .play{font-size: 34px;left: 4px;}
 	.page_facewaver .operate_wrap .operate .pause{font-size: 46px;left: 0px;top:-13px;}
 	.page_facewaver .operate_wrap .operate .prev{float: left;}
