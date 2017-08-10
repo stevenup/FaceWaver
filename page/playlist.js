@@ -34,6 +34,7 @@ ctrl
 					m.playlist.push(ng.copy(song));
 				}
 			}
+			ec.pm.playlist=m.playlist;
 			$s.hide_songlist();
 		}
 		$s.hide_songlist=function(){

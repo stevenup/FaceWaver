@@ -14,7 +14,7 @@ ctrl
 		m.is_uploaded=false;
 		m.scale=1;
 
-		// jq('.vs_loading_repeat').show();
+		// jq('.vs_loading_repeat_wrap').show();
 
 	// $on
 		$s.$on('$ionicView.beforeEnter',function(){
@@ -44,7 +44,7 @@ ctrl
 				debugger;
 			})
 		}
-		$s.cropper_load_photo=function(input){
+		$s.cropper_load_input=function(input){
 
 			try{
 				m.cropper.cropper.destroy();
@@ -52,8 +52,13 @@ ctrl
 			catch(e){}
 
 			m.scale=1;
+
+			var url=URL.createObjectURL(input.files[0]);
+			$s.cropper_load_img(url);
+		}
+		$s.cropper_load_img=function(url){
 			var img=jq('.cropper_img')[0];
-			img.src=URL.createObjectURL(input.files[0]);
+			img.src=url;
 			img.onload=function(){
 				m.cropper.cropper=new Cropper(img,{
 					// aspectRatio: 16 / 9,
@@ -78,6 +83,7 @@ ctrl
 					}
 				});
 			}
+
 		}
 		$s.cropper_finish=function(){
 			var cropper_result_canvas=m.cropper.cropper.getCroppedCanvas({
@@ -89,5 +95,14 @@ ctrl
 			location='#/tab/playlist';
 		}
 
-	
+	// fn
+		$s.init=function(){
+			var photo_url=$s.get_photo_url();
+			if(photo_url){
+				$s.cropper_load_img(photo_url);
+			}
+		}
+
+	// init
+		$s.init();
 })

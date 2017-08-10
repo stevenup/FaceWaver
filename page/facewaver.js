@@ -29,7 +29,7 @@ ctrl
 	// fn
 		$s.init=function(){
 			jq('.bg_wave').hide();
-			jq('.vs_loading_repeat').show();
+			jq('.vs_loading_repeat_wrap').show();
 			$q.all([
 				$s.load_obj( 'model/head_4_long_face.obj'),
 				$s.load_sound($s.get_song_act().audio_file.url),
@@ -72,14 +72,14 @@ ctrl
 					$s.min_max();
 
 					fw.is_inited=true;
-					jq('.vs_loading_repeat').hide();
+					jq('.vs_loading_repeat_wrap').hide();
 					requestAnimationFrame(function(){
 						jq('.bg_wave').show();
 						am.camera.rotation.z=0;
 					})
 			})
 			.finally(function(){
-				jq('.vs_loading_repeat').hide();
+				jq('.vs_loading_repeat_wrap').hide();
 			})
 		}
 		$s.min_max=function(){
@@ -340,7 +340,7 @@ ctrl
 			fw.is_playing=false;
 		}
 		$s.prev_song=function(){
-			jq('.vs_loading_repeat').show();
+			jq('.vs_loading_repeat_wrap').show();
 			fw.song_index--;
 			if(fw.song_index<0){
 				fw.song_index=ec.pm.playlist.length-1;
@@ -365,11 +365,11 @@ ctrl
 				audio.source_act.loop=true;
 			})
 			.finally(function(){
-				jq('.vs_loading_repeat').hide();
+				jq('.vs_loading_repeat_wrap').hide();
 			})
 		}
 		$s.next_song=function(){
-			jq('.vs_loading_repeat').show();
+			jq('.vs_loading_repeat_wrap').show();
 			fw.song_index++;
 			if(fw.song_index>ec.pm.playlist.length-1){
 				fw.song_index=0;
@@ -394,7 +394,7 @@ ctrl
 				audio.source_act.loop=true;
 			})
 			.finally(function(){
-				jq('.vs_loading_repeat').hide();
+				jq('.vs_loading_repeat_wrap').hide();
 			})
 		}
 
