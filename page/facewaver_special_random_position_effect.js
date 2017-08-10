@@ -14,7 +14,7 @@ ctrl
 		// m.type='sprite';
 		m.type='extrude'; m.extrude_meshes=[];	
 
-		$ionicLoading.show();
+		jq('.vs_loading_repeat').show();
 
 
 	// enter leave
@@ -87,7 +87,7 @@ ctrl
 			m.audio.interval=setInterval(function(){
 				if(m.audio.source){
 					// jq('.loading').hide();
-					$ionicLoading.hide();
+					jq('.vs_loading_repeat').hide();
 					jq('.play').show();
 					clearInterval(m.audio.interval);
 				}

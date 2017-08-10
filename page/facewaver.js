@@ -26,6 +26,8 @@ ctrl
 
 	// fn
 		$s.init=function(){
+			jq('.bg_wave').hide();
+			jq('.vs_loading_repeat').show();
 			$q.all([
 				$s.load_obj( 'model/head_4_long_face.obj'),
 				// $s.load_sound($s.get_song_act().audio_file.url),
@@ -69,9 +71,13 @@ ctrl
 					$s.min_max();
 
 					fw.is_inited=true;
+					jq('.vs_loading_repeat').hide();
+					requestAnimationFrame(function(){
+						jq('.bg_wave').show();
+					})
 			})
 			.finally(function(){
-				$ionicLoading.hide();
+				jq('.vs_loading_repeat').hide();
 			})
 		}
 		$s.min_max=function(){
@@ -146,7 +152,7 @@ ctrl
 
 				a_mesh.position.set(intersect_point.point.x , intersect_point.point.y , intersect_point.point.z);
 				a_mesh.is_head_mesh=true;
-				fw.result_head.add( a_mesh );
+				fw.result_head.add(a_mesh );
 				a_mesh.position_origin=new THREE.Vector3(
 					a_mesh.position.x,
 					a_mesh.position.y,
@@ -154,9 +160,9 @@ ctrl
 				)
 			}
 			fw.result_head.position.x=0;
-			fw.result_head.position.y=60;
+			// fw.result_head.position.y=60;
 			fw.result_head.position.z=130;
-			fw.result_head.rotateX(Math.PI/180*6.5);
+			// fw.result_head.rotateX(Math.PI/180*6.5);
 			am.scene.add(fw.result_head);
 		}
 		$s.intersect_points=function(){
@@ -246,7 +252,7 @@ ctrl
 								y:projector_y,
 								rgb:rgb,
 								// size:vertice_num/10.0,
-								size:.1+vertice_num/10.0,
+								size:.1+vertice_num/3.0,
 								// size:.2,
 							})
 						}
@@ -286,9 +292,9 @@ ctrl
 			fw.head_mesh = new THREE.Mesh( fw.head_buffer_geometry, fw.head_material );
 			// fw.head_mesh.scale.set(10,10,10);
 			// fw.head_mesh.position.x=0;
-			// fw.head_mesh.position.y=50;
+			fw.head_mesh.position.y=60;
 			// fw.head_mesh.position.z=0;
-			am.scene.add( fw.head_mesh );
+			am.scene.add(fw.head_mesh );
 		}
 		$s.canvas_2d=function(){
 			fw.canvas_2d=document.createElement('canvas');
@@ -297,23 +303,27 @@ ctrl
 			fw.context_2d=fw.canvas_2d.getContext('2d');
 			jq('.canvas_2d').append(fw.canvas_2d);
 
-			am.scene.remove(am.waterMesh);
+			// am.scene.remove(am.waterMesh);
 			am.renderer.render( am.scene, fw.orth_camera );
 			fw.context_2d.fillStyle='black';
 			fw.context_2d.fillRect(0,0,window.innerWidth,window.innerHeight);
 			fw.context_2d.drawImage(am.renderer.domElement,0,0);
-			am.scene.add(am.waterMesh);
+			// am.scene.add(am.waterMesh);
 		}
 		$s.orth_camera=function(){
 			fw.orth_camera = new THREE.OrthographicCamera( window.innerWidth / - 10, window.innerWidth / 10, window.innerHeight / 10, window.innerHeight / - 10, 1, 1000 );
+			fw.orth_camera.position.y = 60;
 			fw.orth_camera.position.z = 500;
 		}
 		$s.play=function(){
 			audio.source_act.start(0);
 			fw.is_playing=true;
 		}
+		$s.pause=function(){
+			fw.is_playing=false;
+		}
 		$s.prev_song=function(){
-			$ionicLoading.show();
+			jq('.vs_loading_repeat').show();
 			fw.song_index--;
 			if(fw.song_index<0){
 				fw.song_index=ec.pm.playlist.length-1;
@@ -332,11 +342,11 @@ ctrl
 				audio.source_act=audio.source_prev;
 			})
 			.finally(function(){
-				$ionicLoading.hide();
+				jq('.vs_loading_repeat').hide();
 			})
 		}
 		$s.next_song=function(){
-			$ionicLoading.show();
+			jq('.vs_loading_repeat').show();
 			fw.song_index++;
 			if(fw.song_index>ec.pm.playlist.length-1){
 				fw.song_index=0;
@@ -355,7 +365,7 @@ ctrl
 				audio.source_act=audio.source_next;
 			})
 			.finally(function(){
-				$ionicLoading.hide();
+				jq('.vs_loading_repeat').hide();
 			})
 		}
 

@@ -7,7 +7,7 @@
 	<title></title>
 
 	<link href="lib/ionic/css/ionic.css?version=201708082012" rel="stylesheet">
-	<link href="//at.alicdn.com/t/font_03au2hs4xpfrbe29.css?version=201708082012" rel="stylesheet">
+	<link href="//at.alicdn.com/t/font_361517_kj6bv1vvuffrms4i.css?version=201708082012" rel="stylesheet">
 	<link href="lib/cropper.min.css?version=201708082012" rel="stylesheet">
 	<link href="css/style.css?version=201708082012" rel="stylesheet">
 
@@ -70,7 +70,7 @@
 
 			<ion-nav-view class="ion_nav_view"></ion-nav-view>
 
-			<div class="icon ion-navicon" ng-if="!check_left_side_menu_open()" ng-click="toggle_left_side_menu()" style="position: absolute;top:12px;left: 20px;z-index: 99999;color:white;font-size: 32px;"></div>
+			<div class="icon ion-navicon side_menu_button" ng-if="!check_left_side_menu_open()" ng-click="toggle_left_side_menu()" style="position: absolute;top:0;left: 0;z-index: 99999;color:white;font-size: 32px;padding:20px 26px;"></div>
 			<div class="icon ion-android-close" ng-if="check_left_side_menu_open()" ng-click="toggle_left_side_menu()" style="position: absolute;top:12px;left: 20px;z-index: 99999;color:white;font-size: 32px;"></div>
 
 		</ion-side-menu-content>
@@ -78,6 +78,41 @@
 	</ion-side-menus>
 
 	<div class="canvas_2d"> </div>
+
+	<div class="info" style="position: fixed;top:0;width: 100%;left: 0;text-align: center;color:white;pointer-events: none;display: none;">
+		<div>{{am.gyro.alpha|number:0}}</div>
+		<div>{{am.gyro.beta|number:0}}</div>
+		<div>{{am.gyro.gamma|number:0}}</div>
+	</div>
+
+	<div class="vs_loading vs_loading_repeat" > <canvas vs-loading-repeat width="60" height="60" style=""></canvas> <div>LOADING...</div> </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	<!-- This is the 'compute shader' for the water heightmap: -->
 	<script id="heightmapFragmentShader" type="x-shader/x-fragment">

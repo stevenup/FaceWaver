@@ -79,17 +79,17 @@ ctrl
 		}
 	// fn
 		$s.init=function(){
+			jq('body').show();
 			am.gyro.alpha=0;
 			am.gyro.beta=0;
 			am.gyro.gamma=0;
 			$s.bg_wave();
-			jq('body').show();
 		}
 		$s.light=function(){
-			am.scene.add( new THREE.AmbientLight( 'rgb(180,180,180)' ) );
+			am.scene.add(new THREE.AmbientLight( 'rgb(180,180,180)' ) );
 			am.light = new THREE.PointLight( 'rgb(128,128,128)' );
 			am.light.position.set(-100,300,800);
-			am.scene.add( am.light );
+			am.scene.add(am.light );
 		}
 		$s.bg_wave=function(){
 
@@ -151,11 +151,11 @@ ctrl
 
 				// var sun = new THREE.DirectionalLight( 0xFFFFFF, 1.0 );
 				// sun.position.set( 300, 400, 175 );
-				// scene.add( sun );
+				// scene.add(sun );
 
 				// var sun2 = new THREE.DirectionalLight( 0x40A040, 0.6 );
 				// sun2.position.set( -100, 350, -200 );
-				// scene.add( sun2 );
+				// scene.add(sun2 );
 
 				renderer = am.renderer = new THREE.WebGLRenderer({
 					alpha:true, 
@@ -173,7 +173,7 @@ ctrl
 				document.addEventListener( 'touchstart', onDocumentTouchStart, false );
 				document.addEventListener( 'touchmove', onDocumentTouchMove, false );
 
-				window.addEventListener( 'resize', onWindowResize, false );
+				// window.addEventListener( 'resize', onWindowResize, false );
 
 
 				initWater();
@@ -181,9 +181,9 @@ ctrl
 
 				// valuesChanger();
 
-				am.stats=new Stats();
-				jq('body').append(am.stats.dom);
-				jq(am.stats.dom).addClass('stats');
+				// am.stats=new Stats();
+				// jq('body').append(am.stats.dom);
+				// jq(am.stats.dom).addClass('stats');
 
 			}
 
@@ -244,7 +244,7 @@ ctrl
 				am.waterMesh.updateMatrix();
 				am.waterMesh.renderOrder=999;
 
-				// scene.add( am.waterMesh );
+				scene.add(am.waterMesh );
 
 				// Mesh just for mouse raycasting
 				var geometryRay = new THREE.PlaneBufferGeometry( BOUNDS, BOUNDS, 1, 1 );
@@ -252,7 +252,7 @@ ctrl
 				meshRay.rotation.x = - Math.PI / 2;
 				meshRay.matrixAutoUpdate = false;
 				meshRay.updateMatrix();
-				scene.add( meshRay );
+				scene.add(meshRay );
 
 
 				// Creates the gpu computation class and sets it up
@@ -392,7 +392,7 @@ ctrl
 				requestAnimationFrame( animate );
 
 				render();
-				am.stats.update();
+				// am.stats.update();
 
 			}
 
@@ -461,13 +461,16 @@ ctrl
 				// Render
 				renderer.render( scene, camera );
 
-				if(fw.on){
+				if(fw.is_inited&&fw.on){ // render fw
 					fw.is_frame_count_trigger=false;
 					if(fw.frame_count%5==0){
 						fw.frame_count=0;
 						fw.is_frame_count_trigger=true;
 					}
 					fw.frame_count++;
+
+					fw.result_head.rotation.x=Math.PI/180*(am.gyro.beta_result+6.5);
+					fw.result_head.rotation.y=Math.PI/180*am.gyro.gamma_result;
 
 					if(fw.is_playing && audio.bufferLength&&audio.dataArray.length>0){
 
@@ -519,7 +522,7 @@ ctrl
 								//
 								var scale_x=scale/0.8;
 								var scale_y=scale/0.8;
-								var scale_z=scale*6*mesh.extrude_ratio;
+								var scale_z=scale*10*mesh.extrude_ratio;
 								//
 								mesh.scale.set(
 									scale_x,
@@ -531,6 +534,7 @@ ctrl
 						}
 
 					}
+
 				}
 				else{
 					var gamma_radius=-am.gyro.gamma*Math.PI/180;

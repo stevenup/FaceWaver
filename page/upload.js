@@ -14,6 +14,8 @@ ctrl
 		m.is_uploaded=false;
 		m.scale=1;
 
+		// jq('.vs_loading_repeat').show();
+
 	// $on
 		$s.$on('$ionicView.beforeEnter',function(){
 			ec.pm.page_act='upload';
