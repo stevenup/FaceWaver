@@ -142,6 +142,7 @@ ctrl
 
 			function init() {
 
+				am.camera_lookAt_point=new THREE.Vector3(0,60,0);
 				camera = am.camera = new THREE.PerspectiveCamera( 33, window.innerWidth / window.innerHeight, 1, 3000 );
 				// camera.position.set( 0, 200, 350 );
 				// camera.setRotationFromQuaternion(JSON.parse('{"_x":-0.03990439489501756,"_y":0,"_z":0,"_w":0.9992035024298417}'));
@@ -412,7 +413,7 @@ ctrl
 				if(am.is_first_render){
 					// camera.position.set( 0, 40, 280 );
 					camera.position.set( 0, 30, 320 );
-					camera.lookAt(new THREE.Vector3(0,60,0));
+					camera.lookAt(am.camera_lookAt_point);
 
 					// controls = new THREE.OrbitControls( camera, renderer.domElement );
 					// jq('ion-side-menus').css('point-events','all');
@@ -461,6 +462,8 @@ ctrl
 				// Render
 				renderer.render( scene, camera );
 
+				// jq('.info').html(fw.is_inited+' '+fw.on);
+				// jq('.info').html(am.scene.children.length);
 				if(fw.is_inited&&fw.on){ // render fw
 					fw.is_frame_count_trigger=false;
 					if(fw.frame_count%5==0){
@@ -471,6 +474,8 @@ ctrl
 
 					fw.result_head.rotation.x=Math.PI/180*(am.gyro.beta_result+6.5);
 					fw.result_head.rotation.y=Math.PI/180*am.gyro.gamma_result;
+					// am.camera.position.x=am.gyro.gamma_result;
+					// am.camera.lookAt(am.camera_lookAt_point);
 
 					if(fw.is_playing && audio.bufferLength&&audio.dataArray.length>0){
 
@@ -507,7 +512,7 @@ ctrl
 								}
 
 
-								if(fw.is_frame_count_trigger){
+								if(!mesh.extrude_ratio||fw.is_frame_count_trigger){
 									var big_scale_ratio=.1;
 									var is_big_scale=Math.random()<big_scale_ratio;
 									if(is_big_scale){
@@ -523,6 +528,7 @@ ctrl
 								var scale_x=scale/0.8;
 								var scale_y=scale/0.8;
 								var scale_z=scale*10*mesh.extrude_ratio;
+								// jq('.info').html(mesh.extrude_ratio);
 								//
 								mesh.scale.set(
 									scale_x,
