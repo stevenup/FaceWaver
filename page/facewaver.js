@@ -32,8 +32,8 @@ ctrl
 			jq('.vs_loading_repeat').show();
 			$q.all([
 				$s.load_obj( 'model/head_4_long_face.obj'),
-				// $s.load_sound($s.get_song_act().audio_file.url),
-				$s.load_sound(ec.pm.playlist[0].audio_file.url),
+				$s.load_sound($s.get_song_act().audio_file.url),
+				// $s.load_sound(ec.pm.playlist[0].audio_file.url),
 				$s.load_image($s.get_photo_url()),
 			])
 			.then(function(res){
@@ -279,7 +279,15 @@ ctrl
 			fw.raycaster = new THREE.Raycaster();
 			fw.frame_count=0;
 			fw.is_frame_count_trigger=false;
+
 			fw.song_index=0;
+			var song_act=$s.get_song_act();
+			for(var i=0;i<ec.pm.playlist.length;i++){
+				if(song_act.title==ec.pm.playlist[i].title){
+					fw.song_index=i;
+					break;
+				}
+			}
 
 			fw.COLOR_GRADIENT=JSON.parse(
 				
@@ -319,6 +327,7 @@ ctrl
 		}
 		$s.play=function(){
 			audio.source_act.connect(audio.analyser);
+			audio.source_act.loop=true;
 			try{
 				audio.source_act.start(0);
 			}catch(e){}
@@ -336,8 +345,10 @@ ctrl
 			if(fw.song_index<0){
 				fw.song_index=ec.pm.playlist.length-1;
 			}
-			$s.load_sound(ec.pm.playlist[fw.song_index].audio_file.url)
+			var song=ec.pm.playlist[fw.song_index];
+			$s.load_sound(song.audio_file.url)
 			.then(function(re){
+				$s.set_song_act(song);
 				var buffer=re.buffer;
 				audio.source_prev = audio.context.createBufferSource(); // creates a sound source
 				audio.source_prev.buffer = buffer;  
@@ -351,6 +362,7 @@ ctrl
 				audio.source_prev.start(0);                
 
 				audio.source_act=audio.source_prev;
+				audio.source_act.loop=true;
 			})
 			.finally(function(){
 				jq('.vs_loading_repeat').hide();
@@ -362,8 +374,10 @@ ctrl
 			if(fw.song_index>ec.pm.playlist.length-1){
 				fw.song_index=0;
 			}
-			$s.load_sound(ec.pm.playlist[fw.song_index].audio_file.url)
+			var song=ec.pm.playlist[fw.song_index];
+			$s.load_sound(song.audio_file.url)
 			.then(function(re){
+				$s.set_song_act(song);
 				var buffer=re.buffer;
 				audio.source_next = audio.context.createBufferSource(); // creates a sound source
 				audio.source_next.buffer = buffer;  
@@ -377,6 +391,7 @@ ctrl
 				audio.source_next.start(0);                
 
 				audio.source_act=audio.source_next;
+				audio.source_act.loop=true;
 			})
 			.finally(function(){
 				jq('.vs_loading_repeat').hide();
