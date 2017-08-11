@@ -90,6 +90,11 @@ ctrl
 				width:512,
 				height:512,
 			});
+			var context=cropper_result_canvas.getContext('2d');
+			var image_data=context.getImageData(0,0,cropper_result_canvas.width,cropper_result_canvas.height);
+			var result_image_data=vs.contrastImage(image_data,30);
+			context.putImageData(result_image_data,0,0);
+			window.a=cropper_result_canvas;
 			var url=cropper_result_canvas.toDataURL();
 			$s.set_photo_url(url);
 			location='#/tab/playlist';
