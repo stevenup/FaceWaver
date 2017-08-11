@@ -9,6 +9,8 @@ ctrl
 		$s.m={};
 		var m=$s.m;
 
+		var am=$s.am;
+
 		m.songlist=ec.pm.songlist;
 		m.playlist=ec.pm.playlist;
 

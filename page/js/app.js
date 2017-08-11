@@ -62,7 +62,7 @@ angular.module('starter', [
 	.state('tab', {
 		url: '/tab',
 		abstract: true,
-		templateUrl: 'page/tab.html?version=201708101153',
+		templateUrl: 'page/tab.html?version=201708111319',
 		controller:'tab_ctrl',
 	})
 
@@ -70,7 +70,7 @@ angular.module('starter', [
 		url: '/home',
 		views: {
 			'tab-home': {
-				templateUrl: 'page/home.html?version=201708101153',
+				templateUrl: 'page/home.html?version=201708111319',
 				controller: 'home_ctrl'
 			}
 		}
@@ -83,7 +83,7 @@ angular.module('starter', [
 		url: '/facewaver',
 		views: {
 			'tab-home': {
-				templateUrl: 'page/facewaver.html?version=201708101153',
+				templateUrl: 'page/facewaver.html?version=201708111319',
 				controller: 'facewaver_ctrl'
 			}
 		}
@@ -93,7 +93,7 @@ angular.module('starter', [
 		url: '/playlist',
 		views: {
 			'tab-home': {
-				templateUrl: 'page/playlist.html?version=201708101153',
+				templateUrl: 'page/playlist.html?version=201708111319',
 				controller: 'playlist_ctrl'
 			}
 		}
@@ -103,7 +103,7 @@ angular.module('starter', [
 	// 	url: '/songlist',
 	// 	views: {
 	// 		'tab-home': {
-	// 			templateUrl: 'page/songlist.html?version=201708101153',
+	// 			templateUrl: 'page/songlist.html?version=201708111319',
 	// 			controller: 'songlist_ctrl'
 	// 		}
 	// 	}
@@ -113,7 +113,7 @@ angular.module('starter', [
 		url: '/upload',
 		views: {
 			'tab-home': {
-				templateUrl: 'page/upload.html?version=201708101153',
+				templateUrl: 'page/upload.html?version=201708111319',
 				controller: 'upload_ctrl'
 			}
 		}

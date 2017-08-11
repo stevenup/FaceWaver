@@ -26,24 +26,24 @@
 
 		<div class="anim_head" ng-attr-style="
 			transform:
-				translateX({{am.gamma_result*1.6}}px) 
-				translateY({{am.beta_result*1.0}}px);
+				translateX({{am.gyro.gamma_result*1.6}}px) 
+				translateY({{am.gyro.beta_result*1.0}}px);
 		">
 			<img ng-src="img/anim_head/head_{{pad2(m.anim_head_index)}}.png" style="">
 		</div>
 
 		<div class="anim_band" ng-attr-style="
 			transform:
-				translateX({{am.gamma_result*1.0}}px) 
-				translateY({{am.beta_result*0.6}}px);
+				translateX({{am.gyro.gamma_result*1.0}}px) 
+				translateY({{am.gyro.beta_result*0.6}}px);
 		">
 			<img ng-src="img/anim_band/飘带_{{pad2(m.anim_band_index)}}.png" style="">
 		</div>
 
 		<div class="anim_logo" ng-attr-style="
 			transform:
-				translateX({{am.gamma_result*.5}}px) 
-				translateY({{am.beta_result*.5}}px);
+				translateX({{am.gyro.gamma_result*.5}}px) 
+				translateY({{am.gyro.beta_result*.5}}px);
 		">
 			<img ng-src="img/anim_logo/标题_{{pad2(m.anim_logo_index)}}.png" style="">
 		</div>
@@ -55,9 +55,9 @@
 	</div>
 
 	<div class="orientation" ng-if="false" style="position: fixed;background: white;top:0;left: 100px;height: 80px;width:100%;color:black;">
-		<div>{{am.alpha}}</div>
-		<div>{{am.beta}}</div>
-		<div>{{am.gamma}}</div>
+		<div>{{am.gyro.alpha}}</div>
+		<div>{{am.gyro.beta}}</div>
+		<div>{{am.gyro.gamma}}</div>
 	</div>
 
 
