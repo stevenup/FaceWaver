@@ -175,9 +175,9 @@ ctrl
 
 				// valuesChanger();
 
-				am.stats=new Stats();
-				jq('body').append(am.stats.dom);
-				jq(am.stats.dom).addClass('stats');
+				// am.stats=new Stats();
+				// jq('body').append(am.stats.dom);
+				// jq(am.stats.dom).addClass('stats');
 
 			}
 
@@ -386,7 +386,7 @@ ctrl
 				requestAnimationFrame( animate );
 
 				render();
-				am.stats.update();
+				// am.stats.update();
 
 			}
 

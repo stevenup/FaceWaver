@@ -745,7 +745,7 @@ ctrl
 						document.addEventListener( 'mousemove', onDocumentMouseMove, false );
 
 						m.stats = new Stats();
-						jq('body').append( m.stats.dom );
+						// jq('body').append( m.stats.dom );
 					}
 
 					function onDocumentMouseMove( event ) {
@@ -773,7 +773,7 @@ ctrl
 						if(!m.is_stop){
 							m.requestAnimationFrame_id=requestAnimationFrame( animate );
 						}
-						m.stats.update();
+						// m.stats.update();
 
 					}
 
