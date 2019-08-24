@@ -13,7 +13,7 @@ ctrl
 		window.m=m;
 
 
-		$ionicLoading.show();
+		jq('.vs_loading_repeat_wrap').show();
 
 		// m.type='sprite';
 		m.type='extrude'; m.extrude_meshes=[];	
@@ -1345,7 +1345,7 @@ ctrl
 					m.is_loaded_all=true;
 			})
 			.finally(function(){
-				$ionicLoading.hide();
+				jq('.vs_loading_repeat_wrap').hide();
 			})
 
 		}
@@ -1397,7 +1397,7 @@ ctrl
 			m.is_playing=true;
 		}
 		$s.prev_song=function(){
-			$ionicLoading.show();
+			jq('.vs_loading_repeat_wrap').show();
 			m.song_index--;
 			if(m.song_index<0){
 				m.song_index=ec.pm.playlist.length-1;
@@ -1419,11 +1419,11 @@ ctrl
 				m.audio.source_act=m.audio.source_prev;
 			})
 			.finally(function(){
-				$ionicLoading.hide();
+				jq('.vs_loading_repeat_wrap').hide();
 			})
 		}
 		$s.next_song=function(){
-			$ionicLoading.show();
+			jq('.vs_loading_repeat_wrap').show();
 			m.song_index++;
 			if(m.song_index>ec.pm.playlist.length-1){
 				m.song_index=0;
@@ -1445,7 +1445,7 @@ ctrl
 				m.audio.source_act=m.audio.source_next;
 			})
 			.finally(function(){
-				$ionicLoading.hide();
+				jq('.vs_loading_repeat_wrap').hide();
 			})
 		}
 

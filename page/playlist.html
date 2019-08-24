@@ -1,8 +1,14 @@
 <ion-view class="page page_playlist"  view-title="playlist"  hide-back-button="true" can-swipe-back="false" style="  ">
 
-	<div class="photo">
-		<img src="img/head_bg.png" style="position: absolute; width: 160px; height: 160px; margin: auto; left: 0; right: 0; top: 23px;">
-		<img ng-src="{{get_photo_url()}}" style="border-radius: 50%;display: block;width: 150px;height: 150px;margin:auto;margin-top: 28px;position: relative;">
+	<div class="photo" ng-click="reset_gyro()"" ng-attr-style="
+		position:absolute;left:0;right:0;margin:0 auto;
+		top:18px;
+		transform:
+			translateX({{am.gyro.gamma_result*1.0}}px) 
+			translateY({{am.gyro.beta_result*0.6}}px);
+	">
+		<img src="img/head_bg.png" style="position: absolute; width: 160px; height: 160px; margin:0 auto; left: 0; right: 0; top: 0px;display: block;">
+		<img ng-src="{{get_photo_url()}}" style="border-radius: 50%;display: block;width: 150px;height: 150px;margin:0 auto;position: absolute;top:5px;bottom: 0;left: 0;right: 0;">
 	</div>
 
 	<div class="title" style="    text-align: center; color: white; background: rgba(128,128,128,.3); font-size: 28px; line-height: 46px; position: absolute; width: 100%; top: 194px;">

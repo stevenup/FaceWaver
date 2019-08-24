@@ -9,6 +9,8 @@ ctrl
 		$s.m={};
 		var m=$s.m;
 
+		var am=$s.am;
+
 		m.songlist=ec.pm.songlist;
 		m.playlist=ec.pm.playlist;
 
@@ -34,6 +36,7 @@ ctrl
 					m.playlist.push(ng.copy(song));
 				}
 			}
+			ec.pm.playlist=m.playlist;
 			$s.hide_songlist();
 		}
 		$s.hide_songlist=function(){

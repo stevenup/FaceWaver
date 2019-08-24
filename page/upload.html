@@ -48,7 +48,7 @@
 
 	<label class="upload vs_button" ng-if="!m.is_uploaded" ontouchstart="event.stopPropagation()" style="">
 		<span>UPLOAD PHOTO</span>
-		<input type="file" name="" onchange="angular.element(this).scope().cropper_load_photo(this);angular.element(this)[0].value=''" style="opacity: 0;display: none;">
+		<input type="file" name="" onchange="angular.element(this).scope().cropper_load_input(this);angular.element(this)[0].value=''" style="opacity: 0;display: none;">
 	</label>
 
 	<label class="generate vs_button" ng-if="m.is_uploaded" ng-click="cropper_finish()" style="">
@@ -61,7 +61,7 @@
 
 	<label class="reupload vs_button_outline" ng-if="m.is_uploaded" ontouchstart="event.stopPropagation()">
 		<span>REUPLOAD</span>
-		<input type="file" name="" onchange="angular.element(this).scope().cropper_load_photo(this);angular.element(this)[0].value=''" style="opacity: 0;display: none;">
+		<input type="file" name="" onchange="angular.element(this).scope().cropper_load_input(this);angular.element(this)[0].value=''" style="opacity: 0;display: none;">
 	</label>
 
 </ion-view>

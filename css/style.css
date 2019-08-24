@@ -35,6 +35,14 @@
 
 	.stats{left: auto !important;right:0 !important;}
 
+	.loading-container .loading{background: none;}
+	.vs_loading{width: 100px;height: 100px;position: fixed;left: 0;right: 0;top:0;bottom:0;margin:auto;text-align: center;color:rgb(60,60,60);font-weight: bold;}
+	.vs_loading canvas{display: block;margin:auto;}
+
+	.vs_loading_repeat_wrap{position: fixed;width: 100%;height: 100%;background: none;z-index: 9999999;display: none;}
+	.vs_loading_repeat{    z-index: 10000000; background: rgba(0,0,0,.7); border-radius: 10px; padding-top: 14px; padding-left: 5px;}
+
+
 /*home*/
 
 	.page_home .main{position: fixed;width: 100%;height: 100%;top:0;left: 0;}
@@ -87,3 +95,21 @@
 	.page_playlist .contents_wrap.songlist_act{left: -100%;}
 	.page_playlist .content_wrap{top:0;bottom:0;left:0;position: absolute;width: 50%;height: 100%;}
 	.page_playlist .content_wrap.songlist_content{left: 50%;}
+
+
+/*facewaver*/
+	.page_facewaver .operate_wrap{position: fixed;bottom:0; height: 120px;width:100%;color:white;background: rgba(0, 0, 0, 0.6); }
+
+	.page_facewaver .operate_wrap .song_info{    padding: 10px; position: fixed; width: 100%; bottom: 0;}
+	.page_facewaver .operate_wrap .song_info .cover{    float: left; width: 40px; height: 40px; margin-right: 10px;}
+	.page_facewaver .operate_wrap .song_info .title{font-size: 18px;}
+
+	.page_facewaver .operate_wrap .operate{height: 60px;position: fixed;width: 100%;bottom:60px;}
+	.page_facewaver .operate_wrap .operate .icon{font-size: 26px;}
+	.page_facewaver .operate_wrap .operate .plays{width: 200px;margin:auto;text-align: center;position: relative;top: 26px;}
+	.page_facewaver .operate_wrap .operate .plays .icon{display: inline-block; position: relative;}
+	.page_facewaver .operate_wrap .operate .play{font-size: 34px;left: 4px;}
+	.page_facewaver .operate_wrap .operate .pause{font-size: 46px;left: 0px;top:-13px;}
+	.page_facewaver .operate_wrap .operate .prev{float: left;padding: 12px;top: -12px;}
+	.page_facewaver .operate_wrap .operate .next{float: right;padding: 12px;top: -12px;}
+	.page_facewaver .operate_wrap .operate .outline{border:solid 2px white; border-radius: 50%;    width: 60px; height: 60px; position: absolute; left: 0; right: 0; margin: auto; top: -20px; }
