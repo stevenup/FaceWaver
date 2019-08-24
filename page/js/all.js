@@ -461,7 +461,10 @@ ctrl
 						fw.frame_count=0;
 						fw.is_frame_count_trigger=true;
 					}
-					fw.frame_count++;
+          fw.frame_count++;
+          
+					fw.result_head.rotation.x=Math.PI/180*(am.gyro.beta_result+6.5);
+					fw.result_head.rotation.y=Math.PI/180*am.gyro.gamma_result;
 
 					if(fw.is_playing && audio.bufferLength&&audio.dataArray.length>0){
 
